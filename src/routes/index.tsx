@@ -31,7 +31,7 @@ function HomePage() {
       {/* HERO */}
       <section className="min-h-[78vh] flex flex-col justify-center py-16 lg:py-24">
         <div className="font-mono-ui text-[11px] uppercase tracking-[0.3em] text-white/40 mb-8">
-          ◢ Showreel · Tipografia dal 1978
+          ◢ Stampa tipografica · Livorno Ferraris (VC)
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
