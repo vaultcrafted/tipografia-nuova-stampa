@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { X } from "lucide-react";
 import { categories, type Category } from "@/data/categories";
 
@@ -13,6 +13,8 @@ export function QuoteFormModal({
 }) {
   const [submitted, setSubmitted] = useState(false);
   const [selected, setSelected] = useState(category?.slug ?? categories[0].slug);
+  const uid = useId();
+  const fid = (n: string) => `${uid}-${n}`;
 
   useEffect(() => {
     if (category) setSelected(category.slug);
@@ -89,31 +91,32 @@ export function QuoteFormModal({
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <label className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
+                <label htmlFor={fid("name")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Nome e cognome *
                 </label>
-                <input required type="text" className={inputCls} placeholder="Mario Rossi" />
+                <input id={fid("name")} required type="text" className={inputCls} placeholder="Mario Rossi" />
               </div>
 
               <div>
-                <label className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
+                <label htmlFor={fid("email")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Email *
                 </label>
-                <input required type="email" className={inputCls} placeholder="mario@esempio.it" />
+                <input id={fid("email")} required type="email" className={inputCls} placeholder="mario@esempio.it" />
               </div>
 
               <div>
-                <label className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
+                <label htmlFor={fid("tel")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Telefono
                 </label>
-                <input type="tel" className={inputCls} placeholder="+39 ..." />
+                <input id={fid("tel")} type="tel" className={inputCls} placeholder="+39 ..." />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
+                <label htmlFor={fid("cat")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Categoria prodotto
                 </label>
                 <select
+                  id={fid("cat")}
                   value={selected}
                   onChange={(e) => setSelected(e.target.value)}
                   className={inputCls}
@@ -127,41 +130,42 @@ export function QuoteFormModal({
               </div>
 
               <div>
-                <label className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
+                <label htmlFor={fid("fmt")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Formato desiderato
                 </label>
-                <input type="text" className={inputCls} placeholder="es. A5, 85×55mm..." />
+                <input id={fid("fmt")} type="text" className={inputCls} placeholder="es. A5, 85×55mm..." />
               </div>
 
               <div>
-                <label className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
+                <label htmlFor={fid("qty")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Quantità
                 </label>
-                <input type="number" min={1} className={inputCls} placeholder="500" />
+                <input id={fid("qty")} type="number" min={1} className={inputCls} placeholder="500" />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
+                <label htmlFor={fid("fin")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Finitura desiderata
                 </label>
-                <input type="text" className={inputCls} placeholder="es. plastificazione opaca, verniciatura UV..." />
+                <input id={fid("fin")} type="text" className={inputCls} placeholder="es. plastificazione opaca, verniciatura UV..." />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
+                <label htmlFor={fid("file")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Allegato (opzionale)
                 </label>
                 <input
+                  id={fid("file")}
                   type="file"
                   className="w-full rounded-md border border-white/20 bg-black/40 px-3 py-2 text-sm text-white/70 file:mr-3 file:rounded file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-xs file:font-mono file:uppercase file:tracking-widest file:text-white/80 hover:file:bg-white/15"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
+                <label htmlFor={fid("notes")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Note aggiuntive
                 </label>
-                <textarea rows={4} className={inputCls} placeholder="Scrivi qui ogni dettaglio utile..." />
+                <textarea id={fid("notes")} rows={4} className={inputCls} placeholder="Scrivi qui ogni dettaglio utile..." />
               </div>
 
               <button
