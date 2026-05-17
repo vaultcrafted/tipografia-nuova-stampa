@@ -37,7 +37,7 @@ export function CategoryGallery({ category }: { category: Category }) {
           <button
             key={t.id}
             onClick={() => setOpenIdx(i)}
-            className={`group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-md hairline ${t.aspect}`}
+            className={`group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-md hairline ${t.aspect} hover:shadow-[0_0_20px_oklch(0.55_0.20_230)] transition-shadow duration-300`}
           >
             <div
               className="absolute inset-0"
