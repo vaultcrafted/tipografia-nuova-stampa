@@ -24,7 +24,7 @@ export function AppSidebar({
         }`}
       >
         <div className="flex h-full flex-col overflow-y-auto py-4 px-4">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-6 flex items-center justify-center">
             <span className="font-display text-xl uppercase tracking-wide text-white/80">
   Catalogo <span className="text-sm text-white/30"></span>
 </span>
