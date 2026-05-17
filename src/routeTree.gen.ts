@@ -6,17 +6,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ChiSiamoRouteImport } from './routes/chi-siamo'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CategoriaSlugRouteImport } from './routes/categoria.$slug'
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChiSiamoRoute = ChiSiamoRouteImport.update({
-  id: '/chi-siamo',
-  path: '/chi-siamo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,34 +25,30 @@ const CategoriaSlugRoute = CategoriaSlugRouteImport.update({
 } as any)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/chi-siamo': typeof ChiSiamoRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/chi-siamo': typeof ChiSiamoRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/chi-siamo': typeof ChiSiamoRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug'
+  fullPaths: '/' | '/sitemap.xml' | '/categoria/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug'
-  id: '__root__' | '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug'
+  to: '/' | '/sitemap.xml' | '/categoria/$slug'
+  id: '__root__' | '/' | '/sitemap.xml' | '/categoria/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ChiSiamoRoute: typeof ChiSiamoRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   CategoriaSlugRoute: typeof CategoriaSlugRoute
 }
@@ -69,13 +59,6 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/chi-siamo': {
-      id: '/chi-siamo'
-      path: '/chi-siamo'
-      fullPath: '/chi-siamo'
-      preLoaderRoute: typeof ChiSiamoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -96,7 +79,6 @@ declare module '@tanstack/react-router' {
 }
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ChiSiamoRoute: ChiSiamoRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   CategoriaSlugRoute: CategoriaSlugRoute,
 }
