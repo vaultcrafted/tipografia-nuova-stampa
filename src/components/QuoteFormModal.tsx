@@ -1,6 +1,11 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { X } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { categories, type Category } from "@/data/categories";
+
+const SERVICE_ID = "service_bl9sa4z";
+const TEMPLATE_ID = "template_bki956k";
+const PUBLIC_KEY = "GhW6JEzlMwQH5oflQ";
 
 export function QuoteFormModal({
   open,
@@ -12,7 +17,10 @@ export function QuoteFormModal({
   category?: Category;
 }) {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState(category?.slug ?? categories[0].slug);
+  const formRef = useRef<HTMLFormElement>(null);
   const uid = useId();
   const fid = (n: string) => `${uid}-${n}`;
 
@@ -23,6 +31,7 @@ export function QuoteFormModal({
   useEffect(() => {
     if (open) {
       setSubmitted(false);
+      setError(null);
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -34,9 +43,19 @@ export function QuoteFormModal({
 
   if (!open) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (!formRef.current) return;
+    setSending(true);
+    setError(null);
+    try {
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY);
+      setSubmitted(true);
+    } catch {
+      setError("Errore nell'invio. Riprova o contattaci direttamente.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const inputCls =
@@ -89,26 +108,26 @@ export function QuoteFormModal({
               Risposta garantita entro 24 ore lavorative.
             </p>
 
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <form ref={formRef} onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
                 <label htmlFor={fid("name")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Nome e cognome *
                 </label>
-                <input id={fid("name")} required type="text" className={inputCls} placeholder="Mario Rossi" />
+                <input id={fid("name")} name="name" required type="text" className={inputCls} placeholder="Mario Rossi" />
               </div>
 
               <div>
                 <label htmlFor={fid("email")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Email *
                 </label>
-                <input id={fid("email")} required type="email" className={inputCls} placeholder="mario@esempio.it" />
+                <input id={fid("email")} name="email" required type="email" className={inputCls} placeholder="mario@esempio.it" />
               </div>
 
               <div>
                 <label htmlFor={fid("tel")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Telefono
                 </label>
-                <input id={fid("tel")} type="tel" className={inputCls} placeholder="+39 ..." />
+                <input id={fid("tel")} name="phone" type="tel" className={inputCls} placeholder="+39 ..." />
               </div>
 
               <div className="sm:col-span-2">
@@ -117,12 +136,13 @@ export function QuoteFormModal({
                 </label>
                 <select
                   id={fid("cat")}
+                  name="category"
                   value={selected}
                   onChange={(e) => setSelected(e.target.value)}
                   className={inputCls}
                 >
                   {categories.map((c) => (
-                    <option key={c.slug} value={c.slug} className="bg-black">
+                    <option key={c.slug} value={c.name} className="bg-black">
                       {c.name}
                     </option>
                   ))}
@@ -133,47 +153,43 @@ export function QuoteFormModal({
                 <label htmlFor={fid("fmt")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Formato desiderato
                 </label>
-                <input id={fid("fmt")} type="text" className={inputCls} placeholder="es. A5, 85×55mm..." />
+                <input id={fid("fmt")} name="format" type="text" className={inputCls} placeholder="es. A5, 85×55mm..." />
               </div>
 
               <div>
                 <label htmlFor={fid("qty")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Quantità
                 </label>
-                <input id={fid("qty")} type="number" min={1} className={inputCls} placeholder="500" />
+                <input id={fid("qty")} name="quantity" type="number" min={1} className={inputCls} placeholder="500" />
               </div>
 
               <div className="sm:col-span-2">
                 <label htmlFor={fid("fin")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Finitura desiderata
                 </label>
-                <input id={fid("fin")} type="text" className={inputCls} placeholder="es. plastificazione opaca, verniciatura UV..." />
-              </div>
-
-              <div className="sm:col-span-2">
-                <label htmlFor={fid("file")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
-                  Allegato (opzionale)
-                </label>
-                <input
-                  id={fid("file")}
-                  type="file"
-                  className="w-full rounded-md border border-white/20 bg-black/40 px-3 py-2 text-sm text-white/70 file:mr-3 file:rounded file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-xs file:font-mono file:uppercase file:tracking-widest file:text-white/80 hover:file:bg-white/15"
-                />
+                <input id={fid("fin")} name="finishing" type="text" className={inputCls} placeholder="es. plastificazione opaca, verniciatura UV..." />
               </div>
 
               <div className="sm:col-span-2">
                 <label htmlFor={fid("notes")} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/50 mb-1.5 block">
                   Note aggiuntive
                 </label>
-                <textarea id={fid("notes")} rows={4} className={inputCls} placeholder="Scrivi qui ogni dettaglio utile..." />
+                <textarea id={fid("notes")} name="notes" rows={4} className={inputCls} placeholder="Scrivi qui ogni dettaglio utile..." />
               </div>
+
+              {error && (
+                <div className="sm:col-span-2 text-sm text-red-400 text-center">
+                  {error}
+                </div>
+              )}
 
               <button
                 type="submit"
-                className="sm:col-span-2 mt-2 inline-flex items-center justify-center rounded-md px-6 py-3.5 text-sm font-bold uppercase tracking-widest text-white transition-all hover:scale-[1.01]"
+                disabled={sending}
+                className="sm:col-span-2 mt-2 inline-flex items-center justify-center rounded-md px-6 py-3.5 text-sm font-bold uppercase tracking-widest text-white transition-all hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
                 style={{ background: "var(--brand-red)", boxShadow: "var(--shadow-glow-red)" }}
               >
-                Invia richiesta
+                {sending ? "Invio in corso..." : "Invia richiesta"}
               </button>
             </form>
           </>
