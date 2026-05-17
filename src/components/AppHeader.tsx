@@ -57,7 +57,7 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
               Tipografia Nuova Stampa
             </span>
             <span className="font-mono-ui text-[10px] uppercase tracking-[0.18em] text-white/50">
-              Stampa professionale · Livorno Ferraris
+              Stampa professionale per la tua azienda
             </span>
           </div>
         </Link>
