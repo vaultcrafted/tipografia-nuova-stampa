@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { categories } from "@/data/categories";
+import { QuoteFormModal } from "@/components/QuoteFormModal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,6 +28,8 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="px-6 sm:px-10 lg:px-16">
       {/* HERO */}
@@ -56,7 +60,6 @@ function HomePage() {
               Offset, digitale, DTF, grande formato e finiture artigianali —
               tutto sotto lo stesso tetto.
             </p>
-              
           </div>
         </div>
       </section>
@@ -111,6 +114,33 @@ function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* CTA PREVENTIVO */}
+      <section className="rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 lg:p-12 mb-16">
+        <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-end justify-between">
+          <div>
+            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
+              Pronto a partire?
+            </div>
+            <h2 className="font-display text-4xl lg:text-5xl text-white">
+              Richiedi un preventivo
+            </h2>
+            <p className="mt-2 text-white/60 max-w-lg">
+              Inviaci specifiche e file: ti rispondiamo entro 24 ore con tempi e
+              opzioni di stampa.
+            </p>
+          </div>
+          <button
+            onClick={() => setOpen(true)}
+            className="inline-flex items-center justify-center rounded-md px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-transform hover:scale-[1.03]"
+            style={{ background: "var(--brand-red)", boxShadow: "var(--shadow-glow-red)" }}
+          >
+            Richiedi preventivo
+          </button>
+        </div>
+      </section>
+
+      <QuoteFormModal open={open} onClose={() => setOpen(false)} />
     </div>
   );
 }
