@@ -9,16 +9,10 @@ export function AppFooter() {
         </div>
         <div>
           <div className="text-white/60 mb-2">Contatti</div>
-          
-            href="mailto:t.nuovastampa@gmail.com"
-            className="block hover:text-white/70 transition-colors"
-          >
+          <a href="mailto:t.nuovastampa@gmail.com" className="block hover:text-white/70 transition-colors">
             t.nuovastampa@gmail.com
           </a>
-          
-            href="tel:+393332876277"
-            className="block hover:text-white/70 transition-colors mt-1"
-          >
+          <a href="tel:+393332876277" className="block hover:text-white/70 transition-colors mt-1">
             +39 333 287 6277
           </a>
         </div>
