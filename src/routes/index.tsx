@@ -56,11 +56,6 @@ function HomePage() {
               Offset, digitale, DTF, grande formato e finiture artigianali —
               tutto sotto lo stesso tetto.
             </p>
-            <Link
-              to="/categoria/$slug"
-              params={{ slug: "biglietti-da-visita" }}
-              className="mt-6 inline-flex items-center gap-2 font-mono-ui text-[11px] uppercase tracking-[0.2em] text-white border-b border-white/40 pb-1 hover:border-[var(--brand-red)] transition-colors"
-            >
               Esplora il catalogo →
             </Link>
           </div>
