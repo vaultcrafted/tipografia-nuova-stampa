@@ -1,13 +1,14 @@
 export type Category = {
   slug: string;
   name: string;
-  label: string; // monospace tag
+  label: string;
   tagline: string;
   description: string;
   formats: string[];
   grammature: string[];
   finiture: string[];
   tempi: string;
+  videoUrl?: string;
 };
 
 export const categories: Category[] = [
