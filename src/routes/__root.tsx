@@ -73,23 +73,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Tipografia Nuova Stampa — Stampa professionale a Livorno Ferraris" },
-      {
-        name: "description",
-        content:
-          "Tipografia professionale a Livorno Ferraris: biglietti da visita, brochure, grande formato, DTF, stampa su legno e molto altro. Richiedi un preventivo.",
-      },
       { name: "author", content: "Tipografia Nuova Stampa" },
-      { property: "og:title", content: "Tipografia Nuova Stampa — Stampa professionale a Livorno Ferraris" },
-      {
-        property: "og:description",
-        content: "Stampa professionale per chi non scende a compromessi.",
-      },
       { property: "og:type", content: "website" },
-      { name: "twitter:title", content: "Tipografia Nuova Stampa — Stampa professionale a Livorno Ferraris" },
-      { name: "description", content: "Tipografia professionale specializzata in stampa premium, branding e personalizzazioni di alta qualità per aziende, eventi e progetti creativi." },
-      { property: "og:description", content: "Tipografia professionale specializzata in stampa premium, branding e personalizzazioni di alta qualità per aziende, eventi e progetti creativi." },
-      { name: "twitter:description", content: "Tipografia professionale specializzata in stampa premium, branding e personalizzazioni di alta qualità per aziende, eventi e progetti creativi." },
+      { property: "og:site_name", content: "Tipografia Nuova Stampa" },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b40e5053-909c-4e4a-8b4b-6bd8adedbba0/id-preview-696fcdaa--51e5ca87-fc1e-44e4-8975-033a965f0fb7.lovable.app-1779038440180.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b40e5053-909c-4e4a-8b4b-6bd8adedbba0/id-preview-696fcdaa--51e5ca87-fc1e-44e4-8975-033a965f0fb7.lovable.app-1779038440180.png" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -99,6 +85,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "Tipografia Nuova Stampa",
+          description:
+            "Tipografia professionale a Livorno Ferraris: biglietti da visita, brochure, grande formato, DTF, stampa su legno e altro.",
+          url: "https://tipografia-nuova-stampa.lovable.app",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Livorno Ferraris",
+            addressRegion: "VC",
+            addressCountry: "IT",
+          },
+        }),
       },
     ],
   }),

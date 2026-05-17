@@ -2,6 +2,26 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { categories } from "@/data/categories";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Tipografia Nuova Stampa — Stampa premium a Livorno Ferraris" },
+      {
+        name: "description",
+        content:
+          "Showreel della Tipografia Nuova Stampa: biglietti da visita, brochure, grande formato, DTF e stampa artigianale. Richiedi un preventivo.",
+      },
+      { property: "og:title", content: "Tipografia Nuova Stampa — Stampa premium" },
+      {
+        property: "og:description",
+        content:
+          "Stampa professionale per chi non scende a compromessi. Offset, digitale, DTF, grande formato e finiture artigianali.",
+      },
+      { property: "og:url", content: "https://tipografia-nuova-stampa.lovable.app/" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://tipografia-nuova-stampa.lovable.app/" },
+    ],
+  }),
   component: HomePage,
 });
 

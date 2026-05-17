@@ -1,0 +1,11 @@
+# Tipografia Nuova Stampa
+
+> Tipografia professionale a Livorno Ferraris (VC, Italia). Showreel B2B per servizi di stampa premium: offset, digitale, DTF, grande formato e finiture artigianali. Nessun e-commerce — i clienti richiedono preventivi via form.
+
+## Pages
+
+- [Home](/): Showreel e catalogo delle 15 categorie di stampa.
+- [Biglietti da visita](/categoria/biglietti-da-visita): Stampa offset e digitale su carte premium, finiture tattili, accoppiature.
+- [Volantini](/categoria/volantini): Stampa promozionale a colori, tirature da centinaia a decine di migliaia.
+- [Pieghevoli / Brochure](/categoria/pieghevoli-brochure): Pieghevoli a più ante e brochure rilegate.
+- [Locandine / Poster](/categoria/locandine-poster): Grande formato per eventi, mostre, vetrine.
