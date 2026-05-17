@@ -43,7 +43,7 @@ export function CategoryGallery({ category }: { category: Category }) {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(135deg, oklch(0.22 0.04 250) 0%, oklch(0.16 0.03 240) 60%, oklch(0.20 0.06 30 / 0.4) 100%)",
+                  "linear-gradient(135deg, oklch(0.28 0.12 230) 0%, oklch(0.20 0.10 220) 60%, oklch(0.22 0.08 200 / 0.6) 100%)",
               }}
             />
             <div className="absolute inset-0 grid place-items-center px-4 text-center">
