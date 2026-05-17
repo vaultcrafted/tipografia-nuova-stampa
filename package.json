@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "format": "prettier --write ."
   },
-  "@emailjs/browser": "^4.4.1",
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@cloudflare/vite-plugin": "^1.25.5",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
