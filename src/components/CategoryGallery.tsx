@@ -84,13 +84,8 @@ export function CategoryGallery({ category }: { category: Category }) {
           </button>
 
          <div
-  onClick={(e) => e.stopPropagation()}
-  className="relative w-full max-w-4xl aspect-[4/3] rounded-lg hairline-strong overflow-hidden"
-  style={{
-    background:
-      "linear-gradient(135deg, oklch(0.22 0.04 250) 0%, oklch(0.16 0.03 240) 60%, oklch(0.20 0.06 30 / 0.4) 100%)",
-  }}
->
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-4xl aspect-[4/3] rounded-lg hairline-strong overflow-hidden"
             style={{
               background:
                 "linear-gradient(135deg, oklch(0.22 0.04 250) 0%, oklch(0.16 0.03 240) 60%, oklch(0.20 0.06 30 / 0.4) 100%)",
