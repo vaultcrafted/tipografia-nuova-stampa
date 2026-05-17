@@ -4,18 +4,18 @@ export function AppFooter() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 font-mono-ui text-[11px] uppercase tracking-[0.16em] text-white/40">
         <div>
           <div className="text-white/60 mb-2">Tipografia Nuova Stampa</div>
-          <div>Via della Stampa, 12</div>
+          <div>Via Martiri della Libertà, 65</div>
           <div>13046 Livorno Ferraris (VC)</div>
         </div>
         <div>
           <div className="text-white/60 mb-2">Contatti</div>
-          <div>info@nuovastampa.it</div>
-          <div>+39 0161 000 000</div>
+          <div>t.nuovastampa@gmail.com</div>
+          <div>+39 3332876277</div>
         </div>
         <div>
           <div className="text-white/60 mb-2">Dati fiscali</div>
-          <div>P.IVA 00000000000</div>
-          <div>REA VC-000000</div>
+          <div>P.IVA 02789310022</div>
+          <div>REA VC-313502</div>
         </div>
         <div>
           <div className="text-white/60 mb-2">Orari</div>
