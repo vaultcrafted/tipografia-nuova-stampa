@@ -140,6 +140,33 @@ function CategoryPage() {
         </div>
       </section>
 
+      {/* Video */}
+      <section className="mb-20">
+        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6">
+          ◆ Video
+        </div>
+        {category.videoUrl ? (
+          <div className="w-full aspect-video rounded-lg overflow-hidden border border-white/10">
+            <video
+              src={category.videoUrl}
+              controls
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ) : (
+          <div className="w-full aspect-video rounded-lg border border-white/10 bg-card/40 backdrop-blur-sm grid place-items-center">
+            <div className="text-center">
+              <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/30 mb-2">
+                Video in arrivo
+              </div>
+              <div className="font-display text-2xl text-white/20">
+                {category.name}
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+      
       {/* CTA */}
       <section className="rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 lg:p-12 mb-16">
         <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-end justify-between">
