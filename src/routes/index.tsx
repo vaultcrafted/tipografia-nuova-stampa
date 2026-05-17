@@ -39,7 +39,7 @@ function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-          <h1 className="lg:col-span-9 font-display text-white text-[16vw] sm:text-[12vw] lg:text-[9.5vw] leading-[0.9] tracking-tight">
+          className="lg:col-span-9 font-display text-white text-[18vw] sm:text-[12vw] lg:text-[9.5vw] leading-[0.88] tracking-tight"
             Diamo forma
             <br />
             <span className="inline-block">
