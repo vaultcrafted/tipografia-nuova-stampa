@@ -76,7 +76,7 @@ function CategoryPage() {
               {String(idx + 1).padStart(2, "0")} / 15 ·{" "}
               <span style={{ color: "var(--brand-red)" }}>{category.label}</span>
             </div>
-            <h1 className="font-display text-white text-[14vw] sm:text-[9vw] lg:text-[6.5vw] leading-[0.92] tracking-tight">
+            className="font-display text-white text-[13vw] sm:text-[9vw] lg:text-[6.5vw] leading-[0.92] tracking-tight"
               {category.name}
             </h1>
           </div>
