@@ -93,16 +93,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
-          name: "Tipografia Nuova Stampa",
+          name: "Tipografia Nuova Stampa di Giunipero Stefano",
           description:
             "Tipografia professionale a Livorno Ferraris: biglietti da visita, brochure, grande formato, DTF, stampa su legno e altro.",
           url: "https://tipografia-nuova-stampa.lovable.app",
           address: {
             "@type": "PostalAddress",
+            streetAddress: "Via Martiri della Libertà 65",
             addressLocality: "Livorno Ferraris",
+            postalCode: "13046",
             addressRegion: "VC",
             addressCountry: "IT",
           },
+          vatID: "02789310022",
         }),
       },
     ],
