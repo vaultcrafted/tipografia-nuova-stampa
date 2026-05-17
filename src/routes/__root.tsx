@@ -56,7 +56,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           >
             Riprova
           </button>
-          <a
+          
             href="/"
             className="rounded-md border border-white/20 px-5 py-2.5 text-sm text-white"
           >
@@ -96,7 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           name: "Tipografia Nuova Stampa di Giunipero Stefano",
           description:
             "Tipografia professionale a Livorno Ferraris: biglietti da visita, brochure, grande formato, DTF, stampa su legno e altro.",
-          url: "https://tipografia-nuova-stampa.lovable.app",
+          url: "https://tipografianuovastampa.it",
           address: {
             "@type": "PostalAddress",
             streetAddress: "Via Martiri della Libertà 65",
@@ -144,7 +144,8 @@ function RootComponent() {
           <AppFooter />
         </main>
       </div>
-      href="https://wa.me/393332876277"
+      
+        href="https://wa.me/393332876277"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full shadow-lg transition-transform hover:scale-110"
