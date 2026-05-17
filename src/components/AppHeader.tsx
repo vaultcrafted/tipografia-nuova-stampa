@@ -73,6 +73,8 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
           >
             <Search className="h-4 w-4 text-white/50" />
             <input
+              type="search"
+              aria-label="Cerca un prodotto nel catalogo"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);

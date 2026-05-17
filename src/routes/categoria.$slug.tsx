@@ -11,16 +11,37 @@ export const Route = createFileRoute("/categoria/$slug")({
     if (!category) throw notFound();
     return { category };
   },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.category.name} — Tipografia Nuova Stampa` },
-          { name: "description", content: loaderData.category.description },
-          { property: "og:title", content: loaderData.category.name },
-          { property: "og:description", content: loaderData.category.tagline },
-        ]
-      : [],
-  }),
+  head: ({ loaderData, params }) => {
+    if (!loaderData) return { meta: [] };
+    const url = `https://tipografia-nuova-stampa.lovable.app/categoria/${params.slug}`;
+    return {
+      meta: [
+        { title: `${loaderData.category.name} — Tipografia Nuova Stampa` },
+        { name: "description", content: loaderData.category.description },
+        { property: "og:title", content: `${loaderData.category.name} — Tipografia Nuova Stampa` },
+        { property: "og:description", content: loaderData.category.tagline },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: loaderData.category.name,
+            description: loaderData.category.description,
+            provider: {
+              "@type": "LocalBusiness",
+              name: "Tipografia Nuova Stampa",
+            },
+            areaServed: "IT",
+            url,
+          }),
+        },
+      ],
+    };
+  },
   notFoundComponent: () => (
     <div className="px-8 py-24 text-center">
       <h1 className="font-display text-5xl text-white">Categoria non trovata</h1>
