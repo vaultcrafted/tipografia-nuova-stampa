@@ -60,10 +60,10 @@ export function CategoryGallery({ category }: { category: Category }) {
       </div>
 
       {openIdx !== null && (
-        <div className="fixed inset-0 z-[110] bg-black/90 backdrop-blur-md grid place-items-center p-4">
+        <div className="fixed inset-0 z-[110] bg-black/90 backdrop-blur-md grid place-items-center p-4" onClick={() => setOpenIdx(null)}>
           <button
             onClick={() => setOpenIdx(null)}
-            className="absolute top-5 right-5 p-2 text-white/70 hover:text-white"
+           className="absolute top-5 right-5 p-3 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/20 hover:text-white transition-all z-[120]"
             aria-label="Chiudi"
           >
             <X className="h-6 w-6" />
@@ -83,8 +83,14 @@ export function CategoryGallery({ category }: { category: Category }) {
             <ChevronRight className="h-8 w-8" />
           </button>
 
-          <div
-            className="relative w-full max-w-4xl aspect-[4/3] rounded-lg hairline-strong overflow-hidden"
+         <div
+  onClick={(e) => e.stopPropagation()}
+  className="relative w-full max-w-4xl aspect-[4/3] rounded-lg hairline-strong overflow-hidden"
+  style={{
+    background:
+      "linear-gradient(135deg, oklch(0.22 0.04 250) 0%, oklch(0.16 0.03 240) 60%, oklch(0.20 0.06 30 / 0.4) 100%)",
+  }}
+>
             style={{
               background:
                 "linear-gradient(135deg, oklch(0.22 0.04 250) 0%, oklch(0.16 0.03 240) 60%, oklch(0.20 0.06 30 / 0.4) 100%)",
