@@ -58,7 +58,6 @@ function CategoryPage() {
   const [open, setOpen] = useState(false);
 
   const idx = categories.findIndex((c) => c.slug === category.slug);
-  const next = categories[(idx + 1) % categories.length];
 
   return (
     <div className="px-6 sm:px-10 lg:px-16 pb-32 lg:pb-16">
@@ -165,26 +164,6 @@ function CategoryPage() {
           </button>
         </div>
       </section>
-
-      {/* Next */}
-      <Link
-        to="/categoria/$slug"
-        params={{ slug: next.slug }}
-        className="group flex items-center justify-between rounded-md border border-white/10 px-6 py-5 hover:border-[var(--brand-red)] transition-colors"
-      >
-        <div>
-          <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40">
-            Prossima categoria
-          </div>
-          <div className="font-display text-2xl text-white mt-1">{next.name}</div>
-        </div>
-        <span
-          className="font-display text-3xl text-white/50 group-hover:text-white transition-colors"
-          aria-hidden
-        >
-          →
-        </span>
-      </Link>
 
       {/* Sticky mobile CTA */}
       <div className="fixed bottom-0 inset-x-0 z-30 lg:hidden border-t border-white/10 bg-background/95 backdrop-blur-xl p-3">
