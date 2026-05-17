@@ -61,13 +61,15 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
             </span>
           </div>
         </Link>
- <Link
+
+        <Link
           to="/chi-siamo"
-          className="hidden sm:inline-flex shrink-0 font-mono-ui text-[11px] uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors"
+          className="hidden sm:inline-flex shrink-0 ml-auto font-mono-ui text-[11px] uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors"
         >
           Chi siamo
         </Link>
-        <div ref={wrapRef} className="relative ml-auto w-full max-w-md">
+
+        <div ref={wrapRef} className="relative w-full max-w-md">
           <div
             className={`flex items-center gap-2 rounded-md border bg-background/40 px-3 py-2 transition-all ${
               open
@@ -137,8 +139,6 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
             </>
           )}
         </div>
-
-       
       </div>
     </header>
   );
