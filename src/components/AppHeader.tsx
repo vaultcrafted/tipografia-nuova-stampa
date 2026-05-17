@@ -47,7 +47,7 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
         </button>
 
         <Link to="/" className="flex items-center gap-3 shrink-0">
-          <div className="h-9 w-9 rounded-md hairline-strong grid place-items-center bg-background/60">
+          <div className="h-9 w-9 rounded-md hairline-strong grid place-items-center bg-background/60 transition-all hover:border-[var(--brand-red)] hover:shadow-[0_0_12px_var(--brand-red)] active:shadow-[0_0_20px_var(--brand-red)]">
             <span className="font-display text-lg leading-none text-white">
               <span style={{ color: "var(--brand-red)" }}>N</span>S
             </span>
