@@ -57,7 +57,6 @@ function HomePage() {
               tutto sotto lo stesso tetto.
             </p>
               Esplora il catalogo →
-            </Link>
           </div>
         </div>
       </section>
