@@ -25,9 +25,9 @@ export function AppSidebar({
       >
         <div className="flex h-full flex-col overflow-y-auto py-4 px-4">
           <div className="mb-4 flex items-center justify-between">
-            <span className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40">
-              Catalogo · 15
-            </span>
+            <span className="font-display text-xl uppercase tracking-wide text-white/80">
+  Catalogo <span className="text-sm text-white/30"></span>
+</span>
             <button
               onClick={onClose}
               className="lg:hidden px-3 py-1.5 rounded-md border border-white/10 text-white/50 hover:text-white text-xs font-mono-ui uppercase tracking-widest"
