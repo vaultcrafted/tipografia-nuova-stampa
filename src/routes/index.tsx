@@ -56,7 +56,7 @@ function HomePage() {
               Offset, digitale, DTF, grande formato e finiture artigianali —
               tutto sotto lo stesso tetto.
             </p>
-              Esplora il catalogo →
+              
           </div>
         </div>
       </section>
