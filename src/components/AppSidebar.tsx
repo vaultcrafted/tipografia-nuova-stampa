@@ -75,8 +75,8 @@ export function AppSidebar({
           </nav>
 
           <div className="mt-auto pt-8 font-mono-ui text-[10px] uppercase tracking-[0.18em] text-white/30 leading-relaxed">
-            <p>Stampa offset · digitale</p>
-            <p>DTF · UV · grande formato</p>
+            <p>Stampa digitale</p>
+            <p>DTF · Laser UV</p>
           </div>
         </div>
       </aside>
