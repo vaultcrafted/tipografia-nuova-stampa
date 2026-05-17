@@ -89,12 +89,12 @@ function CategoryPage() {
           ◆ Scheda tecnica
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-          {[
+          {([
             { label: "Formati", items: category.formats },
             { label: "Grammature / supporti", items: category.grammature },
             { label: "Finiture", items: category.finiture },
             { label: "Tempi di produzione", items: [category.tempi] },
-          ].map((card) => (
+          ] as { label: string; items: string[] }[]).map((card) => (
             <div
               key={card.label}
               className="rounded-md border border-white/10 bg-card/40 backdrop-blur-sm p-5 hover:border-white/20 transition-colors"
