@@ -18,10 +18,10 @@ export const Route = createFileRoute("/")({
         content:
           "Stampa professionale per chi non scende a compromessi. Offset, digitale, DTF, grande formato e finiture artigianali.",
       },
-      { property: "og:url", content: "https://tipografia-nuova-stampa.lovable.app/" },
+      { property: "og:url", content: "https://tipografianuovastampa.it/" },
     ],
     links: [
-      { rel: "canonical", href: "https://tipografia-nuova-stampa.lovable.app/" },
+      { rel: "canonical", href: "https://tipografianuovastampa.it/" },
     ],
   }),
   component: HomePage,
@@ -39,7 +39,7 @@ function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-          className="lg:col-span-9 font-display text-white text-[18vw] sm:text-[12vw] lg:text-[9.5vw] leading-[0.88] tracking-tight"
+          <h1 className="lg:col-span-9 font-display text-white text-[18vw] sm:text-[12vw] lg:text-[9.5vw] leading-[0.88] tracking-tight">
             Diamo forma
             <br />
             <span className="inline-block">
