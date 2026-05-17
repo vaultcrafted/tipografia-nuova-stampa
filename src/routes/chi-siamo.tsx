@@ -8,7 +8,7 @@ export const Route = createFileRoute("/chi-siamo")({
       {
         name: "description",
         content:
-          "Dal 1997 trasformiamo idee in stampa. Scopri chi siamo, cosa facciamo e il nostro approccio al lavoro.",
+          "Dal 1995 trasformiamo idee in stampa. Scopri chi siamo, cosa facciamo e il nostro approccio al lavoro.",
       },
     ],
     links: [{ rel: "canonical", href: "https://tipografia-nuova-stampa.lovable.app/chi-siamo" }],
@@ -28,7 +28,7 @@ function ChiSiamoPage() {
         </Link>
 
         <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
-          ◢ Dal 1997
+          ◢ Dal 1995
         </div>
         <h1 className="font-display text-white text-[14vw] sm:text-[9vw] lg:text-[6.5vw] leading-[0.92] tracking-tight mb-12">
           Chi siamo
@@ -37,7 +37,7 @@ function ChiSiamoPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-7 space-y-6 text-white/70 leading-relaxed">
             <p>
-              La tipografia nasce nel <strong className="text-white">1997</strong>. Dal{" "}
+              La tipografia nasce nel <strong className="text-white">1995</strong>. Dal{" "}
               <strong className="text-white">2024</strong> è stata presa in gestione da Stefano
               Giunipero, che ne ha rivoluzionato approccio, servizi e tecnologie, portando
               una visione più moderna e completa della stampa professionale.
