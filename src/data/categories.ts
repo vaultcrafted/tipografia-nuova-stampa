@@ -108,16 +108,16 @@ export const categories: Category[] = [
     finiture: [],
     tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
-  {
+ {
     slug: "libri-spirale",
     name: "Libri rilegati a spirale",
     label: "rilegatura",
     tagline: "Manuali, ricettari, agende — che si aprono e restano aperti.",
     description:
       "Rilegatura a spirale metallica o plastica per manuali tecnici, ricettari, quaderni e agende personalizzate. Apertura a 360° per consultazione comoda.",
-    formats: ["A6, A5, A4", "Quadrato 200 × 200 mm", "Orizzontale 210 × 148 mm", "Formati custom"],
-    grammature: ["Copertina 300 g/m²", "Interno 90–135 g/m²", "Separatori in cartoncino", "Pagine plastificate"],
-    finiture: ["Spirale metallica nera / bianca", "Spirale plastica colorata", "Copertina rigida", "Fustellatura indice"],
+    formats: ["A6 (105 × 148 mm)", "A5 (148 × 210 mm)", "A4 (210 × 297 mm)", "A3 (297 × 420 mm)"],
+    grammature: ["Interno 80 g/m²", "Copertina trasparente"],
+    finiture: [],
     tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
