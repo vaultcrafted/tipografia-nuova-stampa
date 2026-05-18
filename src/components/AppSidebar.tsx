@@ -24,10 +24,10 @@ export function AppSidebar({
         }`}
       >
         <div className="flex h-full flex-col overflow-y-auto py-4 px-4">
-          <div className="mb-6 flex items-center justify-center">
+          <div className="mb-6 flex items-center justify-between">
             <span className="font-display text-xl uppercase tracking-wide text-white/80">
-  Catalogo <span className="text-sm text-white/30">· 18</span>
-</span>
+              Catalogo <span className="text-sm text-white/30">· 18</span>
+            </span>
             <button
               onClick={onClose}
               className="lg:hidden px-3 py-1.5 rounded-md border border-white/10 text-white/50 hover:text-white text-xs font-mono-ui uppercase tracking-widest"
@@ -47,11 +47,11 @@ export function AppSidebar({
                   params={{ slug: c.slug }}
                   onClick={onClose}
                   className={`group relative flex items-center gap-3 py-2 pl-4 pr-2 rounded-md transition-all duration-300 active:bg-white/5 hover:scale-[1.04] overflow-hidden ${
-  active ? "text-white bg-white/5" : "text-white/50 hover:text-white/90"
-}`}
-               >
-               <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out bg-gradient-to-r from-[var(--brand-blue)]/40 via-[var(--brand-red)]/30 to-transparent rounded-md" />
-                {active && (
+                    active ? "text-white bg-white/5" : "text-white/50 hover:text-white/90"
+                  }`}
+                >
+                  <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out bg-gradient-to-r from-[var(--brand-blue)]/40 via-[var(--brand-red)]/30 to-transparent rounded-md" />
+                  {active && (
                     <span
                       className="absolute left-0 top-2 bottom-2 w-[2px] rounded-sm"
                       style={{
@@ -63,9 +63,9 @@ export function AppSidebar({
                   <span className="font-mono-ui text-[10px] tabular-nums text-white/30 w-5 shrink-0">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                 <span className="font-mono-ui text-[13px] leading-snug">
-  {c.name}
-</span>
+                  <span className="font-mono-ui text-[11px] leading-snug">
+                    {c.name}
+                  </span>
                 </Link>
               );
             })}
