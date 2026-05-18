@@ -64,6 +64,60 @@ function HomePage() {
         </div>
       </section>
 
+      {/* NOVITÀ · DTF */}
+      <section className="mb-20 lg:mb-28">
+        <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.07] via-white/[0.02] to-transparent p-8 lg:p-12">
+          <div
+            className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-30 blur-3xl"
+            style={{ background: "var(--brand-red)" }}
+          />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <div
+                className="font-mono-ui text-[11px] uppercase tracking-[0.3em] mb-5"
+                style={{ color: "var(--brand-red)" }}
+              >
+                ◢ Novità · DTF
+              </div>
+              <h2 className="font-display text-white text-5xl lg:text-6xl leading-[0.95] tracking-tight">
+                Stampa su
+                <br />
+                abbigliamento
+              </h2>
+              <p className="mt-5 text-white/70 text-base lg:text-lg leading-relaxed max-w-lg">
+                La tecnologia Direct-to-Film per capi personalizzati con colori
+                brillanti, dettagli fotografici e resistenza ai lavaggi.
+              </p>
+              <Link
+                to="/categoria/$slug"
+                params={{ slug: "abbigliamento-dtf" }}
+                className="mt-8 inline-flex items-center justify-center rounded-md px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-transform hover:scale-[1.03]"
+                style={{ background: "var(--brand-red)", boxShadow: "var(--shadow-glow-red)" }}
+              >
+                Scopri di più
+              </Link>
+            </div>
+
+            <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-black/40">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-2">
+                    Placeholder
+                  </div>
+                  <div className="font-display text-3xl text-white/30">
+                    Foto / Video DTF
+                  </div>
+                </div>
+              </div>
+              <div
+                className="absolute bottom-0 left-0 right-0 h-px"
+                style={{ background: "var(--brand-red)" }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CATEGORY GRID */}
       <section className="pb-24">
         <div className="flex items-end justify-between mb-8">
