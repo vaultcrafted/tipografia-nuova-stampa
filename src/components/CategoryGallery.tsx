@@ -5,12 +5,12 @@ import type { Category } from "@/data/categories";
 type Tile = { id: number; aspect: string };
 
 const TILES: Tile[] = [
-  { id: 1, aspect: "aspect-[4/5]" },
+  { id: 1, aspect: "aspect-square" },
   { id: 2, aspect: "aspect-square" },
-  { id: 3, aspect: "aspect-[3/4]" },
-  { id: 4, aspect: "aspect-[4/5]" },
+  { id: 3, aspect: "aspect-square" },
+  { id: 4, aspect: "aspect-square" },
   { id: 5, aspect: "aspect-square" },
-  { id: 6, aspect: "aspect-[3/4]" },
+  { id: 6, aspect: "aspect-square" },
 ];
 
 export function CategoryGallery({ category }: { category: Category }) {
