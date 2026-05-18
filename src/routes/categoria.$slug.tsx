@@ -112,7 +112,7 @@ function CategoryPage() {
         {([
             { label: "Formati", items: category.formats },
             { label: "Grammature / supporti", items: category.grammature },
-            { label: "Tempi di produzione", items: [category.tempi] },
+            { label: "Tempi di produzione", items: category.tempi },
           ] as { label: string; items: string[] }[]).map((card) => (
             <div
               key={card.label}
