@@ -103,9 +103,9 @@ export const categories: Category[] = [
     tagline: "Materia, calore e dettaglio, in un unico oggetto.",
     description:
       "Stampa UV diretta su tavole di legno naturale per insegne, quadri, targhe e packaging premium. Il colore si fonde con la venatura.",
-    formats: ["Targhe 20 × 30 cm", "Quadri 40 × 60 cm", "Insegne fino a 120 × 240 cm", "Spessori da 5 a 30 mm"],
-    grammature: ["Compensato betulla", "MDF impiallacciato", "Multistrato marino", "Legno massello"],
-    finiture: ["Bordi tagliati a laser", "Verniciatura trasparente protettiva", "Fori per sospensione", "Smussi e angoli arrotondati"],
+    formats: ["A5 (148 × 210 mm)", "A4 (210 × 297 mm)", "A3 (297 × 420 mm)"],
+    grammature: ["Betulla 5 mm", "MDF 10 mm"],
+    finiture: [],
     tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
