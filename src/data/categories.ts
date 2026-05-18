@@ -44,8 +44,8 @@ export const categories: Category[] = [
     description:
       "Pieghevoli a due, tre o più ante e brochure rilegate per aziende, hotel, ristoranti e studi professionali. Cordonatura precisa, piega impeccabile.",
     formats: ["A4 a 2 ante", "A4 a 3 ante", "A3 a 4 ante", "Quadrato 200 × 200 mm"],
-    grammature: ["135 g/m²", "170 g/m²", "200 g/m²", "250 g/m²"],
-    finiture: ["Piega a portafoglio", "Piega a fisarmonica", "Piega a croce", "Plastificazione soft-touch"],
+    grammature: ["Patinata opaca 150 g/m²", "Patinata opaca 250 g/m²", "Betulla 110 g/m²", "Betulla 250 g/m²"],
+    finiture: [],
     tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
