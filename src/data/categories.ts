@@ -7,7 +7,7 @@ export type Category = {
   formats: string[];
   grammature: string[];
   finiture: string[];
-  tempi: string;
+  tempi: string[];
   videoUrl?: string;
 };
 
@@ -22,7 +22,7 @@ export const categories: Category[] = [
     formats: ["8,5 × 5,5 cm (standard)", "9 × 6 cm", "6 × 6 cm", "Formato personalizzato"],
     grammature: ["300 g/m²"],
     finiture: ["-"],
-    tempi: "10–12 giorni lavorativi / 5–7 giorni lavorativi / 2–3 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "volantini",
@@ -34,7 +34,7 @@ export const categories: Category[] = [
     formats: ["A6 (105 × 148 mm)", "A5 (148 × 210 mm)", "A4 (210 × 297 mm)", "DL (99 × 210 mm)"],
     grammature: ["115 g/m²", "135 g/m²", "170 g/m²", "250 g/m²"],
     finiture: ["Patinata lucida", "Patinata opaca", "Carta uso mano", "Verniciatura protettiva"],
-    tempi: "2–4 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "pieghevoli-brochure",
@@ -46,7 +46,7 @@ export const categories: Category[] = [
     formats: ["A4 a 2 ante", "A4 a 3 ante", "A3 a 4 ante", "Quadrato 200 × 200 mm"],
     grammature: ["135 g/m²", "170 g/m²", "200 g/m²", "250 g/m²"],
     finiture: ["Piega a portafoglio", "Piega a fisarmonica", "Piega a croce", "Plastificazione soft-touch"],
-    tempi: "4–6 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "locandine-poster",
@@ -58,7 +58,7 @@ export const categories: Category[] = [
     formats: ["A3 (297 × 420 mm)", "70 × 100 cm", "100 × 140 cm", "Formati custom fino a 150 cm"],
     grammature: ["150 g/m²", "200 g/m²", "250 g/m²", "Carta blueback per affissione"],
     finiture: ["Patinata opaca", "Patinata lucida", "Carta riciclata", "Resistenza UV indoor / outdoor"],
-    tempi: "3–5 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "buste-carta-intestata",
@@ -70,7 +70,7 @@ export const categories: Category[] = [
     formats: ["A4 carta intestata", "Busta DL 110 × 220 mm", "Busta americana", "Busta a sacco 23 × 33 cm"],
     grammature: ["90 g/m²", "100 g/m²", "120 g/m²"],
     finiture: ["Senza finestra", "Con finestra", "Strip adesivo", "Stampa interna anti-trasparenza"],
-    tempi: "4–6 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "striscioni-banner",
@@ -82,7 +82,7 @@ export const categories: Category[] = [
     formats: ["100 × 200 cm", "200 × 300 cm", "Formati custom fino a 5 m", "Roll-up 85 × 200 cm"],
     grammature: ["PVC 440 g/m²", "PVC 510 g/m²", "Mesh microforato", "Tessuto poliestere"],
     finiture: ["Occhielli in metallo", "Bordatura rinforzata", "Tasche per asta", "Velcro perimetrale"],
-    tempi: "4–7 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "abbigliamento-dtf",
@@ -94,7 +94,7 @@ export const categories: Category[] = [
     formats: ["T-shirt taglie XS–5XL", "Felpe con e senza cappuccio", "Polo, camicie, divise", "Capi tecnici e sportivi"],
     grammature: ["Cotone 160 g/m²", "Cotone pettinato 190 g/m²", "Felpa 280 g/m²", "Tessuti tecnici"],
     finiture: ["DTF a colori illimitati", "Effetto morbido al tatto", "Resistenza fino a 60°C", "Posizionamento custom"],
-    tempi: "5–8 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "stampa-su-legno",
@@ -106,7 +106,7 @@ export const categories: Category[] = [
     formats: ["Targhe 20 × 30 cm", "Quadri 40 × 60 cm", "Insegne fino a 120 × 240 cm", "Spessori da 5 a 30 mm"],
     grammature: ["Compensato betulla", "MDF impiallacciato", "Multistrato marino", "Legno massello"],
     finiture: ["Bordi tagliati a laser", "Verniciatura trasparente protettiva", "Fori per sospensione", "Smussi e angoli arrotondati"],
-    tempi: "5–7 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "libri-spirale",
@@ -118,7 +118,7 @@ export const categories: Category[] = [
     formats: ["A6, A5, A4", "Quadrato 200 × 200 mm", "Orizzontale 210 × 148 mm", "Formati custom"],
     grammature: ["Copertina 300 g/m²", "Interno 90–135 g/m²", "Separatori in cartoncino", "Pagine plastificate"],
     finiture: ["Spirale metallica nera / bianca", "Spirale plastica colorata", "Copertina rigida", "Fustellatura indice"],
-    tempi: "6–9 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "plastificazione",
@@ -130,7 +130,7 @@ export const categories: Category[] = [
     formats: ["Da A6 ad A0", "Spessori film 80–250 micron", "Lavorazioni custom", "Bobine per grandi tirature"],
     grammature: ["Film lucido 80μ", "Film opaco 125μ", "Soft-touch 150μ", "Antigraffio 250μ"],
     finiture: ["Plastificazione singola", "Doppia (fronte/retro)", "A caldo o a freddo", "Effetto vellutato"],
-    tempi: "1–3 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "stampa-su-cuscini",
@@ -142,7 +142,7 @@ export const categories: Category[] = [
     formats: ["40 × 40 cm", "50 × 50 cm", "30 × 50 cm rettangolare", "Forme custom"],
     grammature: ["Federa in poliestere", "Federa in cotone canvas", "Imbottitura in fibra cava", "Rivestimento sfoderabile"],
     finiture: ["Stampa fronte / retro", "Cerniera nascosta", "Bordo in passamaneria", "Etichetta personalizzata"],
-    tempi: "5–7 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "stampa-puzzle",
@@ -154,7 +154,7 @@ export const categories: Category[] = [
     formats: ["A4 — 96 pezzi", "A3 — 252 pezzi", "40 × 50 cm — 500 pezzi", "Custom fino a 1000 pezzi"],
     grammature: ["Cartone rigido 2 mm", "Stampa fotografica laminata", "Retro nero opaco", "Pezzi ad incastro preciso"],
     finiture: ["Scatola personalizzata", "Sacchetto in tessuto", "Confezione regalo", "Etichetta numerata"],
-    tempi: "5–8 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "libretti-pinzati",
@@ -166,7 +166,7 @@ export const categories: Category[] = [
     formats: ["A6, A5, A4", "Quadrato 200 × 200 mm", "Da 8 a 64 pagine", "Formati custom"],
     grammature: ["Copertina 250 g/m²", "Interno 115–170 g/m²", "Carta naturale o patinata", "Carte certificate FSC"],
     finiture: ["2 punti metallici", "Punto omega per archiviazione", "Cordonatura copertina", "Plastificazione copertina"],
-    tempi: "4–6 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "sticker-adesivi",
@@ -178,7 +178,7 @@ export const categories: Category[] = [
     formats: ["Da 2 × 2 cm a 100 × 200 cm", "Singoli, in fogli o bobina", "Sagome custom", "Trasparenti o bianchi"],
     grammature: ["Vinile monomerico 80μ", "Vinile polimerico 100μ", "PVC trasparente", "Carta adesiva removibile"],
     finiture: ["Fustellatura sagomata", "Plastificazione antigraffio", "Resistenza UV outdoor", "Adesivo permanente o removibile"],
-    tempi: "3–5 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
     slug: "gadget-merchandising",
@@ -190,7 +190,7 @@ export const categories: Category[] = [
     formats: ["Tazze, mug, thermos", "Penne, matite, evidenziatori", "Totebag, zaini, marsupi", "USB, powerbank, accessori tech"],
     grammature: ["Materiali certificati", "Opzioni eco-friendly", "Confezioni in cartone", "Personalizzazione singola unità"],
     finiture: ["Stampa serigrafica", "Tampografia", "Incisione laser", "Ricamo su tessuto"],
-    tempi: "7–10 giorni lavorativi",
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
 ];
 
