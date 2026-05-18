@@ -123,8 +123,8 @@ function HomePage() {
         <div className="flex items-end justify-between mb-8">
           <div>
             <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-2">
-              15 categorie
-            </div>
+  18 categorie
+</div>
             <h2 className="font-display text-4xl lg:text-5xl text-white">
               Cosa stampiamo
             </h2>
