@@ -46,7 +46,7 @@ export function AppSidebar({
                   to="/categoria/$slug"
                   params={{ slug: c.slug }}
                   onClick={onClose}
-                  className={`group relative flex items-center gap-3 py-1.5 pl-4 pr-2 rounded-md transition-all duration-300 active:bg-white/5 hover:scale-[1.04] hover:blur-[0.3px] ${
+                  className={`group relative flex items-center gap-3 py-2 pl-4 pr-2 rounded-md transition-all duration-300 active:bg-white/5 hover:scale-[1.04] hover:blur-[0.3px] ${
   active ? "text-white bg-white/5" : "text-white/50 hover:text-white/90"
 }`}
                 >
