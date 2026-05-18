@@ -109,7 +109,7 @@ function CategoryPage() {
           ◆ Scheda tecnica
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-         {([
+        {([
             { label: "Formati", items: category.formats },
             { label: "Grammature / supporti", items: category.grammature },
             { label: "Tempi di produzione", items: [category.tempi] },
