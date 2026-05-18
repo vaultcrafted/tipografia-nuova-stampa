@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { AppHeader } from "@/components/AppHeader";
 import { AppSidebar } from "@/components/AppSidebar";
 import { AppFooter } from "@/components/AppFooter";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 function NotFoundComponent() {
   return (
@@ -144,6 +145,7 @@ function RootComponent() {
           <AppFooter />
         </main>
       </div>
+      <WhatsAppButton />
     </QueryClientProvider>
   );
 }
