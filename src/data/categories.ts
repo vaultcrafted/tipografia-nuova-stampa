@@ -192,6 +192,42 @@ export const categories: Category[] = [
     finiture: ["Stampa serigrafica", "Tampografia", "Incisione laser", "Ricamo su tessuto"],
     tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
+  {
+    slug: "timbri-preinchiostrati",
+    name: "Timbri preinchiostrati",
+    label: "timbri",
+    tagline: "Il tuo marchio sempre con te, in un gesto solo.",
+    description:
+      "Timbri preinchiostrati personalizzati per professionisti e aziende. Impronta nitida, inchiostro duraturo, praticità d'uso quotidiano.",
+    formats: ["Rotondo ⌀ 30 mm", "Rotondo ⌀ 40 mm", "Rettangolare 60 × 40 mm", "Rettangolare 70 × 25 mm"],
+    grammature: ["Inchiostro blu", "Inchiostro nero", "Inchiostro rosso"],
+    finiture: [],
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
+  },
+  {
+    slug: "incisione-laser",
+    name: "Incisione laser",
+    label: "laser",
+    tagline: "Precisione al millesimo, permanente su ogni superficie.",
+    description:
+      "Incisione laser su legno, metallo, vetro, acrilico e cuoio. Personalizzazioni per gadget, targhe, premi aziendali e packaging premium.",
+    formats: ["A5 (148 × 210 mm)", "A4 (210 × 297 mm)", "A3 (297 × 420 mm)", "Formati custom"],
+    grammature: ["Legno", "Metallo", "Vetro", "Acrilico", "Cuoio"],
+    finiture: [],
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
+  },
+  {
+    slug: "carte-di-vault",
+    name: "Carte di Vault",
+    label: "premium",
+    tagline: "Carte da gioco esclusive, personalizzate in ogni dettaglio.",
+    description:
+      "Carte da gioco personalizzate di alta qualità per brand, eventi, escape room e collezionisti. Stampa fronte/retro, finiture premium e packaging su misura.",
+    formats: ["Standard poker 63 × 88 mm", "Bridge 57 × 88 mm", "Tarocchi 70 × 120 mm", "Formati custom"],
+    grammature: ["Patinata 300 g/m²", "Linen finish", "Plastificazione opaca", "Plastificazione lucida"],
+    finiture: [],
+    tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
+  },
 ];
 
 export const getCategoryBySlug = (slug: string) =>
