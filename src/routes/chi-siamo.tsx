@@ -30,9 +30,14 @@ function ChiSiamoPage() {
         <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
           ◢ Dal 1995
         </div>
-        <h1 className="font-display text-white text-[14vw] sm:text-[9vw] lg:text-[6.5vw] leading-[0.92] tracking-tight mb-12">
+        <h1 className="font-display text-white text-[14vw] sm:text-[9vw] lg:text-[6.5vw] leading-[0.92] tracking-tight mb-8">
           Chi siamo
         </h1>
+        <img
+          src="/Logo-cambio.svg"
+          alt="Tipografia Nuova Stampa"
+          className="h-20 lg:h-28 w-auto mb-12 dark:invert-0 invert"
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-7 space-y-6 text-white/70 leading-relaxed">
