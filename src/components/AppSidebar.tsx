@@ -50,7 +50,7 @@ export function AppSidebar({
                     active ? "text-white bg-white/5" : "text-white/50 hover:text-white/90"
                   }`}
                 >
-                  <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out bg-gradient-to-r from-[var(--brand-blue)]/40 via-[var(--brand-red)]/30 to-transparent rounded-md" />
+                  <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out rounded-md" style={{ background: "var(--brand-red)", opacity: 0.25 }} />
                   {active && (
                     <span
                       className="absolute left-0 top-2 bottom-2 w-[2px] rounded-sm"
