@@ -19,10 +19,10 @@ export const categories: Category[] = [
     tagline: "La prima stretta di mano, in tasca.",
     description:
       "Biglietti da visita stampati in offset e digitale ad alta fedeltà. Carte premium, finiture tattili e accoppiature personalizzate per rappresentare al meglio la tua identità professionale.",
-    formats: ["85 × 55 mm", "90 × 50 mm", "Quadrato 55 × 55 mm", "Formati custom"],
-    grammature: ["300 g/m²", "350 g/m²", "Accoppiato 600 g/m²", "Carta cotone 540 g/m²"],
-    finiture: ["Plastificazione opaca", "Plastificazione lucida", "Verniciatura UV selettiva", "Stampa a caldo oro / argento", "Bordi colorati"],
-    tempi: "3–5 giorni lavorativi",
+    formats: ["8,5 × 5,5 cm (standard)", "9 × 6 cm", "6 × 6 cm", "Formato personalizzato"],
+    grammature: ["300 g/m²"],
+    finiture: [],
+    tempi: "10–12 giorni lavorativi / 5–7 giorni lavorativi / 2–3 giorni lavorativi",
   },
   {
     slug: "volantini",
