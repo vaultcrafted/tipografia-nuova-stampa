@@ -38,20 +38,19 @@
 :root {
   --radius: 0.5rem;
 
-  /* Dark premium palette */
   --background: oklch(0.16 0.03 250);
   --foreground: oklch(1 0 0);
   --card: oklch(0.18 0.025 250);
   --card-foreground: oklch(1 0 0);
   --popover: oklch(0.14 0.025 250);
   --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.58 0.24 25);            /* brand red */
+  --primary: oklch(0.58 0.24 25);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.22 0.03 250);
   --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.22 0.02 250);
   --muted-foreground: oklch(0.72 0.02 250);
-  --accent: oklch(0.62 0.16 240);            /* brand blue */
+  --accent: oklch(0.62 0.16 240);
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.58 0.24 25);
   --destructive-foreground: oklch(1 0 0);
@@ -66,7 +65,6 @@
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "Space Mono", ui-monospace, monospace;
 
-  /* Aurora-like dark gradient mesh */
   --gradient-mesh:
     radial-gradient(ellipse 80% 60% at 15% 10%, oklch(0.42 0.18 230 / 0.75), transparent 60%),
     radial-gradient(ellipse 70% 50% at 90% 20%, oklch(0.40 0.15 180 / 0.65), transparent 60%),
@@ -104,7 +102,6 @@
 }
 .light body::before { display: none; }
 
-/* Flip dark-on-white utilities to dark-on-light equivalents */
 .light .text-white { color: #1a1a1a; }
 .light [class*="text-white/"] { color: rgba(20, 20, 20, 0.72); }
 .light .hover\:text-white:hover,
@@ -143,7 +140,6 @@
     background-size: cover;
   }
 
-  /* Grain overlay across the whole site */
   body::before {
     content: "";
     position: fixed;
@@ -180,4 +176,13 @@
   .glow-blue { box-shadow: var(--shadow-glow-blue); }
   .hairline { border: 1px solid oklch(1 0 0 / 0.1); }
   .hairline-strong { border: 1px solid oklch(1 0 0 / 0.2); }
+}
+
+/* Nascondi scrollbar sidebar */
+aside::-webkit-scrollbar {
+  display: none;
+}
+aside {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
