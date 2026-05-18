@@ -48,16 +48,16 @@ export const categories: Category[] = [
     finiture: [],
     tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
-  {
+ {
     slug: "locandine-poster",
     name: "Locandine / Poster",
     label: "grande formato",
     tagline: "Presenza scenica per eventi, mostre, vetrine.",
     description:
       "Locandine e poster di grande formato per eventi, concerti, mostre, esposizioni commerciali. Colori saturi, neri profondi, finiture professionali.",
-    formats: ["A3 (297 × 420 mm)", "70 × 100 cm", "100 × 140 cm", "Formati custom fino a 150 cm"],
-    grammature: ["150 g/m²", "200 g/m²", "250 g/m²", "Carta blueback per affissione"],
-    finiture: ["Patinata opaca", "Patinata lucida", "Carta riciclata", "Resistenza UV indoor / outdoor"],
+    formats: ["A5 (148 × 210 mm)", "A4 (210 × 297 mm)", "A3 (297 × 420 mm)", "SRA3 (320 × 450 mm)", "70 × 70 cm", "70 × 100 cm"],
+    grammature: ["Patinata opaca 150 g/m²", "Patinata opaca 250 g/m²", "Betulla 110 g/m²", "Betulla 250 g/m²"],
+    finiture: [],
     tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
