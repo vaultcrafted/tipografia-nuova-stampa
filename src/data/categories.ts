@@ -31,9 +31,9 @@ export const categories: Category[] = [
     tagline: "Comunicare in modo diretto, senza disperdere il messaggio.",
     description:
       "Volantini promozionali stampati a colori su carta patinata o naturale. Tirature da poche centinaia a decine di migliaia, sempre con la stessa cura del dettaglio.",
-    formats: ["A6 (105 × 148 mm)", "A5 (148 × 210 mm)", "A4 (210 × 297 mm)", "DL (99 × 210 mm)"],
-    grammature: ["115 g/m²", "135 g/m²", "170 g/m²", "250 g/m²"],
-    finiture: ["Patinata lucida", "Patinata opaca", "Carta uso mano", "Verniciatura protettiva"],
+    formats: ["A6 (105 × 148 mm)", "A5 (148 × 210 mm)", "A4 (210 × 297 mm)", "A3 (297 × 420 mm)", "DL (99 × 210 mm)"],
+    grammature: ["Patinata opaca 150 g/m²", "Patinata opaca 250 g/m²", "Betulla 110 g/m²", "Betulla 250 g/m²", "Tauro 300 g/m²"],
+    finiture: [],
     tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
