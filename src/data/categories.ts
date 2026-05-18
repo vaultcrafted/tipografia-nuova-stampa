@@ -120,16 +120,16 @@ export const categories: Category[] = [
     finiture: [],
     tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
-  {
+ {
     slug: "plastificazione",
     name: "Plastificazione",
     label: "finitura",
     tagline: "Protezione e finitura per ogni stampato.",
     description:
       "Servizio di plastificazione lucida, opaca o soft-touch per copertine, menu, schede tecniche e materiale espositivo. Trattamento professionale anche su lavori esterni.",
-    formats: ["Da A6 ad A0", "Spessori film 80–250 micron", "Lavorazioni custom", "Bobine per grandi tirature"],
-    grammature: ["Film lucido 80μ", "Film opaco 125μ", "Soft-touch 150μ", "Antigraffio 250μ"],
-    finiture: ["Plastificazione singola", "Doppia (fronte/retro)", "A caldo o a freddo", "Effetto vellutato"],
+    formats: ["75 × 105 mm", "90 × 130 mm", "A6 (105 × 148 mm)", "A5 (148 × 210 mm)", "A4 (210 × 297 mm)", "A3 (297 × 420 mm)"],
+    grammature: ["125 μ"],
+    finiture: [],
     tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
   {
