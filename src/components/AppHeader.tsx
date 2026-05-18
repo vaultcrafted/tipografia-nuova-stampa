@@ -47,6 +47,7 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
           <Menu className="h-5 w-5" />
         </button>
 
+        {/* Logo sinistra — quadratino NS + nome */}
         <Link to="/" className="flex items-center gap-3 shrink-0">
           <div className="h-9 w-9 rounded-md hairline-strong grid place-items-center bg-background/60 transition-all hover:border-[var(--brand-red)] hover:shadow-[0_0_12px_var(--brand-red)] active:shadow-[0_0_20px_var(--brand-red)]">
             <span className="font-display text-lg leading-none text-white">
@@ -63,85 +64,97 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
           </div>
         </Link>
 
-        <div className="ml-auto flex items-center gap-3 shrink-0">
+        {/* Logo SVG centrato */}
+        <div className="hidden lg:flex flex-1 justify-center">
+          <Link to="/">
+            <img
+              src="/Logo-cambio.svg"
+              alt="Logo Tipografia Nuova Stampa"
+              className="h-10 w-auto dark:invert-0 invert"
+            />
+          </Link>
+        </div>
+
+        {/* Destra — Chi siamo, toggle tema, ricerca */}
+        <div className="flex items-center gap-3 lg:shrink-0 w-full lg:w-auto">
           <Link
             to="/chi-siamo"
-            className="hidden sm:inline-flex font-mono-ui text-[11px] uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors"
+            className="hidden sm:inline-flex font-mono-ui text-[11px] uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors shrink-0"
           >
             Chi siamo
           </Link>
           <ThemeToggle />
-        </div>
 
-        <div ref={wrapRef} className="relative w-full max-w-md">
-          <div
-            className={`flex items-center gap-2 rounded-md border bg-background/40 px-3 py-2 transition-all ${
-              open
-                ? "border-[var(--brand-red)] glow-red"
-                : "border-white/20 hover:border-white/30"
-            }`}
-          >
-            <Search className="h-4 w-4 text-white/50" />
-            <input
-              type="search"
-              aria-label="Cerca un prodotto nel catalogo"
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setOpen(true);
-              }}
-              onFocus={() => setOpen(true)}
-              placeholder="Cerca un prodotto..."
-              className="flex-1 bg-transparent outline-none font-mono-ui text-sm text-white placeholder:text-white/40"
-            />
-            {query && (
-              <button
-                onClick={() => setQuery("")}
-                className="text-white/50 hover:text-white"
-                aria-label="Pulisci"
-              >
-                <X className="h-4 w-4" />
-              </button>
+          <div ref={wrapRef} className="relative w-full max-w-md">
+            <div
+              className={`flex items-center gap-2 rounded-md border bg-background/40 px-3 py-2 transition-all ${
+                open
+                  ? "border-[var(--brand-red)] glow-red"
+                  : "border-white/20 hover:border-white/30"
+              }`}
+            >
+              <Search className="h-4 w-4 text-white/50" />
+              <input
+                type="search"
+                aria-label="Cerca un prodotto nel catalogo"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setOpen(true);
+                }}
+                onFocus={() => setOpen(true)}
+                placeholder="Cerca un prodotto..."
+                className="flex-1 bg-transparent outline-none font-mono-ui text-sm text-white placeholder:text-white/40"
+              />
+              {query && (
+                <button
+                  onClick={() => setQuery("")}
+                  className="text-white/50 hover:text-white"
+                  aria-label="Pulisci"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+
+            {open && (
+              <>
+                <div
+                  className="fixed inset-0 z-40 bg-black/60 lg:hidden"
+                  onClick={() => setOpen(false)}
+                />
+                <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-md border border-white/15 bg-popover/95 backdrop-blur-xl shadow-2xl">
+                  <div className="max-h-[60vh] overflow-y-auto">
+                    {results.length === 0 ? (
+                      <div className="px-4 py-6 font-mono-ui text-sm text-white/40">
+                        Nessun prodotto trovato
+                      </div>
+                    ) : (
+                      results.map((c) => (
+                        <button
+                          key={c.slug}
+                          onClick={() => {
+                            navigate({
+                              to: "/categoria/$slug",
+                              params: { slug: c.slug },
+                            });
+                            setOpen(false);
+                            setQuery("");
+                          }}
+                          className="flex w-full items-center justify-between gap-4 border-b border-white/5 px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-white/5"
+                        >
+                          <span className="text-sm text-white">{c.name}</span>
+                          <span className="font-mono-ui text-[10px] uppercase tracking-widest text-white/40">
+                            {c.label}
+                          </span>
+                        </button>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </>
             )}
           </div>
-
-          {open && (
-            <>
-              <div
-                className="fixed inset-0 z-40 bg-black/60 lg:hidden"
-                onClick={() => setOpen(false)}
-              />
-              <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-md border border-white/15 bg-popover/95 backdrop-blur-xl shadow-2xl">
-                <div className="max-h-[60vh] overflow-y-auto">
-                  {results.length === 0 ? (
-                    <div className="px-4 py-6 font-mono-ui text-sm text-white/40">
-                      Nessun prodotto trovato
-                    </div>
-                  ) : (
-                    results.map((c) => (
-                      <button
-                        key={c.slug}
-                        onClick={() => {
-                          navigate({
-                            to: "/categoria/$slug",
-                            params: { slug: c.slug },
-                          });
-                          setOpen(false);
-                          setQuery("");
-                        }}
-                        className="flex w-full items-center justify-between gap-4 border-b border-white/5 px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-white/5"
-                      >
-                        <span className="text-sm text-white">{c.name}</span>
-                        <span className="font-mono-ui text-[10px] uppercase tracking-widest text-white/40">
-                          {c.label}
-                        </span>
-                      </button>
-                    ))
-                  )}
-                </div>
-              </div>
-            </>
-          )}
         </div>
       </div>
     </header>
