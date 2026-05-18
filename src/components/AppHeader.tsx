@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Search, X, Menu } from "lucide-react";
 import { categories } from "@/data/categories";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
   const [query, setQuery] = useState("");
@@ -68,6 +69,8 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
         >
           Chi siamo
         </Link>
+
+        <ThemeToggle />
 
         <div ref={wrapRef} className="relative w-full max-w-md">
           <div
