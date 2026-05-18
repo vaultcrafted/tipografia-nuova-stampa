@@ -21,7 +21,7 @@ export const categories: Category[] = [
       "Biglietti da visita stampati in offset e digitale ad alta fedeltà. Carte premium, finiture tattili e accoppiature personalizzate per rappresentare al meglio la tua identità professionale.",
     formats: ["8,5 × 5,5 cm (standard)", "9 × 6 cm", "6 × 6 cm", "Formato personalizzato"],
     grammature: ["300 g/m²"],
-    finiture: [],
+    finiture: ["-"],
     tempi: "10–12 giorni lavorativi / 5–7 giorni lavorativi / 2–3 giorni lavorativi",
   },
   {
