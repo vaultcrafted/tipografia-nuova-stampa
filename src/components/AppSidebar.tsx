@@ -49,8 +49,9 @@ export function AppSidebar({
                   className={`group relative flex items-center gap-3 py-2 pl-4 pr-2 rounded-md transition-all duration-300 active:bg-white/5 hover:scale-[1.04] overflow-hidden ${
   active ? "text-white bg-white/5" : "text-white/50 hover:text-white/90"
 }`}
-                >
-                  {active && (
+               >
+                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out bg-gradient-to-r from-white/20 via-[var(--brand-red)]/30 to-transparent rounded-md" />
+                {active && (
                     <span
                       className="absolute left-0 top-2 bottom-2 w-[2px] rounded-sm"
                       style={{
