@@ -62,7 +62,7 @@ export function AppSidebar({
                   <span className="font-mono-ui text-[10px] tabular-nums text-white/30 w-5 shrink-0">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                 <span className="font-mono-ui text-[12px] leading-snug">
+                 <span className="font-mono-ui text-[13px] leading-snug">
   {c.name}
 </span>
                 </Link>
