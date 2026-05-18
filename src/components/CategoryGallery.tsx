@@ -8,12 +8,9 @@ const TILES: Tile[] = [
   { id: 1, aspect: "aspect-[4/5]" },
   { id: 2, aspect: "aspect-square" },
   { id: 3, aspect: "aspect-[3/4]" },
-  { id: 4, aspect: "aspect-square" },
-  { id: 5, aspect: "aspect-[4/5]" },
+  { id: 4, aspect: "aspect-[4/5]" },
+  { id: 5, aspect: "aspect-square" },
   { id: 6, aspect: "aspect-[3/4]" },
-  { id: 7, aspect: "aspect-square" },
-  { id: 8, aspect: "aspect-[4/5]" },
-  { id: 9, aspect: "aspect-[3/4]" },
 ];
 
 export function CategoryGallery({ category }: { category: Category }) {
