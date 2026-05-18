@@ -90,26 +90,13 @@ function CategoryPage() {
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="mb-20">
-        <div className="flex items-baseline justify-between mb-6">
-          <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40">
-            ◆ Lavori
-          </div>
-          <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/25">
-            click per ingrandire
-          </div>
-        </div>
-        <CategoryGallery category={category} />
-      </section>
-
       {/* Tech sheet */}
       <section className="mb-20">
         <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6">
           ◆ Scheda tecnica
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-        {([
+          {([
             { label: "Formati", items: category.formats },
             { label: "Grammature / supporti", items: category.grammature },
             { label: "Tempi di produzione", items: category.tempi },
@@ -139,6 +126,19 @@ function CategoryPage() {
         </div>
       </section>
 
+      {/* Gallery */}
+      <section className="mb-20">
+        <div className="flex items-baseline justify-between mb-6">
+          <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40">
+            ◆ Lavori
+          </div>
+          <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/25">
+            click per ingrandire
+          </div>
+        </div>
+        <CategoryGallery category={category} />
+      </section>
+
       {/* Video */}
       <section className="mb-20">
         <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6">
@@ -165,7 +165,7 @@ function CategoryPage() {
           </div>
         )}
       </section>
-      
+
       {/* CTA */}
       <section className="rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 lg:p-12 mb-16">
         <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-end justify-between">
