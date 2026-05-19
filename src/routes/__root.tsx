@@ -57,7 +57,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           >
             Riprova
           </button>
-          
+          <a
             href="/"
             className="rounded-md border border-white/20 px-5 py-2.5 text-sm text-white"
           >
