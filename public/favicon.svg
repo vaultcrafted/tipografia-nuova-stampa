@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#0f1a2e"/>
+  <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="16" font-weight="bold" letter-spacing="1">
+    <tspan fill="#E8002D">N</tspan><tspan fill="white">S</tspan>
+  </text>
+</svg>
