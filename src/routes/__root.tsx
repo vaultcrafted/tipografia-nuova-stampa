@@ -57,7 +57,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           >
             Riprova
           </button>
-          <a
+          
             href="/"
             className="rounded-md border border-white/20 px-5 py-2.5 text-sm text-white"
           >
@@ -82,6 +82,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "stylesheet", href: appCss },
       {
         rel: "stylesheet",
@@ -97,7 +98,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           name: "Tipografia Nuova Stampa di Giunipero Stefano",
           description:
             "Tipografia professionale a Livorno Ferraris: biglietti da visita, brochure, grande formato, DTF, stampa su legno e altro.",
-          url: "https://tipografianuovastampa.it",
+          url: "https://tipografianuovastampa.com",
           address: {
             "@type": "PostalAddress",
             streetAddress: "Via Martiri della Libertà 65",
