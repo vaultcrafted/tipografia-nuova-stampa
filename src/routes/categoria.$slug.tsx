@@ -13,7 +13,7 @@ export const Route = createFileRoute("/categoria/$slug")({
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) return { meta: [] };
-    const url = `https://tipografia-nuova-stampa.lovable.app/categoria/${params.slug}`;
+    const url = `https://tipografianuovastampa.com/categoria/${params.slug}`;
     return {
       meta: [
         { title: `${loaderData.category.name} — Tipografia Nuova Stampa` },

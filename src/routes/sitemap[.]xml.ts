@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { categories } from "@/data/categories";
 
-const BASE_URL = "https://tipografia-nuova-stampa.lovable.app";
+const BASE_URL = "https://tipografianuovastampa.com";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {

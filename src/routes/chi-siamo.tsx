@@ -11,7 +11,7 @@ export const Route = createFileRoute("/chi-siamo")({
           "Dal 1995 trasformiamo idee in stampa. Scopri chi siamo, cosa facciamo e il nostro approccio al lavoro.",
       },
     ],
-    links: [{ rel: "canonical", href: "https://tipografia-nuova-stampa.lovable.app/chi-siamo" }],
+    links: [{ rel: "canonical", href: "https://tipografianuovastampa.com/chi-siamo" }],
   }),
   component: ChiSiamoPage,
 });

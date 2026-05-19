@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tipografia-nuova-stampa.lovable.app/sitemap.xml
+Sitemap: https://tipografianuovastampa.com/sitemap.xml
