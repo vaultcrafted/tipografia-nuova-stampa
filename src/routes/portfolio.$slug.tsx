@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ArrowLeft, ChevronRight } from "lucide-react";
 import { portfolioCategories } from "@/data/categories";
+import { getEventAlbums } from "@/data/portfolio";
 import type { EventType } from "@/data/categories";
 
 export const Route = createFileRoute("/portfolio/$slug")({
@@ -35,160 +35,55 @@ export const Route = createFileRoute("/portfolio/$slug")({
   component: PortfolioPage,
 });
 
-// ─── Lightbox per singolo evento ────────────────────────────────────────────
-function EventLightbox({
-  event,
-  categoryLabel,
-  onClose,
-}: {
-  event: EventType;
-  categoryLabel: string;
-  onClose: () => void;
-}) {
-  const total = 6;
-  const [idx, setIdx] = useState(0);
-
-  const tileStyle = {
-    background:
-      "linear-gradient(135deg, oklch(0.22 0.10 240) 0%, oklch(0.16 0.08 230) 60%, oklch(0.18 0.06 220 / 0.7) 100%)",
-  };
-
-  return (
-    <div
-      className="fixed inset-0 z-[110] bg-black/95 backdrop-blur-md flex flex-col"
-      onClick={onClose}
-    >
-      {/* Header */}
-      <div
-        className="flex items-center justify-between px-6 py-4 border-b border-white/10"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div>
-          <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-1">
-            {categoryLabel} · {event.name}
-          </div>
-          <h2 className="font-display text-2xl text-white">{event.name}</h2>
-        </div>
-        <button
-          onClick={onClose}
-          className="p-2.5 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-all"
-          aria-label="Chiudi"
-        >
-          <X className="h-5 w-5" />
-        </button>
-      </div>
-
-      {/* Main viewer */}
-      <div className="flex-1 flex items-center justify-center px-4 py-6 min-h-0">
-        <button
-          onClick={(e) => { e.stopPropagation(); setIdx((i) => (i - 1 + total) % total); }}
-          className="shrink-0 p-2 text-white/50 hover:text-white transition-colors"
-        >
-          <ChevronLeft className="h-8 w-8" />
-        </button>
-
-        <div
-          className="relative flex-1 max-w-4xl mx-4 rounded-xl border border-white/10 overflow-hidden"
-          style={{ ...tileStyle, aspectRatio: "4/3" }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="absolute inset-0 grid place-items-center">
-            <div className="text-center px-8">
-              <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/30 mb-3">
-                {event.slug} · scatto {String(idx + 1).padStart(2, "00")} / {String(total).padStart(2, "00")}
-              </div>
-              <div className="font-display text-4xl text-white/40">{event.name}</div>
-              <div className="mt-3 font-mono-ui text-[10px] text-white/20 uppercase tracking-widest">
-                Foto in arrivo
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <button
-          onClick={(e) => { e.stopPropagation(); setIdx((i) => (i + 1) % total); }}
-          className="shrink-0 p-2 text-white/50 hover:text-white transition-colors"
-        >
-          <ChevronRight className="h-8 w-8" />
-        </button>
-      </div>
-
-      {/* Thumbnails strip */}
-      <div
-        className="flex items-center justify-center gap-2 px-6 pb-6"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {Array.from({ length: total }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => setIdx(i)}
-            className={`w-12 h-9 rounded border transition-all overflow-hidden ${
-              idx === i ? "border-[var(--brand-red)] scale-110" : "border-white/10 opacity-40 hover:opacity-70"
-            }`}
-            style={tileStyle}
-          >
-            <span className="sr-only">Scatto {i + 1}</span>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ─── Event card ──────────────────────────────────────────────────────────────
 function EventCard({
   event,
   index,
-  categoryLabel,
-  onOpen,
+  categorySlug,
 }: {
   event: EventType;
   index: number;
-  categoryLabel: string;
-  onOpen: () => void;
+  categorySlug: string;
 }) {
+  const albums = getEventAlbums(categorySlug, event.slug)?.albums ?? [];
+  const hasAlbums = albums.length > 0;
+
   const tileStyle = {
     background:
       "linear-gradient(135deg, oklch(0.24 0.11 240) 0%, oklch(0.18 0.09 230) 60%, oklch(0.20 0.07 220 / 0.7) 100%)",
   };
 
   return (
-    <button
-      onClick={onOpen}
-      className="group relative w-full text-left overflow-hidden rounded-lg border border-white/10 hover:border-[var(--brand-red)] transition-all duration-300 hover:-translate-y-1"
+    <Link
+      to="/portfolio/$slug/$event"
+      params={{ slug: categorySlug, event: event.slug }}
+      className="group relative w-full text-left overflow-hidden rounded-lg border border-white/10 hover:border-[var(--brand-red)] transition-all duration-300 hover:-translate-y-1 block"
       style={{ aspectRatio: "4/3" }}
     >
-      {/* Background */}
       <div className="absolute inset-0" style={tileStyle} />
-
-      {/* Hover overlay */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{ background: "radial-gradient(ellipse at center, var(--brand-red) / 0.15 0%, transparent 70%)" }}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: "radial-gradient(ellipse at center, rgba(180,30,30,0.15) 0%, transparent 70%)" }}
       />
-
-      {/* Bottom gradient */}
-      <div className="absolute inset-x-0 bottom-0 h-2/3"
+      <div
+        className="absolute inset-x-0 bottom-0 h-2/3"
         style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)" }}
       />
 
-      {/* Index */}
       <div className="absolute top-4 left-4 font-mono-ui text-[10px] tabular-nums text-white/30">
         {String(index + 1).padStart(2, "0")}
       </div>
 
-      {/* Label */}
+      {/* Contatore album */}
       <div className="absolute top-4 right-4 font-mono-ui text-[9px] uppercase tracking-[0.2em] text-white/30 group-hover:text-[var(--brand-red)] transition-colors">
-        {categoryLabel}
+        {hasAlbums ? `${albums.length} album` : "prossimamente"}
       </div>
 
-      {/* Placeholder icon */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-10 transition-opacity">
+      <div className="absolute inset-0 flex items-center justify-center opacity-15 group-hover:opacity-8 transition-opacity">
         <div className="font-display text-6xl text-white/40">
           {String(index + 1).padStart(2, "0")}
         </div>
       </div>
 
-      {/* Content */}
       <div className="absolute inset-x-0 bottom-0 p-5">
         <h3 className="font-display text-2xl lg:text-3xl text-white leading-tight">
           {event.name}
@@ -197,25 +92,21 @@ function EventCard({
           {event.description}
         </p>
         <div className="mt-3 inline-flex items-center gap-1.5 font-mono-ui text-[10px] uppercase tracking-widest text-white/30 group-hover:text-white/60 transition-colors">
-          <span>Vedi galleria</span>
+          <span>{hasAlbums ? "Sfoglia album" : "In arrivo"}</span>
           <ChevronRight className="h-3 w-3" />
         </div>
       </div>
 
-      {/* Bottom accent line */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px opacity-0 transition-opacity group-hover:opacity-100"
         style={{ background: "var(--brand-red)" }}
       />
-    </button>
+    </Link>
   );
 }
 
-// ─── Main page ────────────────────────────────────────────────────────────────
 function PortfolioPage() {
   const { category } = Route.useLoaderData();
-  const [activeEvent, setActiveEvent] = useState<EventType | null>(null);
-
   const isPhoto = category.slug === "fotografia";
 
   return (
@@ -240,10 +131,7 @@ function PortfolioPage() {
             </h1>
           </div>
           <div className="lg:col-span-4 lg:pb-4">
-            <div
-              className="hidden lg:block h-px w-12 mb-4"
-              style={{ background: "var(--brand-red)" }}
-            />
+            <div className="hidden lg:block h-px w-12 mb-4" style={{ background: "var(--brand-red)" }} />
             <p className="text-white/70 leading-relaxed">{category.description}</p>
           </div>
         </div>
@@ -257,10 +145,7 @@ function PortfolioPage() {
             { label: isPhoto ? "Approccio" : "Formato consegna", value: isPhoto ? "Reportage" : "HD / 4K" },
             { label: "Consegna", value: isPhoto ? "Entro 30 giorni" : "Entro 60 giorni" },
           ].map((stat) => (
-            <div
-              key={stat.label}
-              className="bg-card/40 backdrop-blur-sm px-6 py-5"
-            >
+            <div key={stat.label} className="bg-card/40 backdrop-blur-sm px-6 py-5">
               <div className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/30 mb-2">
                 {stat.label}
               </div>
@@ -277,23 +162,22 @@ function PortfolioPage() {
             ◆ Tipologie di eventi
           </div>
           <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/25">
-            click per la galleria
+            click per gli album
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {category.events.map((event: EventType, i: number) => (
+          {category.events.map((event: import("@/data/categories").EventType, i: number) => (
             <EventCard
               key={event.slug}
               event={event}
               index={i}
-              categoryLabel={category.label}
-              onOpen={() => setActiveEvent(event)}
+              categorySlug={category.slug}
             />
           ))}
         </div>
       </section>
 
-      {/* Info section */}
+      {/* Come funziona */}
       <section className="mb-20">
         <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6">
           ◆ Come funziona
@@ -315,10 +199,7 @@ function PortfolioPage() {
               key={item.step}
               className="rounded-md border border-white/10 bg-card/40 backdrop-blur-sm p-6 hover:border-white/20 transition-colors"
             >
-              <div
-                className="font-mono-ui text-[10px] uppercase tracking-[0.2em] mb-4"
-                style={{ color: "var(--brand-red)" }}
-              >
+              <div className="font-mono-ui text-[10px] uppercase tracking-[0.2em] mb-4" style={{ color: "var(--brand-red)" }}>
                 {item.step}
               </div>
               <h3 className="font-display text-xl text-white mb-2">{item.title}</h3>
@@ -366,15 +247,6 @@ function PortfolioPage() {
           Contattami su WhatsApp
         </a>
       </div>
-
-      {/* Lightbox */}
-      {activeEvent && (
-        <EventLightbox
-          event={activeEvent}
-          categoryLabel={category.name}
-          onClose={() => setActiveEvent(null)}
-        />
-      )}
     </div>
   );
 }

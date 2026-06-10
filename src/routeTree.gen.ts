@@ -14,6 +14,8 @@ import { Route as ChiSiamoRouteImport } from './routes/chi-siamo'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CategoriaSlugRouteImport } from './routes/categoria.$slug'
 import { Route as PortfolioSlugRouteImport } from './routes/portfolio.$slug'
+import { Route as PortfolioSlugEventRouteImport } from './routes/portfolio.$slug.$event'
+import { Route as PortfolioSlugEventAlbumRouteImport } from './routes/portfolio.$slug.$event.$album'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -40,6 +42,16 @@ const PortfolioSlugRoute = PortfolioSlugRouteImport.update({
   path: '/portfolio/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortfolioSlugEventRoute = PortfolioSlugEventRouteImport.update({
+  id: '/portfolio/$slug/$event',
+  path: '/portfolio/$slug/$event',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioSlugEventAlbumRoute = PortfolioSlugEventAlbumRouteImport.update({
+  id: '/portfolio/$slug/$event/$album',
+  path: '/portfolio/$slug/$event/$album',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +59,8 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
+  '/portfolio/$slug/$event': typeof PortfolioSlugEventRoute
+  '/portfolio/$slug/$event/$album': typeof PortfolioSlugEventAlbumRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +68,8 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
+  '/portfolio/$slug/$event': typeof PortfolioSlugEventRoute
+  '/portfolio/$slug/$event/$album': typeof PortfolioSlugEventAlbumRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +78,15 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
+  '/portfolio/$slug/$event': typeof PortfolioSlugEventRoute
+  '/portfolio/$slug/$event/$album': typeof PortfolioSlugEventAlbumRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug'
+  fullPaths: '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug' | '/portfolio/$slug/$event' | '/portfolio/$slug/$event/$album'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug'
-  id: '__root__' | '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug'
+  to: '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug' | '/portfolio/$slug/$event' | '/portfolio/$slug/$event/$album'
+  id: '__root__' | '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug' | '/portfolio/$slug/$event' | '/portfolio/$slug/$event/$album'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +95,8 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   CategoriaSlugRoute: typeof CategoriaSlugRoute
   PortfolioSlugRoute: typeof PortfolioSlugRoute
+  PortfolioSlugEventRoute: typeof PortfolioSlugEventRoute
+  PortfolioSlugEventAlbumRoute: typeof PortfolioSlugEventAlbumRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +136,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portfolio/$slug/$event': {
+      id: '/portfolio/$slug/$event'
+      path: '/portfolio/$slug/$event'
+      fullPath: '/portfolio/$slug/$event'
+      preLoaderRoute: typeof PortfolioSlugEventRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio/$slug/$event/$album': {
+      id: '/portfolio/$slug/$event/$album'
+      path: '/portfolio/$slug/$event/$album'
+      fullPath: '/portfolio/$slug/$event/$album'
+      preLoaderRoute: typeof PortfolioSlugEventAlbumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +159,8 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   CategoriaSlugRoute: CategoriaSlugRoute,
   PortfolioSlugRoute: PortfolioSlugRoute,
+  PortfolioSlugEventRoute: PortfolioSlugEventRoute,
+  PortfolioSlugEventAlbumRoute: PortfolioSlugEventAlbumRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
