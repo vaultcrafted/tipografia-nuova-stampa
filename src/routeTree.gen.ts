@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ChiSiamoRouteImport } from './routes/chi-siamo'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CategoriaSlugRouteImport } from './routes/categoria.$slug'
+import { Route as PortfolioSlugRouteImport } from './routes/portfolio.$slug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -34,18 +35,25 @@ const CategoriaSlugRoute = CategoriaSlugRouteImport.update({
   path: '/categoria/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortfolioSlugRoute = PortfolioSlugRouteImport.update({
+  id: '/portfolio/$slug',
+  path: '/portfolio/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/chi-siamo': typeof ChiSiamoRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/portfolio/$slug': typeof PortfolioSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chi-siamo': typeof ChiSiamoRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/portfolio/$slug': typeof PortfolioSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/chi-siamo': typeof ChiSiamoRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/portfolio/$slug': typeof PortfolioSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug'
+  fullPaths: '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug'
-  id: '__root__' | '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug'
+  to: '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug'
+  id: '__root__' | '/' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   ChiSiamoRoute: typeof ChiSiamoRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   CategoriaSlugRoute: typeof CategoriaSlugRoute
+  PortfolioSlugRoute: typeof PortfolioSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriaSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portfolio/$slug': {
+      id: '/portfolio/$slug'
+      path: '/portfolio/$slug'
+      fullPath: '/portfolio/$slug'
+      preLoaderRoute: typeof PortfolioSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChiSiamoRoute: ChiSiamoRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   CategoriaSlugRoute: CategoriaSlugRoute,
+  PortfolioSlugRoute: PortfolioSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

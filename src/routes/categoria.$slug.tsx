@@ -73,7 +73,7 @@ function CategoryPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
           <div className="lg:col-span-8">
             <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
-              {String(idx + 1).padStart(2, "00")} / 18 ·
+              {String(idx + 1).padStart(2, "00")} / 20 ·
               <span style={{ color: "var(--brand-red)" }}>{category.label}</span>
             </div>
             <h1 className="font-display text-white text-[13vw] sm:text-[9vw] lg:text-[6.5vw] leading-[0.92] tracking-tight">

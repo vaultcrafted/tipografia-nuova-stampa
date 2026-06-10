@@ -11,6 +11,110 @@ export type Category = {
   videoUrl?: string;
 };
 
+export type EventType = {
+  slug: string;
+  name: string;
+  description: string;
+  coverPlaceholder?: string;
+};
+
+export type PortfolioCategory = {
+  type: "portfolio";
+  slug: string;
+  name: string;
+  label: string;
+  tagline: string;
+  description: string;
+  events: EventType[];
+};
+
+export type AnyCategory = Category | PortfolioCategory;
+
+export const portfolioCategories: PortfolioCategory[] = [
+  {
+    type: "portfolio",
+    slug: "fotografia",
+    name: "Fotografia",
+    label: "portfolio",
+    tagline: "Ogni momento merita di essere ricordato.",
+    description:
+      "Reportage fotografico professionale per eventi privati e aziendali. Ogni servizio è curato nei minimi dettagli, dalla luce naturale alla post-produzione.",
+    events: [
+      {
+        slug: "matrimoni",
+        name: "Matrimoni",
+        description: "Reportage completo dal rito civile o religioso al ricevimento. Ogni sguardo, ogni abbraccio, ogni dettaglio — immortalato con discrezione.",
+      },
+      {
+        slug: "concerti",
+        name: "Concerti",
+        description: "Fotografia live in condizioni di luce difficile. Palchi, artisti, folla — il racconto visivo di una serata da non dimenticare.",
+      },
+      {
+        slug: "eventi",
+        name: "Eventi",
+        description: "Inaugurazioni, fiere, presentazioni aziendali, convention. Documentazione professionale per archivi e comunicazione.",
+      },
+      {
+        slug: "diciottesimi",
+        name: "Diciottesimi",
+        description: "Il traguardo dei 18 anni raccontato in immagini. Dalla festa in sala al servizio in esterno, un ricordo per sempre.",
+      },
+      {
+        slug: "battesimi",
+        name: "Battesimi",
+        description: "I primi momenti di vita celebrati in famiglia. Foto naturali e spontanee, senza mettere in posa i bambini.",
+      },
+      {
+        slug: "feste-private",
+        name: "Feste private",
+        description: "Compleanni, anniversari, riunioni di famiglia. Ogni occasione è unica e merita un racconto fotografico su misura.",
+      },
+    ],
+  },
+  {
+    type: "portfolio",
+    slug: "video",
+    name: "Video",
+    label: "portfolio",
+    tagline: "Le emozioni che si muovono.",
+    description:
+      "Riprese video professionali per eventi privati e aziendali. Montaggio, color grading e audio curati per consegnare un prodotto finito pronto alla condivisione.",
+    events: [
+      {
+        slug: "matrimoni",
+        name: "Matrimoni",
+        description: "Dal film breve al reportage completo della giornata. Musica, cerimonia, balli — un cortometraggio da rivedere ogni anniversario.",
+      },
+      {
+        slug: "concerti",
+        name: "Concerti",
+        description: "Riprese multi-camera, audio diretto dal mixer, montaggio professionale. Il concerto rivive ogni volta che vuoi.",
+      },
+      {
+        slug: "eventi",
+        name: "Eventi",
+        description: "Video istituzionali, highlight di fiere ed eventi aziendali. Contenuti pronti per sito, social e archivio.",
+      },
+      {
+        slug: "diciottesimi",
+        name: "Diciottesimi",
+        description: "La festa dei 18 anni in un video da condividere con amici e parenti. Riprese, interviste, discorsi — tutto incluso.",
+      },
+      {
+        slug: "battesimi",
+        name: "Battesimi",
+        description: "Il giorno del battesimo catturato in un video ricordo da custodire. Cerimonia, famiglia, i primi sorrisi.",
+      },
+      {
+        slug: "feste-private",
+        name: "Feste private",
+        description: "Ogni festa ha la sua storia. Montiamo un video su misura che racconta l'atmosfera, le persone e i momenti salienti.",
+      },
+    ],
+  },
+];
+
 export const categories: Category[] = [
   {
     slug: "biglietti-da-visita",
