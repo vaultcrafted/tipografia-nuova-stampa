@@ -3,27 +3,41 @@
 // ─────────────────────────────────────────────────────────────────────────────
 //
 // COME AGGIUNGERE UN ALBUM:
-// 1. Carica le foto su Cloudflare Images (dashboard → Images → Upload)
-// 2. Copia l'ID di ogni foto (es. "a1b2c3d4-e5f6-...")
-// 3. Aggiungi un oggetto Album nell'array corretto qui sotto
 //
-// STRUTTURA URL:
-//   /portfolio/fotografia/matrimoni          → lista album matrimoni
-//   /portfolio/fotografia/matrimoni/mario-giulia-2024 → galleria foto
-//   /portfolio/video/concerti                → lista album concerti
+// 1. Crea la struttura cartelle su R2:
+//    R2 bucket "portfolio" → Aggiungi cartella → es. "fotografia/concerti/kaos-2022"
+//
+// 2. Carica le foto nella cartella (trascina dal computer)
+//    Nomi consigliati: foto-01.jpg, foto-02.jpg, ecc.
+//
+// 3. Aggiungi l'album qui sotto con i percorsi relativi:
+//    { id: "fotografia/concerti/kaos-2022/foto-01.jpg", alt: "..." }
+//
+// STRUTTURA CARTELLE R2 consigliata:
+//   fotografia/
+//     matrimoni/
+//       mario-giulia-2024/
+//         foto-01.jpg
+//         foto-02.jpg
+//     concerti/
+//       kaos-onda-urto-2022/
+//         foto-01.jpg
+//   video/
+//     matrimoni/
+//       ...
 // ─────────────────────────────────────────────────────────────────────────────
 
 export type Photo = {
-  id: string;          // ID Cloudflare Images (es. "a1b2c3d4-e5f6-7890-abcd-ef1234567890")
+  id: string;          // Percorso nel bucket R2 (es. "fotografia/concerti/kaos-2022/foto-01.jpg")
   alt: string;         // Descrizione accessibile
   featured?: boolean;  // Se true, usata come cover dell'album
 };
 
 export type Album = {
-  slug: string;        // URL-friendly (es. "mario-giulia-2024")
-  title: string;       // Nome visualizzato (es. "Mario & Giulia")
-  date: string;        // Es. "Giugno 2024"
-  location?: string;   // Es. "Casale Monferrato (AL)"
+  slug: string;        // URL-friendly (es. "kaos-onda-urto-2022")
+  title: string;       // Nome visualizzato (es. "Kaos · Festa Radio Onda D'urto")
+  date: string;        // Es. "Agosto 2022"
+  location?: string;   // Es. "Livorno Ferraris (VC)"
   photos: Photo[];
 };
 
@@ -39,25 +53,25 @@ export const fotografiaAlbums: EventAlbums[] = [
   {
     categorySlug: "fotografia",
     eventSlug: "matrimoni",
-    albums: [
-      // Esempio — rimuovi o sostituisci con i tuoi veri album:
-      // {
-      //   slug: "mario-giulia-2024",
-      //   title: "Mario & Giulia",
-      //   date: "Giugno 2024",
-      //   location: "Casale Monferrato (AL)",
-      //   photos: [
-      //     { id: "TUO-ID-CLOUDFLARE-1", alt: "Gli sposi all'altare", featured: true },
-      //     { id: "TUO-ID-CLOUDFLARE-2", alt: "Il bacio" },
-      //     { id: "TUO-ID-CLOUDFLARE-3", alt: "Il ricevimento" },
-      //   ],
-      // },
-    ],
+    albums: [],
   },
   {
     categorySlug: "fotografia",
     eventSlug: "concerti",
-    albums: [],
+    albums: [
+      // Esempio pronto da attivare — rimuovi i // e carica le foto su R2:
+      // {
+      //   slug: "kaos-onda-urto-2022",
+      //   title: "Kaos · Festa Radio Onda D'urto",
+      //   date: "Agosto 2022",
+      //   location: "Livorno Ferraris (VC)",
+      //   photos: [
+      //     { id: "fotografia/concerti/kaos-onda-urto-2022/foto-01.jpg", alt: "Kaos sul palco", featured: true },
+      //     { id: "fotografia/concerti/kaos-onda-urto-2022/foto-02.jpg", alt: "Folla al concerto" },
+      //     { id: "fotografia/concerti/kaos-onda-urto-2022/foto-03.jpg", alt: "DSA Commando" },
+      //   ],
+      // },
+    ],
   },
   {
     categorySlug: "fotografia",
@@ -84,36 +98,12 @@ export const fotografiaAlbums: EventAlbums[] = [
 // ─── VIDEO ────────────────────────────────────────────────────────────────────
 
 export const videoAlbums: EventAlbums[] = [
-  {
-    categorySlug: "video",
-    eventSlug: "matrimoni",
-    albums: [],
-  },
-  {
-    categorySlug: "video",
-    eventSlug: "concerti",
-    albums: [],
-  },
-  {
-    categorySlug: "video",
-    eventSlug: "eventi",
-    albums: [],
-  },
-  {
-    categorySlug: "video",
-    eventSlug: "diciottesimi",
-    albums: [],
-  },
-  {
-    categorySlug: "video",
-    eventSlug: "battesimi",
-    albums: [],
-  },
-  {
-    categorySlug: "video",
-    eventSlug: "feste-private",
-    albums: [],
-  },
+  { categorySlug: "video", eventSlug: "matrimoni",    albums: [] },
+  { categorySlug: "video", eventSlug: "concerti",     albums: [] },
+  { categorySlug: "video", eventSlug: "eventi",       albums: [] },
+  { categorySlug: "video", eventSlug: "diciottesimi", albums: [] },
+  { categorySlug: "video", eventSlug: "battesimi",    albums: [] },
+  { categorySlug: "video", eventSlug: "feste-private",albums: [] },
 ];
 
 // ─── HELPER ───────────────────────────────────────────────────────────────────

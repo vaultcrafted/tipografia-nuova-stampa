@@ -1,30 +1,41 @@
-// Cloudflare Images — helper per costruire URL ottimizzati
-// Account ID: b4a2bcff1a5784e0ade3f840cd87c94f
-// Le foto vengono servite da: imagedelivery.net/<accountHash>/<imageId>/<variant>
-// Il accountHash è diverso dall'Account ID — lo ricaviamo dall'API token
+// ─────────────────────────────────────────────────────────────────────────────
+// Cloudflare R2 + Image Resizing
+// Bucket: portfolio
+// Dominio pubblico: media.tipografianuovastampa.com
+// ─────────────────────────────────────────────────────────────────────────────
 
-export const CF_ACCOUNT_ID = "b4a2bcff1a5784e0ade3f840cd87c94f";
+export const MEDIA_BASE = "https://media.tipografianuovastampa.com";
 
-// Questo hash viene popolato dopo la configurazione del token
-// Trovalo in: Cloudflare Images → "View account hash"
-export const CF_ACCOUNT_HASH = "";
+// Preset di trasformazione automatica via Cloudflare Image Resizing
+// (cdn-cgi/image/... è gratuito con Cloudflare Pages, 5.000 trasf/mese incluse)
+const VARIANTS = {
+  thumbnail: "width=400,height=300,fit=cover,quality=80,format=webp",
+  gallery:   "width=800,height=600,fit=scale-down,quality=85,format=webp",
+  lightbox:  "width=1600,height=1200,fit=scale-down,quality=90,format=webp",
+  public:    "width=1600,fit=scale-down,quality=90,format=webp",
+} as const;
+
+export type ImageVariant = keyof typeof VARIANTS;
 
 /**
- * Costruisce un URL per Cloudflare Images con trasformazioni automatiche.
- * @param imageId  - ID immagine restituito da Cloudflare dopo l'upload
- * @param variant  - "thumbnail" | "gallery" | "lightbox" | "public"
+ * Costruisce URL ottimizzato per una foto nel bucket R2.
+ *
+ * @param path    - Percorso nel bucket (es. "concerti/kaos-2022/foto-01.jpg")
+ * @param variant - "thumbnail" | "gallery" | "lightbox" | "public"
+ *
+ * Esempio:
+ *   cfImageUrl("concerti/kaos-2022/foto-01.jpg", "gallery")
+ *   → https://media.tipografianuovastampa.com/cdn-cgi/image/width=800,.../concerti/kaos-2022/foto-01.jpg
  */
-export function cfImageUrl(imageId: string, variant: "thumbnail" | "gallery" | "lightbox" | "public" = "gallery"): string {
-  if (!CF_ACCOUNT_HASH) {
-    // Placeholder finché non è configurato l'account hash
-    return "";
-  }
-  return `https://imagedelivery.net/${CF_ACCOUNT_HASH}/${imageId}/${variant}`;
+export function cfImageUrl(path: string, variant: ImageVariant = "gallery"): string {
+  if (!path) return "";
+  return `${MEDIA_BASE}/cdn-cgi/image/${VARIANTS[variant]}/${path}`;
 }
 
 /**
- * Restituisce un URL placeholder per le card senza foto ancora caricate.
+ * URL diretto senza trasformazioni (per download o debug).
  */
-export function placeholderUrl(): string {
-  return "";
+export function cfRawUrl(path: string): string {
+  if (!path) return "";
+  return `${MEDIA_BASE}/${path}`;
 }
