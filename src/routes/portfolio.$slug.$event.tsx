@@ -14,7 +14,7 @@ export const Route = createFileRoute("/portfolio/$slug/$event")({
     if (!event) throw notFound();
 
     let albums: Album[] = [];
-    const env = (context as unknown as { env?: WorkerEnv }).env;
+    const env = (globalThis as Record<string, unknown>).__CF_ENV__ as WorkerEnv | undefined;
     if (env?.KV_PORTFOLIO) {
       albums = await getAlbumsFromKV(env.KV_PORTFOLIO, params.slug, params.event);
     }

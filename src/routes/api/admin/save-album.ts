@@ -17,7 +17,7 @@ export const Route = createFileRoute("/api/admin/save-album")({
           });
         }
 
-        const env = (context as unknown as { env?: WorkerEnv }).env;
+        const env = (globalThis as Record<string, unknown>).__CF_ENV__ as WorkerEnv | undefined;
         if (!env?.KV_PORTFOLIO) {
           return new Response(JSON.stringify({ error: "KV non configurato" }), {
             status: 500, headers: { "Content-Type": "application/json" },
@@ -45,7 +45,7 @@ export const Route = createFileRoute("/api/admin/save-album")({
           });
         }
 
-        const env = (context as unknown as { env?: WorkerEnv }).env;
+        const env = (globalThis as Record<string, unknown>).__CF_ENV__ as WorkerEnv | undefined;
         if (!env?.KV_PORTFOLIO) {
           return new Response(JSON.stringify({ error: "KV non configurato" }), {
             status: 500, headers: { "Content-Type": "application/json" },
