@@ -70,6 +70,10 @@ export default {
     try {
       // Inject env into global so TanStack Start can access it via context
       (globalThis as Record<string, unknown>).__CF_ENV__ = env;
+      // Inject KV token for REST API calls
+      if (env.CF_KV_TOKEN) {
+        (globalThis as Record<string, unknown>).__CF_KV_TOKEN__ = env.CF_KV_TOKEN;
+      }
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);

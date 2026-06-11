@@ -14,12 +14,8 @@ export const Route = createFileRoute("/portfolio/$slug/$event/$album")({
     const event = category.events.find((e) => e.slug === params.event);
     if (!event) throw notFound();
 
-    let album: Album | undefined;
-    const env = (globalThis as Record<string, unknown>).__CF_ENV__ as WorkerEnv | undefined;
-    if (env?.KV_PORTFOLIO) {
-      const albums = await getAlbumsFromKV(env.KV_PORTFOLIO, params.slug, params.event);
-      album = albums.find((a) => a.slug === params.album);
-    }
+    const albums = await getAlbumsFromKV(undefined, params.slug, params.event);
+    const album = albums.find((a) => a.slug === params.album);
     if (!album) throw notFound();
 
     return { category, event, album };

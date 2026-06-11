@@ -17,20 +17,13 @@ export const Route = createFileRoute("/api/admin/save-album")({
           });
         }
 
-        const env = (globalThis as Record<string, unknown>).__CF_ENV__ as WorkerEnv | undefined;
-        if (!env?.KV_PORTFOLIO) {
-          return new Response(JSON.stringify({ error: "KV non configurato" }), {
-            status: 500, headers: { "Content-Type": "application/json" },
-          });
-        }
-
         const body = await request.json() as {
           categorySlug: string;
           eventSlug: string;
           album: Album;
         };
 
-        await addAlbumToKV(env.KV_PORTFOLIO, body.categorySlug, body.eventSlug, body.album);
+        await addAlbumToKV(undefined, body.categorySlug, body.eventSlug, body.album);
 
         return new Response(JSON.stringify({ ok: true }), {
           headers: { "Content-Type": "application/json" },
@@ -45,20 +38,13 @@ export const Route = createFileRoute("/api/admin/save-album")({
           });
         }
 
-        const env = (globalThis as Record<string, unknown>).__CF_ENV__ as WorkerEnv | undefined;
-        if (!env?.KV_PORTFOLIO) {
-          return new Response(JSON.stringify({ error: "KV non configurato" }), {
-            status: 500, headers: { "Content-Type": "application/json" },
-          });
-        }
-
         const body = await request.json() as {
           categorySlug: string;
           eventSlug: string;
           albumSlug: string;
         };
 
-        await deleteAlbumFromKV(env.KV_PORTFOLIO, body.categorySlug, body.eventSlug, body.albumSlug);
+        await deleteAlbumFromKV(undefined, body.categorySlug, body.eventSlug, body.albumSlug);
 
         return new Response(JSON.stringify({ ok: true }), {
           headers: { "Content-Type": "application/json" },

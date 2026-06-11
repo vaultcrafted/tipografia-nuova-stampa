@@ -16,18 +16,11 @@ export const Route = createFileRoute("/api/admin/albums")({
           });
         }
 
-        const env = (globalThis as Record<string, unknown>).__CF_ENV__ as WorkerEnv | undefined;
-        if (!env?.KV_PORTFOLIO) {
-          return new Response(JSON.stringify({ error: "KV non configurato" }), {
-            status: 500, headers: { "Content-Type": "application/json" },
-          });
-        }
-
         const url = new URL(request.url);
         const categorySlug = url.searchParams.get("category") ?? "";
         const eventSlug = url.searchParams.get("event") ?? "";
 
-        const albums = await getAlbumsFromKV(env.KV_PORTFOLIO, categorySlug, eventSlug);
+        const albums = await getAlbumsFromKV(undefined, categorySlug, eventSlug);
         return new Response(JSON.stringify(albums), {
           headers: { "Content-Type": "application/json" },
         });

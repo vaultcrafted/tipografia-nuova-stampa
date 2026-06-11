@@ -1,13 +1,27 @@
-// ─── Cloudflare KV — helper per leggere/scrivere album ───────────────────────
-// Il binding KV_PORTFOLIO viene iniettato dal Worker runtime
-// Key structure:
-//   albums:{categorySlug}:{eventSlug}  → JSON array di Album
+// ─── Cloudflare KV — accesso via REST API ────────────────────────────────────
+// Usa l'API REST invece del binding per compatibilità con TanStack Start SSR
+// Key structure: albums:{categorySlug}:{eventSlug}
 
 import type { Album } from "@/data/portfolio";
 
-// Tipo per l'env del Worker con i binding
+const CF_ACCOUNT_ID    = "b4a2bcff1a5784e0ade3f840cd87c94f";
+const KV_NAMESPACE_ID  = "f5b5cf08cdea46cdaa32451f400760aa";
+// Token letto da variabile d'ambiente (configurata in Cloudflare Workers)
+const CF_API_TOKEN     = (typeof process !== "undefined" && process.env?.CF_KV_TOKEN) ||
+                         (typeof globalThis !== "undefined" && (globalThis as Record<string,unknown>).__CF_KV_TOKEN__ as string) ||
+                         "";
+
+const KV_BASE = `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/storage/kv/namespaces/${KV_NAMESPACE_ID}`;
+
+const headers = {
+  "Authorization": `Bearer ${CF_API_TOKEN}`,
+  "Content-Type": "application/json",
+};
+
+// Tipo per compatibilità con il codice esistente
 export type WorkerEnv = {
   KV_PORTFOLIO: KVNamespace;
+  CF_KV_TOKEN?: string;
   [key: string]: unknown;
 };
 
@@ -16,49 +30,55 @@ function kvKey(categorySlug: string, eventSlug: string): string {
 }
 
 export async function getAlbumsFromKV(
-  kv: KVNamespace,
+  _kv: KVNamespace | undefined,
   categorySlug: string,
   eventSlug: string
 ): Promise<Album[]> {
   try {
-    const data = await kv.get(kvKey(categorySlug, eventSlug));
-    if (!data) return [];
-    return JSON.parse(data) as Album[];
+    const key = encodeURIComponent(kvKey(categorySlug, eventSlug));
+    const res = await fetch(`${KV_BASE}/values/${key}`, { headers });
+    if (!res.ok) return [];
+    const text = await res.text();
+    return JSON.parse(text) as Album[];
   } catch {
     return [];
   }
 }
 
 export async function saveAlbumsToKV(
-  kv: KVNamespace,
+  _kv: KVNamespace | undefined,
   categorySlug: string,
   eventSlug: string,
   albums: Album[]
 ): Promise<void> {
-  await kv.put(kvKey(categorySlug, eventSlug), JSON.stringify(albums));
+  const key = encodeURIComponent(kvKey(categorySlug, eventSlug));
+  await fetch(`${KV_BASE}/values/${key}`, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(albums),
+  });
 }
 
 export async function addAlbumToKV(
-  kv: KVNamespace,
+  _kv: KVNamespace | undefined,
   categorySlug: string,
   eventSlug: string,
   album: Album
 ): Promise<void> {
-  const existing = await getAlbumsFromKV(kv, categorySlug, eventSlug);
-  // Sostituisce se esiste già lo stesso slug, altrimenti aggiunge
+  const existing = await getAlbumsFromKV(undefined, categorySlug, eventSlug);
   const idx = existing.findIndex((a) => a.slug === album.slug);
   if (idx >= 0) existing[idx] = album;
-  else existing.unshift(album); // Più recente prima
-  await saveAlbumsToKV(kv, categorySlug, eventSlug, existing);
+  else existing.unshift(album);
+  await saveAlbumsToKV(undefined, categorySlug, eventSlug, existing);
 }
 
 export async function deleteAlbumFromKV(
-  kv: KVNamespace,
+  _kv: KVNamespace | undefined,
   categorySlug: string,
   eventSlug: string,
   albumSlug: string
 ): Promise<void> {
-  const existing = await getAlbumsFromKV(kv, categorySlug, eventSlug);
+  const existing = await getAlbumsFromKV(undefined, categorySlug, eventSlug);
   const filtered = existing.filter((a) => a.slug !== albumSlug);
-  await saveAlbumsToKV(kv, categorySlug, eventSlug, filtered);
+  await saveAlbumsToKV(undefined, categorySlug, eventSlug, filtered);
 }
