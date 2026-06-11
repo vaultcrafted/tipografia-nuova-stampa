@@ -1,7 +1,13 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "tanstack-start-app",
+  "name": "tipografia-nuova-stampa",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
+  "kv_namespaces": [
+    {
+      "binding": "KV_PORTFOLIO",
+      "id": "f5b5cf08cdea46cdaa32451f400760aa"
+    }
+  ]
 }
