@@ -1,4 +1,4 @@
-import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import { createFileRoute, notFound, Link, Outlet, useMatchRoute } from "@tanstack/react-router";
 import { ArrowLeft, Camera } from "lucide-react";
 import { portfolioCategories } from "@/data/categories";
 import { getAlbumsFromKV } from "@/lib/kv";
@@ -39,8 +39,15 @@ export const Route = createFileRoute("/portfolio/$slug/$event")({
       <Link to="/" className="mt-6 inline-block text-white/60 underline">Torna alla home</Link>
     </div>
   ),
-  component: EventAlbumsPage,
+  component: EventAlbumsWrapper,
 });
+
+function EventAlbumsWrapper() {
+  const matchRoute = useMatchRoute();
+  const isAlbum = matchRoute({ to: "/portfolio/$slug/$event/$album", fuzzy: true });
+  if (isAlbum) return <Outlet />;
+  return <EventAlbumsPage />;
+}
 
 function AlbumCard({ album, categorySlug, eventSlug }: { album: Album; categorySlug: string; eventSlug: string }) {
   const coverPhoto = album.photos.find((p) => p.featured) ?? album.photos[0];

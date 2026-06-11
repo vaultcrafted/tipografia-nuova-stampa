@@ -1,4 +1,4 @@
-import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import { createFileRoute, notFound, Link, Outlet, useMatchRoute } from "@tanstack/react-router";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { portfolioCategories } from "@/data/categories";
 import { getEventAlbums } from "@/data/portfolio";
@@ -32,8 +32,16 @@ export const Route = createFileRoute("/portfolio/$slug")({
       </Link>
     </div>
   ),
-  component: PortfolioPage,
+  component: PortfolioWrapper,
 });
+
+function PortfolioWrapper() {
+  const matchRoute = useMatchRoute();
+  // Se siamo su una sotto-rotta (evento o album), mostra quella
+  const isEvent = matchRoute({ to: "/portfolio/$slug/$event", fuzzy: true });
+  if (isEvent) return <Outlet />;
+  return <PortfolioPage />;
+}
 
 function EventCard({
   event,
