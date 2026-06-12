@@ -141,33 +141,30 @@ function HomePage() {
               key={c.slug}
               to="/categoria/$slug"
               params={{ slug: c.slug }}
-              className="group relative aspect-[5/6] overflow-hidden rounded-md border border-white/10 bg-card/40 backdrop-blur-sm p-5 transition-all hover:border-[var(--brand-red)] hover:bg-card/70 hover:-translate-y-1 hover:glow-red"
+              className="group relative aspect-[5/6] overflow-hidden rounded-md border border-white/10 bg-card/40 backdrop-blur-sm transition-all hover:border-[var(--brand-red)] hover:-translate-y-1"
             >
-              <div className="flex h-full flex-col justify-between">
-                <div className="flex items-start justify-between">
-                  <span className="font-mono-ui text-[10px] tabular-nums text-white/40">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-mono-ui text-[9px] uppercase tracking-[0.2em] text-white/40 group-hover:text-[var(--brand-red)] transition-colors">
-                    {c.label}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="font-display text-2xl text-white leading-tight">
-                    {c.name}
-                  </h3>
-                  <p className="mt-2 text-[12px] text-white/50 line-clamp-2">
-                    {c.tagline}
-                  </p>
-                </div>
+              {/* Numero indice */}
+              <span className="absolute top-4 left-4 font-mono-ui text-[10px] tabular-nums text-white/30 z-10 transition-opacity duration-300 group-hover:opacity-0">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+
+              {/* Nome in basso a riposo */}
+              <div className="absolute inset-x-0 bottom-0 p-5 transition-all duration-300 group-hover:opacity-0 group-hover:translate-y-2">
+                <h3 className="font-display text-2xl text-white leading-tight">{c.name}</h3>
+                <p className="mt-1.5 text-[11px] text-white/40 line-clamp-1">{c.tagline}</p>
               </div>
+
+              {/* Overlay rosso all'hover */}
               <div
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-px opacity-0 transition-opacity group-hover:opacity-100"
-                style={{ background: "var(--brand-red)" }}
-              />
+                className="absolute inset-0 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "rgba(180,30,30,0.82)" }}
+              >
+                <h3 className="font-display text-3xl text-white text-center px-4 leading-tight">{c.name}</h3>
+                <span className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/70">Scopri →</span>
+              </div>
             </Link>
           ))}
-        </div>
+                </div>
       </section>
 
       {/* PORTFOLIO GRID — foto & video */}
