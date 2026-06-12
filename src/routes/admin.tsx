@@ -77,7 +77,7 @@ function AlbumList({ onNew }: { onNew: () => void }) {
   useEffect(() => { loadAlbums(); }, [loadAlbums]);
 
   const deleteAlbum = async (slug: string) => {
-    if (!confirm(`Eliminare l'album "${slug}"? Le foto su R2 non verranno cancellate.`)) return;
+    if (!confirm(`Eliminare l'album "${slug}"?\nLe foto verranno eliminate anche da R2.`)) return;
     setDeleting(slug);
     try {
       await fetch("/api/admin/save-album", {

@@ -1,14 +1,30 @@
 import { createFileRoute, notFound, Link, Outlet, useMatchRoute } from "@tanstack/react-router";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { portfolioCategories } from "@/data/categories";
-import { getEventAlbums } from "@/data/portfolio";
 import type { EventType } from "@/data/categories";
 
 export const Route = createFileRoute("/portfolio/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const category = portfolioCategories.find((c) => c.slug === params.slug);
     if (!category) throw notFound();
-    return { category };
+
+    // Carica conteggi album per ogni evento
+    const albumCounts: Record<string, number> = {};
+    await Promise.all(
+      category.events.map(async (event) => {
+        try {
+          const res = await fetch(`/api/portfolio/albums?category=${params.slug}&event=${event.slug}`);
+          if (res.ok) {
+            const albums = await res.json() as unknown[];
+            albumCounts[event.slug] = albums.length;
+          }
+        } catch {
+          albumCounts[event.slug] = 0;
+        }
+      })
+    );
+
+    return { category, albumCounts };
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) return { meta: [] };
@@ -47,13 +63,14 @@ function EventCard({
   event,
   index,
   categorySlug,
+  albumCount,
 }: {
   event: EventType;
   index: number;
   categorySlug: string;
+  albumCount: number;
 }) {
-  const albums = getEventAlbums(categorySlug, event.slug)?.albums ?? [];
-  const hasAlbums = albums.length > 0;
+  const hasAlbums = albumCount > 0;
 
   const tileStyle = {
     background:
@@ -83,7 +100,7 @@ function EventCard({
 
       {/* Contatore album */}
       <div className="absolute top-4 right-4 font-mono-ui text-[9px] uppercase tracking-[0.2em] text-white/30 group-hover:text-[var(--brand-red)] transition-colors">
-        {hasAlbums ? `${albums.length} album` : "prossimamente"}
+        {hasAlbums ? `${albumCount} album` : "prossimamente"}
       </div>
 
       <div className="absolute inset-0 flex items-center justify-center opacity-15 group-hover:opacity-8 transition-opacity">
@@ -114,7 +131,7 @@ function EventCard({
 }
 
 function PortfolioPage() {
-  const { category } = Route.useLoaderData();
+  const { category, albumCounts } = Route.useLoaderData();
   const isPhoto = category.slug === "fotografia";
 
   return (
@@ -180,6 +197,7 @@ function PortfolioPage() {
               event={event}
               index={i}
               categorySlug={category.slug}
+              albumCount={albumCounts[event.slug] ?? 0}
             />
           ))}
         </div>
