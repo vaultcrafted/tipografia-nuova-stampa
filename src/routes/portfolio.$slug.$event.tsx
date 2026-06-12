@@ -2,7 +2,6 @@ import { createFileRoute, notFound, Link, Outlet, useMatchRoute } from "@tanstac
 import { ArrowLeft, Camera } from "lucide-react";
 import { portfolioCategories } from "@/data/categories";
 import { getAlbumsFromKV } from "@/lib/kv";
-import type { WorkerEnv } from "@/lib/kv";
 import { cfImageUrl } from "@/lib/cloudflare-images";
 import type { Album } from "@/data/portfolio";
 

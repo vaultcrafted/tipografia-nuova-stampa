@@ -1,9 +1,10 @@
-// Storage per il KV namespace — usa AsyncLocalStorage per passarlo
-// dal Worker fetch handler ai loader functions di TanStack Start
+// ─── Cloudflare KV Store ──────────────────────────────────────────────────────
+// SSR: usa il binding KV_PORTFOLIO del Worker direttamente
+// Client-side: usa l'API endpoint /api/portfolio/albums
 
 import type { Album } from "@/data/portfolio";
 
-// Storage globale semplice — funziona perché ogni richiesta Worker è sequenziale
+// Binding iniettato da server.ts all'inizio di ogni richiesta Worker
 let _kvNamespace: KVNamespace | undefined;
 let _kvToken: string | undefined;
 
@@ -21,23 +22,32 @@ export type WorkerEnv = {
 const CF_ACCOUNT_ID   = "b4a2bcff1a5784e0ade3f840cd87c94f";
 const KV_NAMESPACE_ID = "f5b5cf08cdea46cdaa32451f400760aa";
 
-async function kvFetch(path: string, options?: RequestInit): Promise<Response> {
-  const token = _kvToken || "";
-  return fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/storage/kv/namespaces/${KV_NAMESPACE_ID}${path}`,
-    {
-      ...options,
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-        ...options?.headers,
-      },
-    }
-  );
-}
-
 function kvKey(categorySlug: string, eventSlug: string): string {
   return `albums:${categorySlug}:${eventSlug}`;
+}
+
+async function readViaRestApi(categorySlug: string, eventSlug: string): Promise<Album[]> {
+  const token = _kvToken ?? "";
+  const key = encodeURIComponent(kvKey(categorySlug, eventSlug));
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/storage/kv/namespaces/${KV_NAMESPACE_ID}/values/${key}`,
+    { headers: { "Authorization": `Bearer ${token}` } }
+  );
+  if (!res.ok) return [];
+  return JSON.parse(await res.text()) as Album[];
+}
+
+async function writeViaRestApi(categorySlug: string, eventSlug: string, albums: Album[]): Promise<void> {
+  const token = _kvToken ?? "";
+  const key = encodeURIComponent(kvKey(categorySlug, eventSlug));
+  await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/storage/kv/namespaces/${KV_NAMESPACE_ID}/values/${key}`,
+    {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify(albums),
+    }
+  );
 }
 
 export async function getAlbumsFromKV(
@@ -46,18 +56,14 @@ export async function getAlbumsFromKV(
   eventSlug: string
 ): Promise<Album[]> {
   try {
-    // Prima prova con il binding diretto se disponibile
+    // SSR con binding diretto
     if (_kvNamespace) {
       const data = await _kvNamespace.get(kvKey(categorySlug, eventSlug));
-      if (data) return JSON.parse(data) as Album[];
-      return [];
+      if (!data) return [];
+      return JSON.parse(data) as Album[];
     }
-    // Fallback all'API REST
-    const key = encodeURIComponent(kvKey(categorySlug, eventSlug));
-    const res = await kvFetch(`/values/${key}`);
-    if (!res.ok) return [];
-    const text = await res.text();
-    return JSON.parse(text) as Album[];
+    // SSR senza binding (primo deploy) o client-side: usa REST API
+    return await readViaRestApi(categorySlug, eventSlug);
   } catch {
     return [];
   }
@@ -73,11 +79,7 @@ export async function saveAlbumsToKV(
     await _kvNamespace.put(kvKey(categorySlug, eventSlug), JSON.stringify(albums));
     return;
   }
-  const key = encodeURIComponent(kvKey(categorySlug, eventSlug));
-  await kvFetch(`/values/${key}`, {
-    method: "PUT",
-    body: JSON.stringify(albums),
-  });
+  await writeViaRestApi(categorySlug, eventSlug, albums);
 }
 
 export async function addAlbumToKV(

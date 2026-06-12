@@ -14,6 +14,7 @@ import { Route as PortfolioSlugEventAlbumRouteImport } from './routes/portfolio.
 import { Route as ApiAdminUploadUrlRouteImport } from './routes/api/admin/upload-url'
 import { Route as ApiAdminSaveAlbumRouteImport } from './routes/api/admin/save-album'
 import { Route as ApiAdminAlbumsRouteImport } from './routes/api/admin/albums'
+import { Route as ApiPortfolioAlbumsRouteImport } from './routes/api/portfolio/albums'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({ id: '/sitemap.xml', path: '/sitemap.xml', getParentRoute: () => rootRouteImport } as any)
 const ChiSiamoRoute = ChiSiamoRouteImport.update({ id: '/chi-siamo', path: '/chi-siamo', getParentRoute: () => rootRouteImport } as any)
@@ -26,6 +27,7 @@ const PortfolioSlugEventAlbumRoute = PortfolioSlugEventAlbumRouteImport.update({
 const ApiAdminUploadUrlRoute = ApiAdminUploadUrlRouteImport.update({ id: '/api/admin/upload-url', path: '/api/admin/upload-url', getParentRoute: () => rootRouteImport } as any)
 const ApiAdminSaveAlbumRoute = ApiAdminSaveAlbumRouteImport.update({ id: '/api/admin/save-album', path: '/api/admin/save-album', getParentRoute: () => rootRouteImport } as any)
 const ApiAdminAlbumsRoute = ApiAdminAlbumsRouteImport.update({ id: '/api/admin/albums', path: '/api/admin/albums', getParentRoute: () => rootRouteImport } as any)
+const ApiPortfolioAlbumsRoute = ApiPortfolioAlbumsRouteImport.update({ id: '/api/portfolio/albums', path: '/api/portfolio/albums', getParentRoute: () => rootRouteImport } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -39,6 +41,7 @@ export interface FileRoutesByFullPath {
   '/api/admin/upload-url': typeof ApiAdminUploadUrlRoute
   '/api/admin/save-album': typeof ApiAdminSaveAlbumRoute
   '/api/admin/albums': typeof ApiAdminAlbumsRoute
+  '/api/portfolio/albums': typeof ApiPortfolioAlbumsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -52,6 +55,7 @@ export interface FileRoutesByTo {
   '/api/admin/upload-url': typeof ApiAdminUploadUrlRoute
   '/api/admin/save-album': typeof ApiAdminSaveAlbumRoute
   '/api/admin/albums': typeof ApiAdminAlbumsRoute
+  '/api/portfolio/albums': typeof ApiPortfolioAlbumsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -66,13 +70,14 @@ export interface FileRoutesById {
   '/api/admin/upload-url': typeof ApiAdminUploadUrlRoute
   '/api/admin/save-album': typeof ApiAdminSaveAlbumRoute
   '/api/admin/albums': typeof ApiAdminAlbumsRoute
+  '/api/portfolio/albums': typeof ApiPortfolioAlbumsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug' | '/portfolio/$slug/$event' | '/portfolio/$slug/$event/$album' | '/api/admin/upload-url' | '/api/admin/save-album' | '/api/admin/albums'
+  fullPaths: '/' | '/admin' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug' | '/portfolio/$slug/$event' | '/portfolio/$slug/$event/$album' | '/api/admin/upload-url' | '/api/admin/save-album' | '/api/admin/albums' | '/api/portfolio/albums'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug' | '/portfolio/$slug/$event' | '/portfolio/$slug/$event/$album' | '/api/admin/upload-url' | '/api/admin/save-album' | '/api/admin/albums'
-  id: '__root__' | '/' | '/admin' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug' | '/portfolio/$slug/$event' | '/portfolio/$slug/$event/$album' | '/api/admin/upload-url' | '/api/admin/save-album' | '/api/admin/albums'
+  to: '/' | '/admin' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug' | '/portfolio/$slug/$event' | '/portfolio/$slug/$event/$album' | '/api/admin/upload-url' | '/api/admin/save-album' | '/api/admin/albums' | '/api/portfolio/albums'
+  id: '__root__' | '/' | '/admin' | '/chi-siamo' | '/sitemap.xml' | '/categoria/$slug' | '/portfolio/$slug' | '/portfolio/$slug/$event' | '/portfolio/$slug/$event/$album' | '/api/admin/upload-url' | '/api/admin/save-album' | '/api/admin/albums' | '/api/portfolio/albums'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -87,6 +92,7 @@ export interface RootRouteChildren {
   ApiAdminUploadUrlRoute: typeof ApiAdminUploadUrlRoute
   ApiAdminSaveAlbumRoute: typeof ApiAdminSaveAlbumRoute
   ApiAdminAlbumsRoute: typeof ApiAdminAlbumsRoute
+  ApiPortfolioAlbumsRoute: typeof ApiPortfolioAlbumsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -102,6 +108,7 @@ declare module '@tanstack/react-router' {
     '/api/admin/upload-url': { id: '/api/admin/upload-url'; path: '/api/admin/upload-url'; fullPath: '/api/admin/upload-url'; preLoaderRoute: typeof ApiAdminUploadUrlRouteImport; parentRoute: typeof rootRouteImport }
     '/api/admin/save-album': { id: '/api/admin/save-album'; path: '/api/admin/save-album'; fullPath: '/api/admin/save-album'; preLoaderRoute: typeof ApiAdminSaveAlbumRouteImport; parentRoute: typeof rootRouteImport }
     '/api/admin/albums': { id: '/api/admin/albums'; path: '/api/admin/albums'; fullPath: '/api/admin/albums'; preLoaderRoute: typeof ApiAdminAlbumsRouteImport; parentRoute: typeof rootRouteImport }
+    '/api/portfolio/albums': { id: '/api/portfolio/albums'; path: '/api/portfolio/albums'; fullPath: '/api/portfolio/albums'; preLoaderRoute: typeof ApiPortfolioAlbumsRouteImport; parentRoute: typeof rootRouteImport }
   }
 }
 
@@ -117,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAdminUploadUrlRoute,
   ApiAdminSaveAlbumRoute,
   ApiAdminAlbumsRoute,
+  ApiPortfolioAlbumsRoute,
 }
 
 export const routeTree = rootRouteImport
