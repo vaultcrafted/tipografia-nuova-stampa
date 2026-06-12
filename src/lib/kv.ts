@@ -1,24 +1,21 @@
 // ─── Cloudflare KV — accesso via REST API ────────────────────────────────────
-// Usa l'API REST invece del binding per compatibilità con TanStack Start SSR
-// Key structure: albums:{categorySlug}:{eventSlug}
-
 import type { Album } from "@/data/portfolio";
 
-const CF_ACCOUNT_ID    = "b4a2bcff1a5784e0ade3f840cd87c94f";
-const KV_NAMESPACE_ID  = "f5b5cf08cdea46cdaa32451f400760aa";
-// Token letto da variabile d'ambiente (configurata in Cloudflare Workers)
-const CF_API_TOKEN     = (typeof process !== "undefined" && process.env?.CF_KV_TOKEN) ||
-                         (typeof globalThis !== "undefined" && (globalThis as Record<string,unknown>).__CF_KV_TOKEN__ as string) ||
-                         "";
+const CF_ACCOUNT_ID   = "b4a2bcff1a5784e0ade3f840cd87c94f";
+const KV_NAMESPACE_ID = "f5b5cf08cdea46cdaa32451f400760aa";
+
+// Letto dalla variabile di build VITE_CF_KV_TOKEN (configurata in Cloudflare Workers → Crea → Variabili)
+const CF_API_TOKEN = import.meta.env.VITE_CF_KV_TOKEN as string ?? "";
 
 const KV_BASE = `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/storage/kv/namespaces/${KV_NAMESPACE_ID}`;
 
-const headers = {
-  "Authorization": `Bearer ${CF_API_TOKEN}`,
-  "Content-Type": "application/json",
-};
+function getHeaders() {
+  return {
+    "Authorization": `Bearer ${CF_API_TOKEN}`,
+    "Content-Type": "application/json",
+  };
+}
 
-// Tipo per compatibilità con il codice esistente
 export type WorkerEnv = {
   KV_PORTFOLIO: KVNamespace;
   CF_KV_TOKEN?: string;
@@ -36,7 +33,7 @@ export async function getAlbumsFromKV(
 ): Promise<Album[]> {
   try {
     const key = encodeURIComponent(kvKey(categorySlug, eventSlug));
-    const res = await fetch(`${KV_BASE}/values/${key}`, { headers });
+    const res = await fetch(`${KV_BASE}/values/${key}`, { headers: getHeaders() });
     if (!res.ok) return [];
     const text = await res.text();
     return JSON.parse(text) as Album[];
@@ -54,7 +51,7 @@ export async function saveAlbumsToKV(
   const key = encodeURIComponent(kvKey(categorySlug, eventSlug));
   await fetch(`${KV_BASE}/values/${key}`, {
     method: "PUT",
-    headers,
+    headers: getHeaders(),
     body: JSON.stringify(albums),
   });
 }
