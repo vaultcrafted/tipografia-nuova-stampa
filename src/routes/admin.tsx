@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Upload, X, Check, Loader2, ChevronRight, LogOut, Trash2, Plus, ArrowLeft, ExternalLink } from "lucide-react";
+import { Upload, X, Check, Loader2, ChevronRight, LogOut, Trash2, Plus, ArrowLeft, ExternalLink, Eye, EyeOff } from "lucide-react";
 import { cfImageUrl } from "@/lib/cloudflare-images";
 import { slugify } from "@/lib/utils";
 import type { Album, Photo } from "@/data/portfolio";
@@ -22,22 +22,33 @@ export const Route = createFileRoute("/admin")({
 // ─── Login ────────────────────────────────────────────────────────────────────
 function Login({ onLogin }: { onLogin: () => void }) {
   const [pwd, setPwd] = useState("");
+  const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
+  const submit = () => pwd === ADMIN_PASSWORD ? onLogin() : setError(true);
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3 text-center">Tipografia Nuova Stampa</div>
         <h1 className="font-display text-4xl text-white text-center mb-8">Admin</h1>
         <div className="rounded-xl border border-white/10 bg-card/40 backdrop-blur-sm p-6">
-          <input
-            type="password" value={pwd} onChange={e => setPwd(e.target.value)}
-            onKeyDown={e => e.key === "Enter" && (pwd === ADMIN_PASSWORD ? onLogin() : setError(true))}
-            placeholder="Password" autoFocus
-            className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-[var(--brand-red)] transition-colors font-mono-ui text-sm"
-          />
+          <div className="relative">
+            <input
+              type={show ? "text" : "password"} value={pwd} onChange={e => setPwd(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && submit()}
+              placeholder="Password" autoFocus
+              className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 pr-12 text-white placeholder-white/30 focus:outline-none focus:border-[var(--brand-red)] transition-colors font-mono-ui text-sm"
+            />
+            <button
+              type="button" onClick={() => setShow(s => !s)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors"
+              aria-label={show ? "Nascondi password" : "Mostra password"}
+            >
+              {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
           {error && <p className="mt-2 text-xs font-mono-ui text-red-400">Password errata</p>}
           <button
-            onClick={() => pwd === ADMIN_PASSWORD ? onLogin() : setError(true)}
+            onClick={submit}
             className="mt-4 w-full rounded-md py-3 text-sm font-bold uppercase tracking-widest text-white"
             style={{ background: "var(--brand-red)" }}
           >Accedi</button>
