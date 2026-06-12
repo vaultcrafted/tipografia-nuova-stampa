@@ -1,7 +1,6 @@
 import { createFileRoute, notFound, Link, Outlet, useMatchRoute } from "@tanstack/react-router";
 import { ArrowLeft, Camera } from "lucide-react";
 import { portfolioCategories } from "@/data/categories";
-import { getAlbumsFromKV } from "@/lib/kv";
 import { cfImageUrl } from "@/lib/cloudflare-images";
 import type { Album } from "@/data/portfolio";
 
@@ -13,7 +12,12 @@ export const Route = createFileRoute("/portfolio/$slug/$event")({
     if (!event) throw notFound();
 
     let albums: Album[] = [];
-    albums = await getAlbumsFromKV(undefined, params.slug, params.event);
+    try {
+      const res = await fetch(`/api/portfolio/albums?category=${params.slug}&event=${params.event}`);
+      if (res.ok) albums = await res.json() as Album[];
+    } catch {
+      albums = [];
+    }
 
     return { category, event, albums };
   },
