@@ -3,6 +3,7 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 import type { WorkerEnv } from "./lib/kv";
+import { setKVStore } from "./lib/kv-store";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -68,12 +69,10 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 export default {
   async fetch(request: Request, env: WorkerEnv, ctx: unknown) {
     try {
-      // Inject env into global so TanStack Start can access it via context
+      // Inject env into global
       (globalThis as Record<string, unknown>).__CF_ENV__ = env;
-      // Inject KV token for REST API calls
-      if (env.CF_KV_TOKEN) {
-        (globalThis as Record<string, unknown>).__CF_KV_TOKEN__ = env.CF_KV_TOKEN;
-      }
+      // Set KV store with binding and token for REST fallback
+      setKVStore(env.KV_PORTFOLIO, env.CF_KV_TOKEN);
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
