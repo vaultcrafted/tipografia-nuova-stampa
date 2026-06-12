@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { ArrowLeft, ChevronLeft, ChevronRight, X, Grid, Maximize2 } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, X, Grid, Maximize2, ExternalLink } from "lucide-react";
 import { portfolioCategories } from "@/data/categories";
 import { cfImageUrl } from "@/lib/cloudflare-images";
 import type { Photo, Album } from "@/data/portfolio";
@@ -121,13 +121,43 @@ function AlbumPage() {
           </div>
           <div className="lg:col-span-4 lg:pb-4">
             <div className="hidden lg:block h-px w-12 mb-4" style={{ background: "var(--brand-red)" }} />
-            <div className="space-y-1">
+            <div className="space-y-2">
               {album.location && <p className="text-white/60 text-sm">{album.location}</p>}
               <p className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/30">{album.photos.length} fotografie</p>
+              {album.pixiesetUrl && (
+                <a
+                  href={album.pixiesetUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-2 rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-transform hover:scale-[1.03]"
+                  style={{ background: "var(--brand-red)", boxShadow: "var(--shadow-glow-red)" }}
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  Vedi tutte le foto
+                </a>
+              )}
             </div>
           </div>
         </div>
       </section>
+
+      {/* Hero foto */}
+      {album.photos[0] && (
+        <section className="mb-8 -mx-6 sm:-mx-10 lg:-mx-16">
+          <div className="relative overflow-hidden" style={{ maxHeight: "70vh" }}>
+            <img
+              src={cfImageUrl(album.photos[0].id, "lightbox")}
+              alt={album.photos[0].alt}
+              className="w-full object-cover"
+              style={{ maxHeight: "70vh" }}
+            />
+            <div
+              className="absolute inset-x-0 bottom-0 h-32"
+              style={{ background: "linear-gradient(to top, var(--background) 0%, transparent 100%)" }}
+            />
+          </div>
+        </section>
+      )}
 
       <section className="mb-20">
         <div className="flex items-baseline justify-between mb-6">

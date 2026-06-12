@@ -38,6 +38,7 @@ export type Album = {
   title: string;       // Nome visualizzato (es. "Kaos · Festa Radio Onda D'urto")
   date: string;        // Es. "Agosto 2022"
   location?: string;   // Es. "Livorno Ferraris (VC)"
+  pixiesetUrl?: string; // Link galleria completa su Pixieset
   photos: Photo[];
 };
 
