@@ -281,6 +281,9 @@ function AlbumForm({
       body: JSON.stringify({ categorySlug, eventSlug, album }),
     });
 
+    // Piccola attesa per la propagazione KV
+    await new Promise(r => setTimeout(r, 800));
+
     onDone(`/portfolio/${categorySlug}/${eventSlug}/${albumSlug}`);
   };
 
@@ -439,7 +442,7 @@ function DoneState({ url, onNew, onList, isEdit }: { url: string; onNew: () => v
       </div>
       <h2 className="font-display text-3xl text-white mb-2">{isEdit ? "Modifiche salvate!" : "Album pubblicato!"}</h2>
       <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
-        <a href={url} className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-bold uppercase tracking-widest text-white" style={{ background: "var(--brand-red)" }}>
+        <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-bold uppercase tracking-widest text-white" style={{ background: "var(--brand-red)" }}>
           Vedi album <ChevronRight className="h-4 w-4" />
         </a>
         {!isEdit && (
