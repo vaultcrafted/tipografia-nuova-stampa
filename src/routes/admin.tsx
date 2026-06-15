@@ -264,6 +264,15 @@ function AlbumForm({
       photos: allPhotos,
     };
 
+    // Se in modifica l'evento è cambiato, elimina dal vecchio e salva nel nuovo
+    if (isEdit && editEventSlug && editEventSlug !== eventSlug) {
+      await fetch("/api/admin/save-album", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json", "x-admin-password": ADMIN_PASSWORD },
+        body: JSON.stringify({ categorySlug, eventSlug: editEventSlug, albumSlug, skipR2: true }),
+      });
+    }
+
     await fetch("/api/admin/save-album", {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-admin-password": ADMIN_PASSWORD },
@@ -281,22 +290,20 @@ function AlbumForm({
         <ArrowLeft className="h-3 w-3" /> Lista album
       </button>
 
-      {!isEdit && (
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Tipo</label>
-            <select value={categorySlug} onChange={e => setCategorySlug(e.target.value as typeof CATEGORIES[number])} disabled={step === "uploading"} className={inputCls}>
-              {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Evento</label>
-            <select value={eventSlug} onChange={e => setEventSlug(e.target.value as typeof EVENTS[number])} disabled={step === "uploading"} className={inputCls}>
-              {EVENTS.map(e => <option key={e} value={e}>{e}</option>)}
-            </select>
-          </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Tipo{isEdit && <span className="ml-2 text-white/20">(non modificabile)</span>}</label>
+          <select value={categorySlug} onChange={e => setCategorySlug(e.target.value as typeof CATEGORIES[number])} disabled={step === "uploading" || isEdit} className={inputCls + (isEdit ? " opacity-50 cursor-not-allowed" : "")}>
+            {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
         </div>
-      )}
+        <div>
+          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Evento</label>
+          <select value={eventSlug} onChange={e => setEventSlug(e.target.value as typeof EVENTS[number])} disabled={step === "uploading"} className={inputCls}>
+            {EVENTS.map(e => <option key={e} value={e}>{e}</option>)}
+          </select>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>

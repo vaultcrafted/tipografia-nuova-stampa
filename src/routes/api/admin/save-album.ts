@@ -106,6 +106,7 @@ export const Route = createFileRoute("/api/admin/save-album")({
           categorySlug: string;
           eventSlug: string;
           albumSlug: string;
+          skipR2?: boolean;
         };
 
         // Trova le foto dell'album prima di eliminarlo
@@ -116,10 +117,12 @@ export const Route = createFileRoute("/api/admin/save-album")({
         // Elimina dal KV
         await deleteAlbumFromKV(undefined, body.categorySlug, body.eventSlug, body.albumSlug);
 
-        // Elimina le foto da R2
-        await deleteFromR2(photoKeys);
+        // Elimina le foto da R2 (solo se non è uno spostamento di evento)
+        if (!body.skipR2) {
+          await deleteFromR2(photoKeys);
+        }
 
-        return new Response(JSON.stringify({ ok: true, deleted: photoKeys.length }), {
+        return new Response(JSON.stringify({ ok: true, deleted: body.skipR2 ? 0 : photoKeys.length }), {
           headers: { "Content-Type": "application/json" },
         });
       },
