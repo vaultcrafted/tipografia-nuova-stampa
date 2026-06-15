@@ -281,10 +281,10 @@ function AlbumForm({
       body: JSON.stringify({ categorySlug, eventSlug, album }),
     });
 
-    // Piccola attesa per la propagazione KV
-    await new Promise(r => setTimeout(r, 800));
+    // Attesa per la propagazione KV
+    await new Promise(r => setTimeout(r, 1500));
 
-    onDone(`/portfolio/${categorySlug}/${eventSlug}/${albumSlug}`);
+    onDone(`/portfolio/${categorySlug}/${eventSlug}`);
   };
 
   const inputCls = "w-full bg-card/40 border border-white/10 rounded-md px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[var(--brand-red)] transition-colors font-mono-ui text-sm";
@@ -443,7 +443,7 @@ function DoneState({ url, onNew, onList, isEdit }: { url: string; onNew: () => v
       <h2 className="font-display text-3xl text-white mb-2">{isEdit ? "Modifiche salvate!" : "Album pubblicato!"}</h2>
       <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
         <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-bold uppercase tracking-widest text-white" style={{ background: "var(--brand-red)" }}>
-          Vedi album <ChevronRight className="h-4 w-4" />
+          Vedi nel sito <ChevronRight className="h-4 w-4" />
         </a>
         {!isEdit && (
           <button onClick={onNew} className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-bold uppercase tracking-widest text-white/60 border border-white/20 hover:text-white transition-colors">
