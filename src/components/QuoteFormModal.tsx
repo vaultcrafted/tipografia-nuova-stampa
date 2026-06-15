@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { X, Paperclip, Loader2, FileCheck } from "lucide-react";
 import emailjs from "@emailjs/browser";
+import { compressImage } from "@/lib/utils";
 import { categories, type Category } from "@/data/categories";
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
@@ -62,25 +63,29 @@ export function QuoteFormModal({
     setError(null);
 
     try {
+      // Comprimi se è un'immagine
+      const isImage = f.type.startsWith("image/");
+      const fileToUpload = isImage ? await compressImage(f) : f;
+
       // Genera nome file univoco
-      const ext = f.name.split(".").pop()?.toLowerCase() ?? "bin";
+      const ext = fileToUpload.name.split(".").pop()?.toLowerCase() ?? "bin";
       const timestamp = Date.now();
-      const safeName = f.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      const safeName = fileToUpload.name.replace(/[^a-zA-Z0-9._-]/g, "_");
       const key = `preventivi/${timestamp}_${safeName}`;
 
       // Ottieni presigned URL
       const res = await fetch("/api/admin/upload-url", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key, contentType: f.type || "application/octet-stream", public: true }),
+        body: JSON.stringify({ key, contentType: fileToUpload.type || "application/octet-stream", public: true }),
       });
       const { url, publicUrl } = await res.json() as { url: string; publicUrl: string };
 
       // Carica su R2
       await fetch(url, {
         method: "PUT",
-        headers: { "Content-Type": f.type || "application/octet-stream" },
-        body: f,
+        headers: { "Content-Type": fileToUpload.type || "application/octet-stream" },
+        body: fileToUpload,
       });
 
       setFileUrl(publicUrl);

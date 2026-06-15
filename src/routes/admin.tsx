@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Upload, X, Check, Loader2, ChevronRight, LogOut, Trash2, Plus, ArrowLeft, ExternalLink, Eye, EyeOff, Pencil } from "lucide-react";
 import { cfImageUrl } from "@/lib/cloudflare-images";
-import { slugify } from "@/lib/utils";
+import { slugify, compressImage } from "@/lib/utils";
 import type { Album, Photo } from "@/data/portfolio";
 
 const ADMIN_PASSWORD = "nuovastampa2024";
@@ -231,17 +231,19 @@ function AlbumForm({
     const uploadedNew: Photo[] = [];
     for (let i = 0; i < newItems.length; i++) {
       const item = newItems[i];
-      const ext = item.file.name.split(".").pop()?.toLowerCase() ?? "jpg";
-      const r2Key = `${categorySlug}/${eventSlug}/${albumSlug}/${Date.now()}_${String(i + 1).padStart(3, "0")}.${ext}`;
       setNewItems(prev => prev.map((it, idx) => idx === i ? { ...it, status: "uploading" } : it));
       try {
+        // Comprimi prima dell'upload (max 2000px, qualità 85%)
+        const compressed = await compressImage(item.file);
+        const ext = compressed.name.split(".").pop()?.toLowerCase() ?? "jpg";
+        const r2Key = `${categorySlug}/${eventSlug}/${albumSlug}/${Date.now()}_${String(i + 1).padStart(3, "0")}.${ext}`;
         const res = await fetch("/api/admin/upload-url", {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-admin-password": ADMIN_PASSWORD },
-          body: JSON.stringify({ key: r2Key, contentType: item.file.type }),
+          body: JSON.stringify({ key: r2Key, contentType: compressed.type }),
         });
         const { url } = await res.json() as { url: string };
-        await fetch(url, { method: "PUT", headers: { "Content-Type": item.file.type }, body: item.file });
+        await fetch(url, { method: "PUT", headers: { "Content-Type": compressed.type }, body: compressed });
         setNewItems(prev => prev.map((it, idx) => idx === i ? { ...it, status: "done", r2Key } : it));
         uploadedNew.push({ id: r2Key, alt: `${title} — foto ${keptPhotos.length + i + 1}`, featured: false });
       } catch {
