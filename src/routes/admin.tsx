@@ -3,6 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Upload, X, Check, Loader2, ChevronRight, LogOut, Trash2, Plus, ArrowLeft, ExternalLink, Eye, EyeOff, Pencil } from "lucide-react";
 import { cfImageUrl } from "@/lib/cloudflare-images";
 import { slugify, compressImage } from "@/lib/utils";
+import { compressVideo, type VideoCompressProgress } from "@/lib/video-compress";
+import { Video as VideoIcon, Film } from "lucide-react";
 import type { Album, Photo } from "@/data/portfolio";
 
 const ADMIN_PASSWORD = "nuovastampa2024";
@@ -196,6 +198,12 @@ function AlbumForm({
   const [location, setLocation] = useState(editAlbum?.location ?? "");
   const [pixiesetUrl, setPixiesetUrl] = useState(editAlbum?.pixiesetUrl ?? "");
   const [existingPhotos, setExistingPhotos] = useState<ExistingPhoto[]>(editAlbum?.photos ?? []);
+  const [coverVideoFile, setCoverVideoFile] = useState<File | null>(null);
+  const [coverVideoCompressed, setCoverVideoCompressed] = useState<File | null>(null);
+  const [existingCoverVideo, setExistingCoverVideo] = useState<string | undefined>(editAlbum?.coverVideo);
+  const [videoProgress, setVideoProgress] = useState<VideoCompressProgress | null>(null);
+  const [videoError, setVideoError] = useState("");
+  const videoInputRef = useRef<HTMLInputElement>(null);
   const [newItems, setNewItems] = useState<UploadItem[]>([]);
   const [step, setStep] = useState<"form" | "uploading">("form");
   const [error, setError] = useState("");
@@ -219,6 +227,31 @@ function AlbumForm({
       if (idx > 0) { const [item] = reordered.splice(idx, 1); reordered.unshift(item); }
       return reordered.map((p, i) => ({ ...p, featured: i === 0 }));
     });
+  };
+
+  const handleVideoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    if (!f.type.startsWith("video/")) { setVideoError("Seleziona un file video valido."); return; }
+    setVideoError("");
+    setCoverVideoFile(f);
+    setCoverVideoCompressed(null);
+    setVideoProgress({ phase: "loading", percent: 0 });
+    try {
+      const compressed = await compressVideo(f, (p) => setVideoProgress(p));
+      setCoverVideoCompressed(compressed);
+    } catch {
+      setVideoError("Errore durante la compressione del video. Riprova.");
+      setCoverVideoFile(null);
+    } finally {
+      setVideoProgress(null);
+    }
+  };
+
+  const removeCoverVideo = () => {
+    setCoverVideoFile(null);
+    setCoverVideoCompressed(null);
+    setExistingCoverVideo(undefined);
   };
 
   const publish = async () => {
@@ -257,12 +290,31 @@ function AlbumForm({
     ];
     if (allPhotos.length === 0) { setError("Nessuna foto disponibile. Riprova."); setStep("form"); return; }
 
+    // Upload del video di copertina, se presente
+    let coverVideoKey: string | undefined = existingCoverVideo;
+    if (coverVideoCompressed) {
+      try {
+        const videoKey = `${categorySlug}/${eventSlug}/${albumSlug}/cover_${Date.now()}.mp4`;
+        const res = await fetch("/api/admin/upload-url", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-admin-password": ADMIN_PASSWORD },
+          body: JSON.stringify({ key: videoKey, contentType: "video/mp4" }),
+        });
+        const { url } = await res.json() as { url: string };
+        await fetch(url, { method: "PUT", headers: { "Content-Type": "video/mp4" }, body: coverVideoCompressed });
+        coverVideoKey = videoKey;
+      } catch {
+        setError("Errore upload video. Album salvato senza video di copertina.");
+      }
+    }
+
     const album: Album = {
       slug: albumSlug,
       title,
       date,
       location: location.trim() || undefined,
       pixiesetUrl: pixiesetUrl.trim() || undefined,
+      coverVideo: coverVideoKey,
       photos: allPhotos,
     };
 
@@ -328,6 +380,74 @@ function AlbumForm({
       <div>
         <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Link galleria completa (Pixieset)</label>
         <input type="url" value={pixiesetUrl} onChange={e => setPixiesetUrl(e.target.value)} placeholder="https://tuonome.pixieset.com/album/" disabled={step === "uploading"} className={inputCls} />
+      </div>
+
+      {/* Video di copertina (opzionale) */}
+      <div>
+        <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">
+          Video di copertina (opzionale, sostituisce la foto hero)
+        </label>
+
+        {existingCoverVideo && !coverVideoFile && (
+          <div className="flex items-center gap-3 rounded-md border border-green-500/30 bg-green-500/5 px-4 py-3 mb-2">
+            <Film className="h-4 w-4 text-green-400 shrink-0" />
+            <span className="text-sm text-green-400 flex-1 truncate">Video attuale: {existingCoverVideo.split("/").pop()}</span>
+            <button type="button" onClick={removeCoverVideo} className="text-white/30 hover:text-red-400 transition-colors">
+              <Trash2 className="h-4 w-4" />
+            </button>
+          </div>
+        )}
+
+        {coverVideoFile && (
+          <div className="flex items-center gap-3 rounded-md border border-white/20 bg-card/40 px-4 py-3 mb-2">
+            {videoProgress ? (
+              <Loader2 className="h-4 w-4 text-white/50 animate-spin shrink-0" />
+            ) : coverVideoCompressed ? (
+              <Check className="h-4 w-4 text-green-400 shrink-0" />
+            ) : (
+              <VideoIcon className="h-4 w-4 text-white/40 shrink-0" />
+            )}
+            <div className="flex-1 min-w-0">
+              <div className="text-sm text-white truncate">{coverVideoFile.name}</div>
+              {videoProgress && (
+                <div className="mt-1">
+                  <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-[var(--brand-red)] transition-all" style={{ width: `${videoProgress.percent}%` }} />
+                  </div>
+                  <span className="font-mono-ui text-[9px] text-white/30 uppercase tracking-widest">
+                    {videoProgress.phase === "loading" ? "Caricamento motore di compressione..." : `Compressione ${videoProgress.percent}%`}
+                  </span>
+                </div>
+              )}
+              {coverVideoCompressed && !videoProgress && (
+                <span className="font-mono-ui text-[9px] text-green-400 uppercase tracking-widest">
+                  Compresso: {(coverVideoFile.size / 1024 / 1024).toFixed(1)}MB → {(coverVideoCompressed.size / 1024 / 1024).toFixed(1)}MB
+                </span>
+              )}
+            </div>
+            {!videoProgress && (
+              <button type="button" onClick={removeCoverVideo} className="text-white/30 hover:text-red-400 transition-colors shrink-0">
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+        )}
+
+        {!coverVideoFile && !existingCoverVideo && (
+          <div
+            onClick={() => videoInputRef.current?.click()}
+            className="relative rounded-md border-2 border-dashed border-white/15 hover:border-[var(--brand-red)]/50 transition-colors cursor-pointer px-4 py-4 text-center"
+          >
+            <input ref={videoInputRef} type="file" accept="video/*" className="hidden" onChange={handleVideoChange} />
+            <VideoIcon className="h-5 w-5 text-white/20 mx-auto mb-1.5" />
+            <p className="text-white/50 text-sm">Clicca per selezionare un video</p>
+            <p className="font-mono-ui text-[9px] text-white/25 mt-1 uppercase tracking-widest">
+              Verrà compresso automaticamente — può richiedere alcuni minuti
+            </p>
+          </div>
+        )}
+
+        {videoError && <p className="mt-1 font-mono-ui text-[10px] text-red-400 uppercase tracking-widest">{videoError}</p>}
       </div>
 
       {/* Foto esistenti (solo in modifica) */}
@@ -422,7 +542,7 @@ function AlbumForm({
       {error && <p className="font-mono-ui text-[11px] text-red-400 uppercase tracking-widest">{error}</p>}
 
       <button onClick={publish}
-        disabled={step === "uploading" || !title || !date || (existingPhotos.filter(p => !p.toDelete).length + newItems.length === 0)}
+        disabled={step === "uploading" || !!videoProgress || !title || !date || (existingPhotos.filter(p => !p.toDelete).length + newItems.length === 0)}
         className="w-full rounded-md py-4 text-sm font-bold uppercase tracking-widest text-white transition-all hover:scale-[1.01] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         style={{ background: "var(--brand-red)" }}>
         {step === "uploading"

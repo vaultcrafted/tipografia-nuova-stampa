@@ -141,16 +141,28 @@ function AlbumPage() {
         </div>
       </section>
 
-      {/* Hero foto */}
-      {album.photos[0] && (
+      {/* Hero — video se presente, altrimenti foto */}
+      {(album.coverVideo || album.photos[0]) && (
         <section className="mb-8 -mx-6 sm:-mx-10 lg:-mx-16">
           <div className="relative overflow-hidden" style={{ maxHeight: "70vh" }}>
-            <img
-              src={cfImageUrl(album.photos[0].id, "lightbox")}
-              alt={album.photos[0].alt}
-              className="w-full object-cover"
-              style={{ maxHeight: "70vh" }}
-            />
+            {album.coverVideo ? (
+              <video
+                src={cfImageUrl(album.coverVideo, "public")}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full object-cover"
+                style={{ maxHeight: "70vh" }}
+              />
+            ) : (
+              <img
+                src={cfImageUrl(album.photos[0].id, "lightbox")}
+                alt={album.photos[0].alt}
+                className="w-full object-cover"
+                style={{ maxHeight: "70vh" }}
+              />
+            )}
             <div
               className="absolute inset-x-0 bottom-0 h-32"
               style={{ background: "linear-gradient(to top, var(--background) 0%, transparent 100%)" }}

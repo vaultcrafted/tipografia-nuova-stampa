@@ -39,6 +39,7 @@ export type Album = {
   date: string;        // Es. "Agosto 2022"
   location?: string;   // Es. "Livorno Ferraris (VC)"
   pixiesetUrl?: string; // Link galleria completa su Pixieset
+  coverVideo?: string;  // Percorso R2 del video di copertina (opzionale, sostituisce la foto hero)
   photos: Photo[];
 };
 
