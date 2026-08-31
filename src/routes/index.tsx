@@ -179,11 +179,8 @@ function HomePage() {
                 </div>
       </section>
 
-      {/* RECENSIONI — la prova sociale arriva dopo aver visto cosa stampiamo */}
-      <Recensioni />
-
       {/* PORTFOLIO GRID — foto & video */}
-      <section className="pb-24">
+      <section>
         <div className="flex items-end justify-between mb-8">
           <div>
             <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-2">
@@ -233,6 +230,13 @@ function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* RECENSIONI — chiudono la pagina: prima si vede cosa stampiamo, poi chi
+          lo dice. Il filetto in alto le stacca dal portfolio, che e' una griglia
+          fitta e altrimenti ci si attaccherebbe sopra. */}
+      <div className="mt-20 lg:mt-28 border-t border-white/10 pb-24">
+        <Recensioni />
+      </div>
 
       {/* CTA PREVENTIVO */}
       <section className="rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 lg:p-12 mb-16">
