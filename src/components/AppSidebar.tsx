@@ -30,8 +30,8 @@ export function AppSidebar({
   const perSlug = new Map(categories.map((c) => [c.slug, c]));
 
   const voce = (attiva: boolean) =>
-    `group relative flex items-center gap-3 rounded-sm py-[7px] pl-3 pr-2 text-[13px] transition-colors ${
-      attiva ? "bg-white/[0.07] text-white" : "text-white/55 hover:bg-white/[0.04] hover:text-white"
+    `voce-elenco group relative flex items-center gap-3 rounded-sm py-[7px] pl-3 pr-2 text-[13px] transition-colors ${
+      attiva ? "voce-elenco-attiva text-white" : "text-white/55 hover:text-white"
     }`;
 
   return (

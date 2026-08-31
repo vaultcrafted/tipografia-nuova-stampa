@@ -77,7 +77,7 @@ export const famiglie: Famiglia[] = [
     slug: "incisione-finiture",
     nome: "Incisione e finiture",
     promessa: "Quando il materiale non è carta, o non basta stampare.",
-    colore: "rgba(255,255,255,0.55)",
+    colore: "var(--nero-processo)",
     sigla: "K",
     categorie: [
       "incisione-laser",

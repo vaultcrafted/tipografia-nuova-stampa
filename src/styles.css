@@ -87,10 +87,15 @@
   --brand-red: #E8002D;
   --brand-blue: #0072CE;
 
-  /* Colori di processo, per le famiglie del catalogo. */
+  /* Colori di processo, per le famiglie del catalogo. Il nero (K) non puo'
+     essere nero: su fondo d'inchiostro sparirebbe. E' l'inchiostro stesso
+     smorzato, quindi cambia col tema — bianco tenue sul nero, nero tenue sulla
+     carta. Definirlo qui invece che nei dati e' il motivo per cui il tema
+     chiaro non l'ha visto sparire una seconda volta. */
   --ciano: #00A3E0;
   --magenta: #E5007E;
   --giallo: #FFD500;
+  --nero-processo: rgba(255, 255, 255, 0.55);
 
   /* ── Ruoli ────────────────────────────────────────────────────────────── */
   --background: var(--nero-900);
@@ -137,6 +142,7 @@
   --muted-foreground: rgba(11, 11, 12, 0.62);
   --border: rgba(11, 11, 12, 0.14);
   --input: rgba(11, 11, 12, 0.18);
+  --nero-processo: rgba(11, 11, 12, 0.55);
 }
 
 /* I componenti scrivono ancora `text-white` e `border-white/10` in molti punti.
@@ -252,6 +258,17 @@
   .filetto-famiglia {
     height: 2px;
     width: 100%;
+  }
+
+  /* Sfondo delle voci di elenco. Ricavato dal colore del testo, quindi giusto
+     in entrambi i temi. Prima si usava `bg-white/5`, che nel tema chiaro veniva
+     tradotto da una regola generica e finiva applicato anche quando non c'era
+     nessun hover: il menu si riempiva di blocchi grigi. */
+  .voce-elenco:hover {
+    background-color: color-mix(in oklab, var(--foreground) 6%, transparent);
+  }
+  .voce-elenco-attiva {
+    background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
   }
 }
 
