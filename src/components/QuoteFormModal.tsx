@@ -9,7 +9,7 @@ const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 const ACCEPTED = ".pdf,.ai,.eps,.jpg,.jpeg,.png,.webp,.zip,.psd,.indd";
-const MAX_MB = 50;
+const MAX_MB = 25; // deve restare allineato a MAX_ALLEGATO_BYTES in src/lib/r2-upload.ts
 
 export function QuoteFormModal({
   open,
@@ -67,26 +67,36 @@ export function QuoteFormModal({
       const isImage = f.type.startsWith("image/");
       const fileToUpload = isImage ? await compressImage(f) : f;
 
-      // Genera nome file univoco
-      const ext = fileToUpload.name.split(".").pop()?.toLowerCase() ?? "bin";
-      const timestamp = Date.now();
-      const safeName = fileToUpload.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-      const key = `preventivi/${timestamp}_${safeName}`;
+      const contentType = fileToUpload.type || "application/octet-stream";
 
-      // Ottieni presigned URL
+      // Il nome del file lo assegna il server, dentro preventivi/: il browser
+      // non decide dove si scrive nel bucket. Qui dichiariamo solo tipo e peso,
+      // che il server verifica prima di firmare l'upload.
       const res = await fetch("/api/admin/upload-url", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key, contentType: fileToUpload.type || "application/octet-stream", public: true }),
+        body: JSON.stringify({ contentType, size: fileToUpload.size, public: true }),
       });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({})) as { error?: string };
+        setError(
+          res.status === 415
+            ? "Formato non accettato. Usa PDF, JPG, PNG, WEBP, TIFF, SVG, EPS o ZIP."
+            : body.error ?? "Errore nel caricamento del file. Riprova.",
+        );
+        setFile(null);
+        return;
+      }
+
       const { url, publicUrl } = await res.json() as { url: string; publicUrl: string };
 
-      // Carica su R2
-      await fetch(url, {
+      const put = await fetch(url, {
         method: "PUT",
-        headers: { "Content-Type": fileToUpload.type || "application/octet-stream" },
+        headers: { "Content-Type": contentType },
         body: fileToUpload,
       });
+      if (!put.ok) throw new Error(`upload R2 ${put.status}`);
 
       setFileUrl(publicUrl);
     } catch {

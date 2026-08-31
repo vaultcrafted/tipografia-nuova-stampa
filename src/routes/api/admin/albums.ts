@@ -1,20 +1,15 @@
 // GET /api/admin/albums?category=fotografia&event=concerti
+// Richiede una sessione admin valida (cookie firmato, vedi lib/admin-auth).
 import { createFileRoute } from "@tanstack/react-router";
-import type { WorkerEnv } from "@/lib/kv";
 import { getAlbumsFromKV } from "@/lib/kv";
-
-const ADMIN_PASSWORD = "nuovastampa2024";
+import { guard } from "@/lib/admin-auth";
 
 export const Route = createFileRoute("/api/admin/albums")({
   server: {
     handlers: {
-      GET: async ({ request, context }) => {
-        const auth = request.headers.get("x-admin-password");
-        if (auth !== ADMIN_PASSWORD) {
-          return new Response(JSON.stringify({ error: "Non autorizzato" }), {
-            status: 401, headers: { "Content-Type": "application/json" },
-          });
-        }
+      GET: async ({ request }) => {
+        const denied = await guard(request);
+        if (denied) return denied;
 
         const url = new URL(request.url);
         const categorySlug = url.searchParams.get("category") ?? "";

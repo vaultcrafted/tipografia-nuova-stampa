@@ -7,7 +7,6 @@ import { compressVideo, type VideoCompressProgress } from "@/lib/video-compress"
 import { Video as VideoIcon, Film } from "lucide-react";
 import type { Album, Photo } from "@/data/portfolio";
 
-const ADMIN_PASSWORD = "nuovastampa2024";
 const CATEGORIES = ["fotografia", "video"] as const;
 const EVENTS = ["matrimoni", "concerti", "eventi", "diciottesimi", "battesimi", "feste-private"] as const;
 
@@ -25,8 +24,31 @@ export const Route = createFileRoute("/admin")({
 function Login({ onLogin }: { onLogin: () => void }) {
   const [pwd, setPwd] = useState("");
   const [show, setShow] = useState(false);
-  const [error, setError] = useState(false);
-  const submit = () => pwd === ADMIN_PASSWORD ? onLogin() : setError(true);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  // La password non viene mai confrontata nel browser: la verifica il Worker,
+  // che risponde con un cookie di sessione HttpOnly.
+  const submit = async () => {
+    if (busy || !pwd) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ password: pwd }),
+      });
+      if (res.ok) { setPwd(""); onLogin(); return; }
+      const body = await res.json().catch(() => ({})) as { error?: string };
+      setError(body.error ?? "Password errata");
+    } catch {
+      setError("Server non raggiungibile. Riprova.");
+    } finally {
+      setBusy(false);
+    }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
@@ -46,8 +68,8 @@ function Login({ onLogin }: { onLogin: () => void }) {
               {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
-          {error && <p className="mt-2 text-xs font-mono-ui text-red-400">Password errata</p>}
-          <button onClick={submit} className="mt-4 w-full rounded-md py-3 text-sm font-bold uppercase tracking-widest text-white" style={{ background: "var(--brand-red)" }}>Accedi</button>
+          {error && <p className="mt-2 text-xs font-mono-ui text-red-400">{error}</p>}
+          <button onClick={submit} disabled={busy} className="mt-4 w-full rounded-md py-3 text-sm font-bold uppercase tracking-widest text-white disabled:opacity-50" style={{ background: "var(--brand-red)" }}>{busy ? "Accesso…" : "Accedi"}</button>
         </div>
       </div>
     </div>
@@ -84,7 +106,8 @@ function AlbumList({
     try {
       await fetch("/api/admin/save-album", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json", "x-admin-password": ADMIN_PASSWORD },
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify({ categorySlug, eventSlug, albumSlug: slug }),
       });
       await loadAlbums();
@@ -272,7 +295,8 @@ function AlbumForm({
         const r2Key = `${categorySlug}/${eventSlug}/${albumSlug}/${Date.now()}_${String(i + 1).padStart(3, "0")}.${ext}`;
         const res = await fetch("/api/admin/upload-url", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "x-admin-password": ADMIN_PASSWORD },
+          headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
           body: JSON.stringify({ key: r2Key, contentType: compressed.type }),
         });
         const { url } = await res.json() as { url: string };
@@ -297,7 +321,8 @@ function AlbumForm({
         const videoKey = `${categorySlug}/${eventSlug}/${albumSlug}/cover_${Date.now()}.mp4`;
         const res = await fetch("/api/admin/upload-url", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "x-admin-password": ADMIN_PASSWORD },
+          headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
           body: JSON.stringify({ key: videoKey, contentType: "video/mp4" }),
         });
         const { url } = await res.json() as { url: string };
@@ -322,14 +347,16 @@ function AlbumForm({
     if (isEdit && editEventSlug && editEventSlug !== eventSlug) {
       await fetch("/api/admin/save-album", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json", "x-admin-password": ADMIN_PASSWORD },
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify({ categorySlug, eventSlug: editEventSlug, albumSlug, skipR2: true }),
       });
     }
 
     await fetch("/api/admin/save-album", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-admin-password": ADMIN_PASSWORD },
+      headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
       body: JSON.stringify({ categorySlug, eventSlug, album }),
     });
 
@@ -597,7 +624,7 @@ function AdminPage() {
           <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-2">Pannello amministrazione</div>
           <h1 className="font-display text-4xl text-white">{title}</h1>
         </div>
-        <button onClick={() => setAuthed(false)} className="flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-widest text-white/40 hover:text-white transition-colors">
+        <button onClick={() => { void fetch("/api/admin/login", { method: "DELETE", credentials: "same-origin" }); setAuthed(false); }} className="flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-widest text-white/40 hover:text-white transition-colors">
           <LogOut className="h-3.5 w-3.5" /> Esci
         </button>
       </div>
