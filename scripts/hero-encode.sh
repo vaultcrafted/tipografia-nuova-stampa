@@ -1,39 +1,52 @@
 #!/usr/bin/env bash
-# Prepara i file dell'hero della home a partire da un mp4 sorgente.
+# Monta il video dell'hero della home a partire da tre clip generate.
 #
-#   ./scripts/hero-encode.sh sorgente.mp4
+#   ./scripts/hero-encode.sh clip1.mp4 clip2.mp4 clip3.mp4
 #
 # Produce in public/media/_hero/:
-#   hero.mp4       all-intra (un keyframe per fotogramma) — serve per lo scrubbing.
-#                  Senza -g 1 il browser, per mostrare un fotogramma qualsiasi,
-#                  deve decodificare dal keyframe precedente: il video scatta.
-#                  Costa in peso (2 MB contro 300 KB) ed e' il prezzo dell'effetto.
-#   hero-loop.mp4  compressione normale, 960px — la versione per mobile e per chi
-#                  ha prefers-reduced-motion, dove il video va solo in loop.
-#   hero.webp      primo fotogramma, usato come poster e come sfondo prima che il
-#                  video sia deciso e caricato.
+#   hero.mp4        1280x648, ~12,5 s — desktop e tablet.
+#   hero-small.mp4  854 px di larghezza — telefoni: l'hero parte da solo, e far
+#                   pagare 1,7 MB di traffico a chi e' in giro sarebbe scortese.
+#   hero.webp       poster, preso a 1,2 s (non a 0, dove c'e' la dissolvenza
+#                   dal nero e si vedrebbe un poster nero).
+#
+# SCELTE DI MONTAGGIO, e perche'
+#
+# - Ogni clip e' tagliata a 4,6 s dei 5 disponibili: l'ultimo mezzo secondo dei
+#   video generati e' spesso dove il movimento si spegne o compare un artefatto.
+# - Dissolvenze incrociate di 0,7 s: uno stacco secco fra tre inquadrature cosi'
+#   diverse sembra un errore di caricamento.
+# - Apre e chiude sul nero. E' quello che rende il loop invisibile: il punto in
+#   cui il video riparte cade fra due fotogrammi neri, quindi non si vede nessun
+#   salto. Senza, l'ultimo fotogramma tornerebbe di colpo al primo.
+# - Crop di 60 px in alto su tutte: toglie soffitto e parete chiara, e soprattutto
+#   porta le tre clip allo stesso formato, senza cui xfade non le monta.
 set -euo pipefail
 
-SORGENTE="${1:?serve il file mp4 di partenza}"
+A="${1:?servono tre clip: clip1 clip2 clip3}"
+B="${2:?servono tre clip: clip1 clip2 clip3}"
+C="${3:?servono tre clip: clip1 clip2 clip3}"
 DEST="public/media/_hero"
 mkdir -p "$DEST"
 
-# Il 13% in alto della sorgente e' soffitto quasi nero: tagliato qui, non via
-# CSS. Zoomare nel browser per nasconderlo avrebbe voluto dire ingrandire un
-# 720p oltre la sua risoluzione e vedersi l'immagine molle.
-CROP="crop=1280:626:0:94"
+CR="crop=1280:648:0:60,setsar=1,fps=24"
+D=4.6   # durata utile di ogni clip
+X=0.7   # durata della dissolvenza
 
-ffmpeg -v error -y -i "$SORGENTE" -an -vf "$CROP" \
-  -c:v libx264 -g 1 -keyint_min 1 -sc_threshold 0 \
-  -crf 28 -preset slow -pix_fmt yuv420p -movflags +faststart \
-  "$DEST/hero.mp4"
+ffmpeg -v error -y -i "$A" -i "$B" -i "$C" -filter_complex "\
+[0:v]trim=0:$D,setpts=PTS-STARTPTS,$CR[v0];\
+[1:v]trim=0:$D,setpts=PTS-STARTPTS,$CR[v1];\
+[2:v]trim=0:$D,setpts=PTS-STARTPTS,$CR[v2];\
+[v0][v1]xfade=transition=fade:duration=$X:offset=3.9[x1];\
+[x1][v2]xfade=transition=fade:duration=$X:offset=7.8[x2];\
+[x2]fade=t=in:st=0:d=0.6,fade=t=out:st=11.8:d=0.6[o]" \
+  -map "[o]" -an -c:v libx264 -crf 27 -preset slow -pix_fmt yuv420p \
+  -movflags +faststart "$DEST/hero.mp4"
 
-ffmpeg -v error -y -i "$SORGENTE" -an -vf "$CROP,scale=960:-2" \
-  -c:v libx264 -crf 30 -preset slow \
-  -pix_fmt yuv420p -movflags +faststart \
-  "$DEST/hero-loop.mp4"
+ffmpeg -v error -y -i "$DEST/hero.mp4" -an -vf scale=854:-2 \
+  -c:v libx264 -crf 31 -preset slow -pix_fmt yuv420p -movflags +faststart \
+  "$DEST/hero-small.mp4"
 
-ffmpeg -v error -y -i "$SORGENTE" -frames:v 1 -vf "$CROP" -q:v 80 \
-  "$DEST/hero.webp"
+ffmpeg -v error -y -ss 1.2 -i "$DEST/hero.mp4" -frames:v 1 -q:v 80 "$DEST/hero.webp"
 
 ls -l "$DEST"
