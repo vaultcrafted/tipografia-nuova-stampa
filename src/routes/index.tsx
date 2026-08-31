@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { categories, portfolioCategories } from "@/data/categories";
+import { Recensioni } from "@/components/Recensioni";
 import { QuoteFormModal } from "@/components/QuoteFormModal";
 
 export const Route = createFileRoute("/")({
@@ -177,6 +178,9 @@ function HomePage() {
           ))}
                 </div>
       </section>
+
+      {/* RECENSIONI — la prova sociale arriva dopo aver visto cosa stampiamo */}
+      <Recensioni />
 
       {/* PORTFOLIO GRID — foto & video */}
       <section className="pb-24">

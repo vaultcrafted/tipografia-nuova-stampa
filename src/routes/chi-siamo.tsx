@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ComeRaggiungerci } from "@/components/ComeRaggiungerci";
+import { Recensioni } from "@/components/Recensioni";
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/chi-siamo")({
@@ -136,6 +137,8 @@ function ChiSiamoPage() {
             </div>
           </div>
         </div>
+
+        <Recensioni />
 
         <ComeRaggiungerci />
       </section>
