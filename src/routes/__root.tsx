@@ -14,13 +14,16 @@ import appCss from "../styles.css?url";
 import { AppHeader } from "@/components/AppHeader";
 import { AppSidebar } from "@/components/AppSidebar";
 import { AppFooter } from "@/components/AppFooter";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { BarraAzioni } from "@/components/BarraAzioni";
+import { QuoteFormModal } from "@/components/QuoteFormModal";
+import { PreventivoProvider } from "@/lib/preventivo";
+import type { Category } from "@/data/categories";
 
 function NotFoundComponent() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center px-4">
       <div className="max-w-md text-center">
-        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
+        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55 mb-3">
           Errore 404
         </div>
         <h1 className="font-display text-6xl text-white">Pagina non trovata</h1>
@@ -91,9 +94,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient; env?
       { rel: "icon", href: "/icon-192.png", type: "image/png", sizes: "192x192" },
       { rel: "icon", href: "/icon-512.png", type: "image/png", sizes: "512x512" },
       { rel: "stylesheet", href: appCss },
+      // Jost e' una riedizione libera della Futura: per una tipografia e' una
+      // citazione, non una moda. IBM Plex Mono serve solo alle etichette
+      // tecniche. Due famiglie e sei pesi in tutto: ogni peso in piu' e' un
+      // altro file da scaricare prima che il testo diventi leggibile.
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
       },
     ],
     scripts: [
@@ -142,18 +150,36 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const [menuOpen, setMenuOpen] = useState(false);
+  // Il modulo preventivo vive qui, non nella home: cosi' e' raggiungibile da
+  // qualunque pagina, compresa una scheda prodotto aperta da Google.
+  const [preventivoAperto, setPreventivoAperto] = useState(false);
+  const [preventivoCategoria, setPreventivoCategoria] = useState<Category | undefined>();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AppHeader onMenuToggle={() => setMenuOpen((v) => !v)} />
-      <div className="flex">
-        <AppSidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
-        <main className="flex-1 min-w-0">
-          <Outlet />
-          <AppFooter />
-        </main>
-      </div>
-      <WhatsAppButton />
+      <PreventivoProvider
+        value={(categoria) => {
+          setPreventivoCategoria(categoria);
+          setPreventivoAperto(true);
+        }}
+      >
+        <AppHeader onMenuToggle={() => setMenuOpen((v) => !v)} />
+        <div className="flex">
+          <AppSidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
+          {/* pb-24 sul telefono: sotto c'e' la barra fissa con preventivo e
+              WhatsApp, e senza questo spazio coprirebbe la fine del piede. */}
+          <main className="min-w-0 flex-1 pb-24 md:pb-0">
+            <Outlet />
+            <AppFooter />
+          </main>
+        </div>
+        <BarraAzioni onPreventivo={() => setPreventivoAperto(true)} />
+        <QuoteFormModal
+          open={preventivoAperto}
+          onClose={() => setPreventivoAperto(false)}
+          category={preventivoCategoria}
+        />
+      </PreventivoProvider>
     </QueryClientProvider>
   );
 }

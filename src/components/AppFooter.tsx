@@ -1,43 +1,112 @@
+import { Link } from "@tanstack/react-router";
+import { famiglie } from "@/data/famiglie";
+import { categories } from "@/data/categories";
+
+/**
+ * Il piede del sito.
+ *
+ * PRIMA era scritto tutto in monospaziato maiuscolo, etichette e contenuti allo
+ * stesso modo: sembrava l'uscita di un terminale, e l'indirizzo — che e' una
+ * delle informazioni piu' usate di tutto il sito — era illeggibile quanto la
+ * partita IVA.
+ *
+ * ORA il monospaziato marca solo le etichette, come nel resto del sistema, e i
+ * contenuti sono in tondo alla loro dimensione naturale. In piu' il piede porta
+ * le quattro famiglie: chi arriva in fondo a una scheda prodotto ha ancora una
+ * strada davanti invece di un vicolo cieco.
+ */
+
 export function AppFooter() {
+  const perSlug = new Map(categories.map((c) => [c.slug, c]));
+
   return (
-    <footer className="mt-16 lg:mt-24 border-t border-white/10 px-5 sm:px-8 lg:px-12 py-8 lg:py-10">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8 font-mono-ui text-[11px] uppercase tracking-[0.16em] text-white/40">
-        <div className="col-span-2 md:col-span-1">
-          <div className="text-white/60 mb-2">Tipografia Nuova Stampa</div>
-          <div>Via Martiri della Libertà, 65</div>
-          <div>13046 Livorno Ferraris (VC)</div>
-        </div>
+    <footer className="mt-24 border-t border-white/15 px-6 pt-14 pb-12 sm:px-10 lg:px-16">
+      <div className="grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4 lg:gap-x-12">
+        {famiglie.map((f) => (
+          <div key={f.slug}>
+            <div
+              className="filetto-famiglia mb-3 max-w-[28px]"
+              style={{ background: f.colore }}
+              aria-hidden="true"
+            />
+            <div className="occhiello mb-4 text-white/55">{f.nome}</div>
+            <ul className="space-y-2">
+              {f.categorie.map((slug) => {
+                const c = perSlug.get(slug);
+                if (!c) return null;
+                return (
+                  <li key={slug}>
+                    <Link
+                      to="/categoria/$slug"
+                      params={{ slug }}
+                      className="text-[13px] text-white/55 transition-colors hover:text-white"
+                    >
+                      {c.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-14 grid grid-cols-1 gap-x-12 gap-y-8 border-t border-white/15 pt-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="text-white/60 mb-2">Contatti</div>
-          <a href="mailto:t.nuovastampa@gmail.com" className="block hover:text-white/70 transition-colors">
-            t.nuovastampa@gmail.com
-          </a>
-          <a href="tel:+393332876277" className="block hover:text-white/70 transition-colors mt-1">
+          <div className="occhiello mb-4 text-white/55">Dove siamo</div>
+          <p className="text-sm leading-relaxed text-white/70">
+            Via Martiri della Libertà, 65
+            <br />
+            13046 Livorno Ferraris (VC)
+          </p>
+        </div>
+
+        <div>
+          <div className="occhiello mb-4 text-white/55">Contatti</div>
+          <a
+            href="tel:+393332876277"
+            className="block font-display text-xl text-white transition-opacity hover:opacity-70"
+          >
             +39 333 287 6277
           </a>
+          <a
+            href="mailto:t.nuovastampa@gmail.com"
+            className="mt-1.5 block text-sm text-white/60 transition-colors hover:text-white"
+          >
+            t.nuovastampa@gmail.com
+          </a>
         </div>
+
         <div>
-          <div className="text-white/60 mb-2">Dati fiscali</div>
-          <div>P.IVA 02789310022</div>
-          <div className="mt-1">REA VC-313502</div>
+          <div className="occhiello mb-4 text-white/55">Orari</div>
+          <p className="text-sm leading-relaxed text-white/70">
+            Lun – Ven · 8:30 – 18:00
+            <br />
+            Sabato su appuntamento
+          </p>
         </div>
+
         <div>
-          <div className="text-white/60 mb-2">Orari</div>
-          <div>Lun – Ven · 8:30 – 18:00</div>
-          <div className="mt-1">Sabato su appuntamento</div>
+          <div className="occhiello mb-4 text-white/55">Dati fiscali</div>
+          <p className="text-sm leading-relaxed text-white/60">
+            P.IVA 02789310022
+            <br />
+            REA VC-313502
+          </p>
         </div>
       </div>
-      <div className="mt-8 pt-6 border-t border-white/5 space-y-3">
+
+      <div className="mt-12 space-y-4 border-t border-white/10 pt-8">
         {/* Trasparenza sulle immagini: le foto di catalogo sono generate con AI,
             quelle del portfolio sono lavori realmente eseguiti. */}
-        <p className="max-w-3xl font-mono-ui text-[10px] leading-relaxed tracking-wide text-white/30 normal-case">
+        <p className="max-w-3xl text-[12px] leading-relaxed text-white/55">
           Le immagini che illustrano le categorie di catalogo sono generate con
           intelligenza artificiale e hanno valore puramente indicativo: formati,
           colori e finiture dei prodotti reali possono differire. Le fotografie
           del portfolio sono invece lavori realmente eseguiti da noi.
         </p>
-        <div className="font-mono-ui text-[10px] tracking-widest text-white/25 uppercase">
-          © {new Date().getFullYear()} Tipografia Nuova Stampa — Tutti i diritti riservati
+        <div className="occhiello text-white/55">
+          © {new Date().getFullYear()} Tipografia Nuova Stampa
         </div>
       </div>
     </footer>

@@ -18,7 +18,7 @@ const MAPPA =
 export function ComeRaggiungerci() {
   return (
     <section className="mt-16 lg:mt-24">
-      <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6">
+      <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55 mb-6">
         ◆ Come raggiungerci
       </div>
 

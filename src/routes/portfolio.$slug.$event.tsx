@@ -87,12 +87,12 @@ function EventAlbumsPage() {
   return (
     <div className="px-6 sm:px-10 lg:px-16 pb-32 lg:pb-16">
       <section className="pt-12 lg:pt-16 pb-12">
-        <Link to="/portfolio/$slug" params={{ slug: category.slug }} className="inline-flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white mb-8 transition-colors">
+        <Link to="/portfolio/$slug" params={{ slug: category.slug }} className="inline-flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 hover:text-white mb-8 transition-colors">
           <ArrowLeft className="h-3 w-3" /> {category.name}
         </Link>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
           <div className="lg:col-span-8">
-            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
+            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55 mb-3">
               {category.name} · <span style={{ color: "var(--brand-red)" }}>{event.slug}</span>
             </div>
             <h1 className="font-display text-white text-[13vw] sm:text-[9vw] lg:text-[6.5vw] leading-[0.92] tracking-tight">{event.name}</h1>
@@ -108,8 +108,8 @@ function EventAlbumsPage() {
         {albums.length > 0 ? (
           <>
             <div className="flex items-baseline justify-between mb-6">
-              <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40">◆ {albums.length} album</div>
-              <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/25">click per aprire</div>
+              <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55">◆ {albums.length} album</div>
+              <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/55">click per aprire</div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {albums.map((album: import("@/data/portfolio").Album) => (
@@ -120,11 +120,11 @@ function EventAlbumsPage() {
         ) : (
           <div className="flex flex-col items-center justify-center py-32 text-center">
             <div className="w-16 h-16 rounded-full border border-white/10 grid place-items-center mb-6" style={{ background: "var(--brand-red)" + "15" }}>
-              <Camera className="h-7 w-7 text-white/40" />
+              <Camera className="h-7 w-7 text-white/55" />
             </div>
-            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/30 mb-3">Nessun album ancora</div>
+            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55 mb-3">Nessun album ancora</div>
             <h2 className="font-display text-3xl text-white/60 mb-2">Prossimamente</h2>
-            <p className="text-white/40 text-sm max-w-sm leading-relaxed">Gli album di {event.name.toLowerCase()} saranno pubblicati presto.</p>
+            <p className="text-white/55 text-sm max-w-sm leading-relaxed">Gli album di {event.name.toLowerCase()} saranno pubblicati presto.</p>
             <a href="https://wa.me/393332876277" target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-bold uppercase tracking-widest text-white transition-transform hover:scale-[1.03]" style={{ background: "var(--brand-red)", boxShadow: "var(--shadow-glow-red)" }}>
               Prenota su WhatsApp
             </a>

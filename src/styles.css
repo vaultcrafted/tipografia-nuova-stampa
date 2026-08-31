@@ -4,11 +4,44 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   SISTEMA VISIVO — Tipografia Nuova Stampa
+   Rifatto il 31 agosto 2026. Direzione: "il mestiere", cioe' il linguaggio
+   della tipografia invece di quello del software.
+
+   TRE SCELTE DI FONDO, e il motivo:
+
+   1. NERO D'INCHIOSTRO, NON BLU NOTTE. Prima il fondo era un gradiente
+      arcobaleno (blu, verde, rosso). Era la cosa meno tipografica del sito e
+      litigava con ogni fotografia: un catalogo di stampe va guardato su un
+      fondo neutro, come si guarda un foglio su un tavolo. Il nero e' caldo,
+      leggermente verso il bruno, come l'inchiostro vero: un nero bluastro
+      rende le stampe fredde.
+
+   2. UN SOLO CARATTERE GEOMETRICO. Jost e' una riedizione libera della Futura,
+      che e' il carattere della stampa europea del Novecento e della Bauhaus:
+      per una tipografia e' una citazione, non una decorazione. Usato per tutto,
+      dai titoli enormi al testo corrente — il sistema svizzero e' cosi'.
+      Accanto, un monospaziato per le indicazioni tecniche (numeri, formati,
+      etichette): e' il modo in cui una tipografia scrive le specifiche.
+
+   3. IL CMYK COME MAPPA. Le quattro famiglie del catalogo sono marcate con i
+      quattro colori di processo. Non e' decorazione: e' il sistema con cui il
+      mestiere stesso classifica il colore, e serve a far capire in un colpo
+      d'occhio che si stampa molto piu' che biglietti da visita. Compaiono solo
+      come filetti sottili ed etichette, mai come campiture, altrimenti
+      diventerebbe un arcobaleno.
+
+   IL ROSSO DEL MARCHIO E' RISERVATO ALL'AZIONE. Pulsanti, link importanti,
+   stato attivo. Se il rosso comparisse anche come decorazione, smetterebbe di
+   voler dire "clicca qui".
+   ───────────────────────────────────────────────────────────────────────── */
+
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 3px);
+  --radius-md: calc(var(--radius) - 1px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 3px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -30,95 +63,101 @@
   --color-ring: var(--ring);
   --color-brand-red: var(--brand-red);
   --color-brand-blue: var(--brand-blue);
+  --color-carta: var(--carta);
+  --color-ciano: var(--ciano);
+  --color-magenta: var(--magenta);
+  --color-giallo: var(--giallo);
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 }
 
 :root {
-  --radius: 0.5rem;
+  /* Angoli quasi vivi: la carta si taglia dritta. 4px basta a non sembrare
+     un errore, senza le pastiglie tonde da app. */
+  --radius: 0.25rem;
 
-  --background: oklch(0.16 0.03 250);
-  --foreground: oklch(1 0 0);
-  --card: oklch(0.18 0.025 250);
-  --card-foreground: oklch(1 0 0);
-  --popover: oklch(0.14 0.025 250);
-  --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.58 0.24 25);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.22 0.03 250);
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.22 0.02 250);
-  --muted-foreground: oklch(0.72 0.02 250);
-  --accent: oklch(0.62 0.16 240);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.58 0.24 25);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.58 0.24 25);
+  /* ── Inchiostri ───────────────────────────────────────────────────────── */
+  --nero-900: #0B0B0C;
+  --nero-800: #111113;
+  --nero-700: #17171A;
+  --nero-600: #202024;
+  --carta: #F4F1EA;
 
   --brand-red: #E8002D;
   --brand-blue: #0072CE;
 
-  --font-display: "Bebas Neue", "Space Grotesk", system-ui, sans-serif;
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "Space Mono", ui-monospace, monospace;
+  /* Colori di processo, per le famiglie del catalogo. */
+  --ciano: #00A3E0;
+  --magenta: #E5007E;
+  --giallo: #FFD500;
 
-  --gradient-mesh:
-    radial-gradient(ellipse 80% 60% at 15% 10%, oklch(0.42 0.18 230 / 0.75), transparent 60%),
-    radial-gradient(ellipse 70% 50% at 90% 20%, oklch(0.40 0.15 180 / 0.65), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 85% 90%, oklch(0.48 0.20 30 / 0.65), transparent 65%),
-    radial-gradient(ellipse 70% 60% at 10% 95%, oklch(0.38 0.15 280 / 0.60), transparent 65%),
-    linear-gradient(180deg, oklch(0.14 0.02 250), oklch(0.10 0.02 250));
+  /* ── Ruoli ────────────────────────────────────────────────────────────── */
+  --background: var(--nero-900);
+  --foreground: #FFFFFF;
+  --card: var(--nero-800);
+  --card-foreground: #FFFFFF;
+  --popover: var(--nero-800);
+  --popover-foreground: #FFFFFF;
+  --primary: var(--brand-red);
+  --primary-foreground: #FFFFFF;
+  --secondary: var(--nero-700);
+  --secondary-foreground: #FFFFFF;
+  --muted: var(--nero-700);
+  --muted-foreground: rgba(255, 255, 255, 0.62);
+  --accent: var(--brand-red);
+  --accent-foreground: #FFFFFF;
+  --destructive: var(--brand-red);
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.16);
+  --ring: var(--brand-red);
 
-  --shadow-glow-red: 0 0 24px -2px color-mix(in oklab, var(--brand-red) 55%, transparent);
-  --shadow-glow-blue: 0 0 24px -2px color-mix(in oklab, var(--brand-blue) 55%, transparent);
+  --font-display: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;
+  --font-sans: "Jost", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+
+  --shadow-glow-red: 0 0 24px -4px color-mix(in oklab, var(--brand-red) 50%, transparent);
+  --shadow-glow-blue: 0 0 24px -4px color-mix(in oklab, var(--brand-blue) 50%, transparent);
 }
 
+/* Tema chiaro: e' letteralmente la carta. Stesso sistema, inchiostro e
+   supporto invertiti, non un secondo tema inventato da zero. */
 .light {
   color-scheme: light;
-  --background: oklch(0.985 0.003 250);
-  --foreground: oklch(0.18 0.02 250);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.02 250);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.02 250);
-  --secondary: oklch(0.94 0.005 250);
-  --secondary-foreground: oklch(0.18 0.02 250);
-  --muted: oklch(0.94 0.005 250);
-  --muted-foreground: oklch(0.42 0.02 250);
-  --accent: oklch(0.58 0.18 240);
-  --border: oklch(0 0 0 / 12%);
-  --input: oklch(0 0 0 / 14%);
-  --brand-red: #E8002D;
-  --brand-blue: #0072CE;
+  --background: var(--carta);
+  --foreground: #0B0B0C;
+  --card: #FFFFFF;
+  --card-foreground: #0B0B0C;
+  --popover: #FFFFFF;
+  --popover-foreground: #0B0B0C;
+  --secondary: #E7E2D8;
+  --secondary-foreground: #0B0B0C;
+  --muted: #E7E2D8;
+  --muted-foreground: rgba(11, 11, 12, 0.62);
+  --border: rgba(11, 11, 12, 0.14);
+  --input: rgba(11, 11, 12, 0.18);
 }
 
-.light body {
-  background-image: none;
-  background-color: #f5f5f7;
-  color: #1a1a1a;
-}
-.light body::before { display: none; }
-
-.light .text-white { color: #1a1a1a; }
-.light [class*="text-white/"] { color: rgba(20, 20, 20, 0.72); }
+/* I componenti scrivono ancora `text-white` e `border-white/10` in molti punti.
+   Finche' non sono tutti passati ai token, queste regole traducono quelle
+   classi nel tema chiaro. Non e' bello ed e' la prima cosa da togliere quando
+   i componenti useranno solo i ruoli qui sopra. */
+.light .text-white { color: #0B0B0C; }
+.light [class*="text-white/"] { color: rgba(11, 11, 12, 0.7); }
 .light .hover\:text-white:hover,
 .light [class*="hover:text-white/"]:hover { color: #000; }
-.light [class*="placeholder:text-white/"]::placeholder { color: rgba(20, 20, 20, 0.42); }
-
-.light [class*="border-white/"] { border-color: rgba(0, 0, 0, 0.12); }
+.light [class*="placeholder:text-white/"]::placeholder { color: rgba(11, 11, 12, 0.45); }
+.light [class*="border-white/"] { border-color: rgba(11, 11, 12, 0.14); }
 .light .hover\:border-white\/30:hover,
-.light .hover\:border-white\/40:hover { border-color: rgba(0, 0, 0, 0.28); }
-
-.light [class*="bg-white/"] { background-color: rgba(0, 0, 0, 0.04); }
+.light .hover\:border-white\/40:hover,
+.light .hover\:border-white\/50:hover { border-color: rgba(11, 11, 12, 0.3); }
+.light [class*="bg-white/"] { background-color: rgba(11, 11, 12, 0.04); }
 .light .hover\:bg-white\/5:hover,
-.light .hover\:bg-white\/10:hover { background-color: rgba(0, 0, 0, 0.06); }
-
-.light [class*="bg-background/"] { background-color: rgba(255, 255, 255, 0.85); }
+.light .hover\:bg-white\/10:hover { background-color: rgba(11, 11, 12, 0.06); }
+.light [class*="bg-background/"] { background-color: rgba(244, 241, 234, 0.88); }
 .light .bg-black\/60,
-.light .bg-black\/70 { background-color: rgba(255, 255, 255, 0.92); }
+.light .bg-black\/70 { background-color: rgba(244, 241, 234, 0.94); }
 .light .bg-popover\/95 { background-color: rgba(255, 255, 255, 0.98); }
 
 @layer base {
@@ -131,24 +170,25 @@
     color: var(--foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   body {
     min-height: 100vh;
-    background-image: var(--gradient-mesh);
-    background-attachment: fixed;
-    background-size: cover;
   }
 
+  /* Grana di carta. Debolissima (4%): a schermo non si "vede", si sente — e'
+     quello che toglie al fondo l'aria di plastica. Su `background-attachment:
+     fixed` sarebbe un peso inutile allo scroll, quindi e' un livello fisso a
+     parte. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.18;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
 
   #app, main, header, aside {
@@ -156,33 +196,74 @@
     z-index: 2;
   }
 
+  /* Titoli: geometrico, crenatura stretta, mai spaziatura positiva. La Futura
+     a corpo grande vuole le lettere vicine, altrimenti si sfilaccia. */
   h1, h2, h3 {
     font-family: var(--font-display);
-    letter-spacing: 0.005em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
   }
 
-  .font-display { font-family: var(--font-display); }
-  .font-mono-ui { font-family: var(--font-mono); }
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  /* Etichette tecniche: monospaziato, maiuscolo, spaziato. E' il modo in cui
+     una tipografia scrive un formato o un codice lavoro. */
+  .font-mono-ui {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
 
   ::selection {
     background: var(--brand-red);
     color: white;
   }
+
+  /* Focus sempre visibile: senza, il sito non si puo' usare da tastiera. */
+  :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+    outline: 2px solid var(--brand-red);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 }
 
 @layer utilities {
-  .text-glow-red { text-shadow: 0 0 16px color-mix(in oklab, var(--brand-red) 70%, transparent); }
+  .text-glow-red { text-shadow: 0 0 16px color-mix(in oklab, var(--brand-red) 60%, transparent); }
   .glow-red { box-shadow: var(--shadow-glow-red); }
   .glow-blue { box-shadow: var(--shadow-glow-blue); }
-  .hairline { border: 1px solid oklch(1 0 0 / 0.1); }
-  .hairline-strong { border: 1px solid oklch(1 0 0 / 0.2); }
+  .hairline { border: 1px solid var(--border); }
+  .hairline-strong { border: 1px solid var(--input); }
+
+  /* Etichetta di sezione: numero + titolo in monospaziato, come la voce di un
+     indice. Sostituisce i "◢" che erano decorazione e basta. */
+  .occhiello {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+  }
+
+  /* Filetto di famiglia: 2px del colore di processo. L'unico posto in cui i
+     colori CMYK compaiono a piena saturazione. */
+  .filetto-famiglia {
+    height: 2px;
+    width: 100%;
+  }
 }
 
-/* Nascondi scrollbar sidebar */
-aside::-webkit-scrollbar {
-  display: none;
-}
-aside {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+/* Barra di scorrimento del menu laterale nascosta. */
+aside::-webkit-scrollbar { display: none; }
+aside { scrollbar-width: none; -ms-overflow-style: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

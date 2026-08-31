@@ -52,7 +52,7 @@ function Login({ onLogin }: { onLogin: () => void }) {
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3 text-center">Tipografia Nuova Stampa</div>
+        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55 mb-3 text-center">Tipografia Nuova Stampa</div>
         <h1 className="font-display text-4xl text-white text-center mb-8">Admin</h1>
         <div className="rounded-xl border border-white/10 bg-card/40 backdrop-blur-sm p-6">
           <div className="relative">
@@ -63,7 +63,7 @@ function Login({ onLogin }: { onLogin: () => void }) {
               className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 pr-12 text-white placeholder-white/30 focus:outline-none focus:border-[var(--brand-red)] transition-colors font-mono-ui text-sm"
             />
             <button type="button" onClick={() => setShow(s => !s)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/55 hover:text-white transition-colors"
               aria-label={show ? "Nascondi password" : "Mostra password"}>
               {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
@@ -118,14 +118,14 @@ function AlbumList({
     <div className="space-y-6">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Tipo</label>
+          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2">Tipo</label>
           <select value={categorySlug} onChange={e => setCategorySlug(e.target.value as typeof CATEGORIES[number])}
             className="w-full bg-card/40 border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-[var(--brand-red)] font-mono-ui text-sm">
             {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
         <div>
-          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Evento</label>
+          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2">Evento</label>
           <select value={eventSlug} onChange={e => setEventSlug(e.target.value as typeof EVENTS[number])}
             className="w-full bg-card/40 border border-white/10 rounded-md px-4 py-3 text-white focus:outline-none focus:border-[var(--brand-red)] font-mono-ui text-sm">
             {EVENTS.map(e => <option key={e} value={e}>{e}</option>)}
@@ -135,7 +135,7 @@ function AlbumList({
 
       <div className="rounded-xl border border-white/10 overflow-hidden">
         <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 bg-white/5">
-          <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/40">
+          <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/55">
             {loading ? "Caricamento..." : `${albums.length} album`}
           </div>
           <button onClick={onNew} className="flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">
@@ -145,7 +145,7 @@ function AlbumList({
 
         {albums.length === 0 && !loading ? (
           <div className="px-5 py-12 text-center">
-            <p className="text-white/30 text-sm font-mono-ui">Nessun album in {categorySlug}/{eventSlug}</p>
+            <p className="text-white/55 text-sm font-mono-ui">Nessun album in {categorySlug}/{eventSlug}</p>
             <button onClick={onNew} className="mt-4 inline-flex items-center gap-2 rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white" style={{ background: "var(--brand-red)" }}>
               <Plus className="h-3.5 w-3.5" /> Crea il primo album
             </button>
@@ -160,10 +160,10 @@ function AlbumList({
                 <div className="flex-1 min-w-0">
                   <div className="font-display text-lg text-white truncate">{album.title}</div>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="font-mono-ui text-[10px] text-white/40">{album.date}</span>
-                    {album.location && <><span className="text-white/20">·</span><span className="font-mono-ui text-[10px] text-white/40">{album.location}</span></>}
+                    <span className="font-mono-ui text-[10px] text-white/55">{album.date}</span>
+                    {album.location && <><span className="text-white/20">·</span><span className="font-mono-ui text-[10px] text-white/55">{album.location}</span></>}
                     <span className="text-white/20">·</span>
-                    <span className="font-mono-ui text-[10px] text-white/40">{album.photos.length} foto</span>
+                    <span className="font-mono-ui text-[10px] text-white/55">{album.photos.length} foto</span>
                     {album.pixiesetUrl && (
                       <a href={album.pixiesetUrl} target="_blank" rel="noopener noreferrer"
                         className="font-mono-ui text-[10px] text-[var(--brand-red)] flex items-center gap-1 hover:underline">
@@ -174,15 +174,15 @@ function AlbumList({
                 </div>
                 <div className="flex items-center gap-1 shrink-0">
                   <button onClick={() => onEdit(album, categorySlug, eventSlug)}
-                    className="p-2 text-white/30 hover:text-white transition-colors" title="Modifica">
+                    className="p-2 text-white/55 hover:text-white transition-colors" title="Modifica">
                     <Pencil className="h-4 w-4" />
                   </button>
                   <a href={`/portfolio/${categorySlug}/${eventSlug}/${album.slug}`} target="_blank"
-                    className="p-2 text-white/30 hover:text-white transition-colors" title="Vedi sul sito">
+                    className="p-2 text-white/55 hover:text-white transition-colors" title="Vedi sul sito">
                     <ExternalLink className="h-4 w-4" />
                   </a>
                   <button onClick={() => deleteAlbum(album.slug)} disabled={deleting === album.slug}
-                    className="p-2 text-white/30 hover:text-red-400 transition-colors" title="Elimina">
+                    className="p-2 text-white/55 hover:text-red-400 transition-colors" title="Elimina">
                     {deleting === album.slug ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
                   </button>
                 </div>
@@ -370,19 +370,19 @@ function AlbumForm({
 
   return (
     <div className="space-y-6">
-      <button onClick={onBack} className="flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors">
+      <button onClick={onBack} className="flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 hover:text-white transition-colors">
         <ArrowLeft className="h-3 w-3" /> Lista album
       </button>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Tipo{isEdit && <span className="ml-2 text-white/20">(non modificabile)</span>}</label>
+          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2">Tipo{isEdit && <span className="ml-2 text-white/20">(non modificabile)</span>}</label>
           <select value={categorySlug} onChange={e => setCategorySlug(e.target.value as typeof CATEGORIES[number])} disabled={step === "uploading" || isEdit} className={inputCls + (isEdit ? " opacity-50 cursor-not-allowed" : "")}>
             {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
         <div>
-          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Evento</label>
+          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2">Evento</label>
           <select value={eventSlug} onChange={e => setEventSlug(e.target.value as typeof EVENTS[number])} disabled={step === "uploading"} className={inputCls}>
             {EVENTS.map(e => <option key={e} value={e}>{e}</option>)}
           </select>
@@ -391,27 +391,27 @@ function AlbumForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
-          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Titolo *</label>
+          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2">Titolo *</label>
           <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="es. Mario & Giulia" disabled={step === "uploading"} className={inputCls} />
         </div>
         <div>
-          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Data *</label>
+          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2">Data *</label>
           <input type="text" value={date} onChange={e => setDate(e.target.value)} placeholder="es. Giugno 2024" disabled={step === "uploading"} className={inputCls} />
         </div>
         <div>
-          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Location</label>
+          <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2">Location</label>
           <input type="text" value={location} onChange={e => setLocation(e.target.value)} placeholder="es. Casale Monferrato" disabled={step === "uploading"} className={inputCls} />
         </div>
       </div>
 
       <div>
-        <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Link galleria completa (Pixieset)</label>
+        <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2">Link galleria completa (Pixieset)</label>
         <input type="url" value={pixiesetUrl} onChange={e => setPixiesetUrl(e.target.value)} placeholder="https://tuonome.pixieset.com/album/" disabled={step === "uploading"} className={inputCls} />
       </div>
 
       {/* Video di copertina (opzionale) */}
       <div>
-        <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">
+        <label className="block font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2">
           Video di copertina (opzionale, sostituisce la foto hero)
         </label>
 
@@ -419,7 +419,7 @@ function AlbumForm({
           <div className="flex items-center gap-3 rounded-md border border-green-500/30 bg-green-500/5 px-4 py-3 mb-2">
             <Film className="h-4 w-4 text-green-400 shrink-0" />
             <span className="text-sm text-green-400 flex-1 truncate">Video attuale: {existingCoverVideo.split("/").pop()}</span>
-            <button type="button" onClick={removeCoverVideo} className="text-white/30 hover:text-red-400 transition-colors">
+            <button type="button" onClick={removeCoverVideo} className="text-white/55 hover:text-red-400 transition-colors">
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
@@ -432,7 +432,7 @@ function AlbumForm({
             ) : coverVideoCompressed ? (
               <Check className="h-4 w-4 text-green-400 shrink-0" />
             ) : (
-              <VideoIcon className="h-4 w-4 text-white/40 shrink-0" />
+              <VideoIcon className="h-4 w-4 text-white/55 shrink-0" />
             )}
             <div className="flex-1 min-w-0">
               <div className="text-sm text-white truncate">{coverVideoFile.name}</div>
@@ -441,7 +441,7 @@ function AlbumForm({
                   <div className="h-1 bg-white/10 rounded-full overflow-hidden">
                     <div className="h-full bg-[var(--brand-red)] transition-all" style={{ width: `${videoProgress.percent}%` }} />
                   </div>
-                  <span className="font-mono-ui text-[9px] text-white/30 uppercase tracking-widest">
+                  <span className="font-mono-ui text-[9px] text-white/55 uppercase tracking-widest">
                     {videoProgress.phase === "loading" ? "Caricamento motore di compressione..." : `Compressione ${videoProgress.percent}%`}
                   </span>
                 </div>
@@ -453,7 +453,7 @@ function AlbumForm({
               )}
             </div>
             {!videoProgress && (
-              <button type="button" onClick={removeCoverVideo} className="text-white/30 hover:text-red-400 transition-colors shrink-0">
+              <button type="button" onClick={removeCoverVideo} className="text-white/55 hover:text-red-400 transition-colors shrink-0">
                 <X className="h-4 w-4" />
               </button>
             )}
@@ -468,7 +468,7 @@ function AlbumForm({
             <input ref={videoInputRef} type="file" accept="video/*" className="hidden" onChange={handleVideoChange} />
             <VideoIcon className="h-5 w-5 text-white/20 mx-auto mb-1.5" />
             <p className="text-white/50 text-sm">Clicca per selezionare un video</p>
-            <p className="font-mono-ui text-[9px] text-white/25 mt-1 uppercase tracking-widest">
+            <p className="font-mono-ui text-[9px] text-white/55 mt-1 uppercase tracking-widest">
               Verrà compresso automaticamente — può richiedere alcuni minuti
             </p>
           </div>
@@ -481,7 +481,7 @@ function AlbumForm({
       {isEdit && existingPhotos.length > 0 && (
         <div>
           <div className="flex items-center justify-between mb-3">
-            <div className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40">
+            <div className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55">
               Foto esistenti · prima = cover · click rosso per eliminare
             </div>
           </div>
@@ -522,7 +522,7 @@ function AlbumForm({
 
       {/* Nuove foto */}
       <div>
-        {isEdit && <div className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 mb-3">Aggiungi nuove foto</div>}
+        {isEdit && <div className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 mb-3">Aggiungi nuove foto</div>}
         <div onDrop={onDrop} onDragOver={e => e.preventDefault()}
           onClick={() => step !== "uploading" && fileInputRef.current?.click()}
           className="relative rounded-xl border-2 border-dashed border-white/15 hover:border-[var(--brand-red)]/50 transition-colors cursor-pointer p-6 text-center">
@@ -539,9 +539,9 @@ function AlbumForm({
         {newItems.length > 0 && (
           <div className="mt-3">
             <div className="flex items-center justify-between mb-2">
-              <div className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40">{newItems.length} nuove foto</div>
+              <div className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55">{newItems.length} nuove foto</div>
               {step !== "uploading" && (
-                <button onClick={() => setNewItems([])} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/30 hover:text-red-400 transition-colors">Rimuovi tutte</button>
+                <button onClick={() => setNewItems([])} className="font-mono-ui text-[10px] uppercase tracking-widest text-white/55 hover:text-red-400 transition-colors">Rimuovi tutte</button>
               )}
             </div>
             <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2">
@@ -621,10 +621,10 @@ function AdminPage() {
     <div className="px-6 sm:px-10 lg:px-16 pb-32 lg:pb-16 max-w-4xl mx-auto">
       <div className="pt-12 pb-8 flex items-center justify-between">
         <div>
-          <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-2">Pannello amministrazione</div>
+          <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55 mb-2">Pannello amministrazione</div>
           <h1 className="font-display text-4xl text-white">{title}</h1>
         </div>
-        <button onClick={() => { void fetch("/api/admin/login", { method: "DELETE", credentials: "same-origin" }); setAuthed(false); }} className="flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-widest text-white/40 hover:text-white transition-colors">
+        <button onClick={() => { void fetch("/api/admin/login", { method: "DELETE", credentials: "same-origin" }); setAuthed(false); }} className="flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-widest text-white/55 hover:text-white transition-colors">
           <LogOut className="h-3.5 w-3.5" /> Esci
         </button>
       </div>

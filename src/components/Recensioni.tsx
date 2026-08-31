@@ -49,7 +49,7 @@ export function Recensioni({ titolo = "Cosa dicono i clienti" }: { titolo?: stri
     <section className="mt-16 lg:mt-24">
       <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
         <div>
-          <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
+          <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55 mb-3">
             ◆ Recensioni Google
           </div>
           <h2 className="font-display text-3xl lg:text-4xl text-white leading-tight">{titolo}</h2>
@@ -84,7 +84,7 @@ export function Recensioni({ titolo = "Cosa dicono i clienti" }: { titolo?: stri
             </blockquote>
             <figcaption className="flex items-baseline justify-between gap-3 border-t border-white/5 pt-3">
               <span className="text-sm text-white/90">{r.autore}</span>
-              <span className="font-mono-ui text-[10px] uppercase tracking-widest text-white/30">
+              <span className="font-mono-ui text-[10px] uppercase tracking-widest text-white/55">
                 {r.quando}
               </span>
             </figcaption>
@@ -102,7 +102,7 @@ export function Recensioni({ titolo = "Cosa dicono i clienti" }: { titolo?: stri
           <PenLine className="h-4 w-4" aria-hidden="true" />
           Lascia una recensione
         </a>
-        <p className="font-mono-ui text-[10px] leading-relaxed tracking-wide text-white/30 normal-case">
+        <p className="font-mono-ui text-[10px] leading-relaxed tracking-wide text-white/55 normal-case">
           Il pulsante apre la scheda Google: la recensione resta pubblica sul
           nostro profilo, come tutte le altre.
         </p>

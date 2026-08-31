@@ -224,8 +224,13 @@ export function HeroCinematico() {
             {/* Ombra morbida sul testo: la sfumatura basta quasi sempre, ma il
                 video cambia inquadratura tre volte e in una di queste sotto al
                 titolo puo' capitare una zona chiara. E' l'assicurazione. */}
+            {/* La scala e' molto piu' bassa di prima perche' il carattere e'
+                cambiato: la condensata precedente stava in 9vw, la Jost e'
+                geometrica e larga e alla stessa misura sbordava dallo schermo.
+                Cambiare carattere vuol dire rifare la scala, non solo la
+                famiglia. */}
             <h1
-              className="font-display text-white text-[17vw] sm:text-[13vw] lg:text-[9vw] leading-[0.86] tracking-tight"
+              className="font-display text-white text-[12.5vw] sm:text-[9vw] lg:text-[6.2vw] leading-[0.92] tracking-[-0.03em]"
               style={{ textShadow: "0 2px 30px rgba(0,0,0,0.5)" }}
             >
               Diamo forma

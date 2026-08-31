@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
-import { categories, getCategoryBySlug } from "@/data/categories";
+import { getCategoryBySlug, categories } from "@/data/categories";
+import { famigliaDi } from "@/data/famiglie";
 import { CategoryGallery } from "@/components/CategoryGallery";
-import { QuoteFormModal } from "@/components/QuoteFormModal";
+import { usePreventivo } from "@/lib/preventivo";
 
 export const Route = createFileRoute("/categoria/$slug")({
   loader: ({ params }) => {
@@ -55,154 +54,196 @@ export const Route = createFileRoute("/categoria/$slug")({
 
 function CategoryPage() {
   const { category } = Route.useLoaderData();
-  const [open, setOpen] = useState(false);
+  const apriPreventivo = usePreventivo();
+  const famiglia = famigliaDi(category.slug);
+  const perSlug = new Map(categories.map((c) => [c.slug, c]));
 
-  const idx = categories.findIndex((c) => c.slug === category.slug);
+  // Gli altri prodotti della stessa famiglia. Sono il motivo per cui la pagina
+  // non e' un vicolo cieco: chi e' arrivato qui da Google cercando "biglietti da
+  // visita" da qui scopre il resto della famiglia invece di tornare indietro.
+  const vicini = (famiglia?.categorie ?? [])
+    .filter((slug) => slug !== category.slug)
+    .map((slug) => perSlug.get(slug))
+    .filter((c): c is NonNullable<typeof c> => Boolean(c))
+    .slice(0, 4);
+
+  // Nei dati alcune voci sono segnaposto ("-", stringhe vuote): senza filtro
+  // la scheda tecnica mostrava una colonna "Finiture" con dentro un trattino,
+  // che e' peggio di non mostrarla affatto — sembra un errore, non un dato.
+  const utili = (voci?: string[]) =>
+    (voci ?? []).map((v) => v.trim()).filter((v) => v.replace(/[-–—]/g, "").length > 0);
+
+  const schede: { etichetta: string; voci: string[] }[] = [
+    { etichetta: "Formati", voci: utili(category.formats) },
+    { etichetta: "Supporti e grammature", voci: utili(category.grammature) },
+    { etichetta: "Finiture", voci: utili(category.finiture) },
+    { etichetta: "Tempi", voci: utili(category.tempi) },
+  ].filter((s) => s.voci.length > 0);
 
   return (
-    <div className="px-6 sm:px-10 lg:px-16 pb-32 lg:pb-16">
-      {/* Header */}
-      <section className="pt-12 lg:pt-16 pb-12">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white mb-8 transition-colors"
-        >
-          <ArrowLeft className="h-3 w-3" /> Catalogo
-        </Link>
+    <div className="px-6 pb-24 sm:px-10 lg:px-16">
+      {/* TESTATA. Il percorso in alto porta il colore della famiglia: e' il
+          modo piu' economico per dire "sei dentro Carta e stampati" senza
+          aggiungere una riga di spiegazione. Prima c'era "01 / 20", che
+          sembrava una posizione in classifica e non serviva a nulla. */}
+      <section className="border-b border-white/15 pb-12 pt-10 lg:pb-16 lg:pt-14">
+        <nav className="occhiello mb-10 flex flex-wrap items-center gap-2 text-white/55">
+          <Link to="/" className="transition-colors hover:text-white">
+            Catalogo
+          </Link>
+          {famiglia && (
+            <>
+              <span aria-hidden="true">/</span>
+              <span style={{ color: famiglia.colore }}>{famiglia.nome}</span>
+            </>
+          )}
+        </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-          <div className="lg:col-span-8">
-            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
-              {String(idx + 1).padStart(2, "00")} / 20 ·
-              <span style={{ color: "var(--brand-red)" }}>{category.label}</span>
-            </div>
-            <h1 className="font-display text-white text-[13vw] sm:text-[9vw] lg:text-[6.5vw] leading-[0.92] tracking-tight">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
+          <div className="lg:col-span-7">
+            <h1 className="font-display text-[11vw] leading-[0.95] tracking-[-0.03em] text-white sm:text-[7.5vw] lg:text-[5vw]">
               {category.name}
             </h1>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70">
+              {category.tagline}
+            </p>
           </div>
-          <div className="lg:col-span-4 lg:pb-4">
-            <div
-              className="hidden lg:block h-px w-12 mb-4"
+          <div className="lg:col-span-5">
+            <p className="text-[15px] leading-relaxed text-white/60">
+              {category.description}
+            </p>
+            <button
+              type="button"
+              onClick={() => apriPreventivo(category)}
+              className="mt-7 hidden rounded-sm px-7 py-4 text-sm font-semibold uppercase tracking-widest text-white transition-transform hover:scale-[1.02] lg:inline-flex"
               style={{ background: "var(--brand-red)" }}
-            />
-            <p className="text-white/70 leading-relaxed">{category.description}</p>
+            >
+              Preventivo per {category.name.toLowerCase()}
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Tech sheet */}
-      <section className="mb-20">
-        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6">
-          ◆ Scheda tecnica
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-          {([
-            { label: "Formati", items: category.formats },
-            { label: "Grammature / supporti", items: category.grammature },
-            { label: "Tempi di produzione", items: category.tempi },
-          ] as { label: string; items: string[] }[]).map((card) => (
-            <div
-              key={card.label}
-              className="rounded-md border border-white/10 bg-card/40 backdrop-blur-sm p-5 hover:border-white/20 transition-colors"
-            >
-              <div
-                className="font-mono-ui text-[10px] uppercase tracking-[0.2em] mb-4"
-                style={{ color: "var(--brand-red)" }}
-              >
-                {card.label}
+      {/* SCHEDA TECNICA. Impaginata come la scheda di un lavoro: etichetta in
+          monospaziato, valori in tondo, un filetto per riga. Prima erano quattro
+          riquadri con bordo e sfondo, e mancava del tutto la colonna delle
+          finiture, che pure era gia' nei dati. */}
+      <section className="border-b border-white/15 py-12 lg:py-16">
+        <div className="occhiello mb-8 text-white/55">Scheda tecnica</div>
+        <div className="grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 xl:grid-cols-4">
+          {schede.map((s) => (
+              <div key={s.etichetta}>
+                <div
+                  className="occhiello mb-4 border-t pt-3"
+                  style={{
+                    color: famiglia?.colore ?? "var(--brand-red)",
+                    borderColor: famiglia?.colore ?? "var(--brand-red)",
+                  }}
+                >
+                  {s.etichetta}
+                </div>
+                <ul className="space-y-2.5">
+                  {s.voci.map((v) => (
+                    <li key={v} className="text-[15px] leading-snug text-white/80">
+                      {v}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="space-y-2">
-                {card.items.map((it) => (
-                  <li
-                    key={it}
-                    className="text-sm text-white leading-relaxed border-b border-white/5 pb-2 last:border-0"
-                  >
-                    {it}
-                  </li>
-                ))}
-              </ul>
-            </div>
           ))}
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="mb-20">
-        <div className="flex items-baseline justify-between mb-6">
-          <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40">
-            ◆ Lavori
-          </div>
-          <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/25">
-            click per ingrandire
-          </div>
+      <section className="border-b border-white/15 py-12 lg:py-16">
+        <div className="mb-8 flex flex-wrap items-baseline justify-between gap-3">
+          <h2 className="font-display text-3xl text-white lg:text-4xl">Lavori</h2>
+          <span className="occhiello text-white/55">Tocca per ingrandire</span>
         </div>
         <CategoryGallery category={category} />
       </section>
 
-      {/* Video */}
-      <section className="mb-20">
-        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6">
-          ◆ Video
-        </div>
-        {category.videoUrl ? (
-          <div className="w-full aspect-video rounded-lg overflow-hidden border border-white/10">
+      {category.videoUrl && (
+        <section className="border-b border-white/15 py-12 lg:py-16">
+          <h2 className="mb-8 font-display text-3xl text-white lg:text-4xl">In lavorazione</h2>
+          <div className="aspect-video w-full overflow-hidden rounded-sm border border-white/10">
             <video
               src={category.videoUrl}
+              poster={category.cover}
               controls
-              className="w-full h-full object-cover"
+              preload="none"
+              className="h-full w-full object-cover"
             />
           </div>
-        ) : (
-          <div className="w-full aspect-video rounded-lg border border-white/10 bg-card/40 backdrop-blur-sm grid place-items-center">
-            <div className="text-center">
-              <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/30 mb-2">
-                Video in arrivo
-              </div>
-              <div className="font-display text-2xl text-white/20">
-                {category.name}
-              </div>
-            </div>
-          </div>
-        )}
-      </section>
+        </section>
+      )}
 
-      {/* CTA */}
-      <section className="rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 lg:p-12 mb-16">
-        <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-end justify-between">
-          <div>
-            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
-              Pronto a partire?
-            </div>
-            <h2 className="font-display text-4xl lg:text-5xl text-white">
-              Richiedi un preventivo
+      {vicini.length > 0 && famiglia && (
+        <section className="border-b border-white/15 py-12 lg:py-16">
+          <div className="mb-8 flex flex-wrap items-baseline gap-3">
+            <h2 className="font-display text-3xl text-white lg:text-4xl">
+              Anche in {famiglia.nome.toLowerCase()}
             </h2>
-            <p className="mt-2 text-white/60 max-w-lg">
-              Inviaci specifiche e file: ti rispondiamo entro 24 ore con tempi e
-              opzioni di stampa.
-            </p>
           </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:gap-4">
+            {vicini.map((c) => (
+              <Link
+                key={c.slug}
+                to="/categoria/$slug"
+                params={{ slug: c.slug }}
+                className="group flex flex-col"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden rounded-sm border border-white/10">
+                  <img
+                    src={c.cover}
+                    alt={c.name}
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  />
+                  <span
+                    className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
+                    style={{ background: famiglia.colore }}
+                    aria-hidden="true"
+                  />
+                </div>
+                <div className="mt-3 font-display text-[16px] leading-tight text-white">
+                  {c.name}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* CHIUSURA. Il pulsante mobile che stava qui e' sparito: adesso c'e' la
+          barra fissa di tutto il sito, e due pulsanti identici sullo stesso
+          schermo sono solo ingombro. */}
+      <section className="py-14 lg:py-20">
+        <div className="occhiello mb-5 text-white/55">Il prossimo passo</div>
+        <h2 className="font-display text-4xl leading-[0.98] text-white lg:text-5xl">
+          Quante te ne servono?
+        </h2>
+        <p className="mt-4 max-w-xl text-base leading-relaxed text-white/65">
+          Mandaci il file, o anche solo un&apos;idea e una quantità. Ti rispondiamo
+          con prezzo, tempi e le opzioni che consigliamo — di solito in giornata.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
           <button
-            onClick={() => setOpen(true)}
-            className="hidden lg:inline-flex items-center justify-center rounded-md px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-transform hover:scale-[1.03]"
-            style={{ background: "var(--brand-red)", boxShadow: "var(--shadow-glow-red)" }}
+            type="button"
+            onClick={() => apriPreventivo(category)}
+            className="rounded-sm px-8 py-4 text-sm font-semibold uppercase tracking-widest text-white transition-transform hover:scale-[1.02]"
+            style={{ background: "var(--brand-red)" }}
           >
-            Richiedi preventivo
+            Richiedi un preventivo
           </button>
+          <a
+            href="tel:+393332876277"
+            className="rounded-sm border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-widest text-white/80 transition-colors hover:border-white/50 hover:text-white"
+          >
+            Chiamaci
+          </a>
         </div>
       </section>
-
-      {/* Sticky mobile CTA */}
-      <div className="fixed bottom-0 inset-x-0 z-30 lg:hidden border-t border-white/10 bg-background/95 backdrop-blur-xl p-3">
-        <button
-          onClick={() => setOpen(true)}
-          className="w-full rounded-md py-3.5 text-sm font-bold uppercase tracking-widest text-white"
-          style={{ background: "var(--brand-red)", boxShadow: "var(--shadow-glow-red)" }}
-        >
-          Richiedi preventivo
-        </button>
-      </div>
-
-      <QuoteFormModal open={open} onClose={() => setOpen(false)} category={category} />
     </div>
   );
 }

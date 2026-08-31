@@ -4,10 +4,12 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Search, X, Menu } from "lucide-react";
 import { categories } from "@/data/categories";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { usePreventivo } from "@/lib/preventivo";
 
 export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
+  const apriPreventivo = usePreventivo();
   const wrapRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -61,22 +63,16 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
           </div>
         </Link>
 
-        {/* Logo SVG centrato */}
-        <div className="hidden lg:flex flex-1 justify-center">
-          <Link to="/">
-            <img
-              src="/Logo-cambio.svg"
-              alt="Logo Tipografia Nuova Stampa"
-              className="h-10 w-auto dark:invert-0 invert"
-            />
-          </Link>
-        </div>
+        {/* Qui c'era un secondo logo, centrato, oltre a quello a sinistra: due
+            marchi nella stessa barra si annullano a vicenda. Adesso lo spazio
+            centrale e' vuoto e serve a spingere ricerca e azioni a destra. */}
+        <div className="hidden flex-1 lg:block" />
 
         {/* Destra — Chi siamo, toggle tema, ricerca */}
         <div className="flex items-center gap-3 lg:shrink-0 w-full lg:w-auto">
           <Link
             to="/chi-siamo"
-            className="hidden sm:inline-flex font-mono-ui text-[11px] uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors shrink-0"
+            className="occhiello hidden shrink-0 text-white/55 transition-colors hover:text-white sm:inline-flex"
           >
             Chi siamo
           </Link>
@@ -101,7 +97,7 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
                 }}
                 onFocus={() => setOpen(true)}
                 placeholder="Cerca un prodotto..."
-                className="flex-1 bg-transparent outline-none font-mono-ui text-sm text-white placeholder:text-white/40"
+                className="flex-1 bg-transparent outline-none font-mono-ui text-sm text-white placeholder:text-white/55"
               />
               {query && (
                 <button
@@ -123,7 +119,7 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
                 <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-md border border-white/15 bg-popover/95 backdrop-blur-xl shadow-2xl">
                   <div className="max-h-[60vh] overflow-y-auto">
                     {results.length === 0 ? (
-                      <div className="px-4 py-6 font-mono-ui text-sm text-white/40">
+                      <div className="px-4 py-6 font-mono-ui text-sm text-white/55">
                         Nessun prodotto trovato
                       </div>
                     ) : (
@@ -141,7 +137,7 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
                           className="flex w-full items-center justify-between gap-4 border-b border-white/5 px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-white/5"
                         >
                           <span className="text-sm text-white">{c.name}</span>
-                          <span className="font-mono-ui text-[10px] uppercase tracking-widest text-white/40">
+                          <span className="font-mono-ui text-[10px] uppercase tracking-widest text-white/55">
                             {c.label}
                           </span>
                         </button>
@@ -152,6 +148,19 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
               </>
             )}
           </div>
+
+          {/* Il preventivo e' l'azione che il sito deve far compiere: da qui non
+              sparisce mai, perche' l'intestazione e' appiccicata in alto. Sul
+              telefono non c'e' — la' c'e' gia' la barra fissa in basso, e due
+              pulsanti uguali sullo stesso schermo sono solo ingombro. */}
+          <button
+            type="button"
+            onClick={() => apriPreventivo()}
+            className="hidden shrink-0 rounded-sm px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-transform hover:scale-[1.03] lg:inline-flex"
+            style={{ background: "var(--brand-red)" }}
+          >
+            Preventivo
+          </button>
         </div>
       </div>
     </header>

@@ -64,7 +64,7 @@ function Lightbox({ photos, startIdx, onClose }: { photos: Photo[]; startIdx: nu
   return (
     <div className="fixed inset-0 z-[110] bg-black/95 backdrop-blur-md flex flex-col" onClick={onClose}>
       <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0" onClick={(e) => e.stopPropagation()}>
-        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40">
+        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55">
           {String(idx + 1).padStart(2, "0")} / {String(total).padStart(2, "00")}
         </div>
         <button onClick={onClose} className="p-2.5 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-all" aria-label="Chiudi">
@@ -72,7 +72,7 @@ function Lightbox({ photos, startIdx, onClose }: { photos: Photo[]; startIdx: nu
         </button>
       </div>
       <div className="flex-1 flex items-center justify-center px-4 py-4 min-h-0">
-        <button onClick={(e) => { e.stopPropagation(); setIdx((i) => (i - 1 + total) % total); }} className="shrink-0 p-2 text-white/40 hover:text-white transition-colors">
+        <button onClick={(e) => { e.stopPropagation(); setIdx((i) => (i - 1 + total) % total); }} className="shrink-0 p-2 text-white/55 hover:text-white transition-colors">
           <ChevronLeft className="h-8 w-8" />
         </button>
         <div className="relative flex-1 max-w-5xl mx-2 rounded-xl overflow-hidden" style={{ maxHeight: "calc(100vh - 180px)" }} onClick={(e) => e.stopPropagation()}>
@@ -84,7 +84,7 @@ function Lightbox({ photos, startIdx, onClose }: { photos: Photo[]; startIdx: nu
             </div>
           )}
         </div>
-        <button onClick={(e) => { e.stopPropagation(); setIdx((i) => (i + 1) % total); }} className="shrink-0 p-2 text-white/40 hover:text-white transition-colors">
+        <button onClick={(e) => { e.stopPropagation(); setIdx((i) => (i + 1) % total); }} className="shrink-0 p-2 text-white/55 hover:text-white transition-colors">
           <ChevronRight className="h-8 w-8" />
         </button>
       </div>
@@ -109,12 +109,12 @@ function AlbumPage() {
   return (
     <div className="px-6 sm:px-10 lg:px-16 pb-32 lg:pb-16">
       <section className="pt-12 lg:pt-16 pb-12">
-        <Link to="/portfolio/$slug/$event" params={{ slug: category.slug, event: event.slug }} className="inline-flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white mb-8 transition-colors">
+        <Link to="/portfolio/$slug/$event" params={{ slug: category.slug, event: event.slug }} className="inline-flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 hover:text-white mb-8 transition-colors">
           <ArrowLeft className="h-3 w-3" /> {event.name}
         </Link>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
           <div className="lg:col-span-8">
-            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
+            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55 mb-3">
               {category.name} · {event.name} · <span style={{ color: "var(--brand-red)" }}>{album.date}</span>
             </div>
             <h1 className="font-display text-white text-[10vw] sm:text-[7vw] lg:text-[5.5vw] leading-[0.92] tracking-tight">{album.title}</h1>
@@ -123,7 +123,7 @@ function AlbumPage() {
             <div className="hidden lg:block h-px w-12 mb-4" style={{ background: "var(--brand-red)" }} />
             <div className="space-y-2">
               {album.location && <p className="text-white/60 text-sm">{album.location}</p>}
-              <p className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/30">{album.photos.length} fotografie</p>
+              <p className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55">{album.photos.length} fotografie</p>
               {album.pixiesetUrl && (
                 <a
                   href={album.pixiesetUrl}
@@ -173,10 +173,10 @@ function AlbumPage() {
 
       <section className="mb-20">
         <div className="flex items-baseline justify-between mb-6">
-          <div className="flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40">
+          <div className="flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55">
             <Grid className="h-3 w-3" /> Galleria
           </div>
-          <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/25">click per ingrandire</div>
+          <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/55">click per ingrandire</div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
           {album.photos.map((photo: Photo, i: number) => {

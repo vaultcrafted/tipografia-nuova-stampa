@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ComeRaggiungerci } from "@/components/ComeRaggiungerci";
 import { Recensioni } from "@/components/Recensioni";
-import { ArrowLeft } from "lucide-react";
+import { usePreventivo } from "@/lib/preventivo";
 
 export const Route = createFileRoute("/chi-siamo")({
   head: () => ({
@@ -18,129 +18,126 @@ export const Route = createFileRoute("/chi-siamo")({
   component: ChiSiamoPage,
 });
 
+/**
+ * Chi siamo.
+ *
+ * Il testo e' lo stesso che c'era, riordinato e sfoltito dalle ripetizioni: la
+ * versione precedente diceva tre volte, con parole diverse, che si cura il
+ * dettaglio. I fatti — 1995, gestione dal 2024, il titolare che segue ogni
+ * lavoro — sono tutti qui, ma adesso stanno in cima e si leggono in due secondi,
+ * invece di essere sepolti al terzo paragrafo.
+ */
 function ChiSiamoPage() {
-  return (
-    <div className="px-6 sm:px-10 lg:px-16 pb-24">
-      <section className="pt-12 lg:pt-16 pb-12">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white mb-8 transition-colors"
-        >
-          <ArrowLeft className="h-3 w-3" /> Home
-        </Link>
+  const apriPreventivo = usePreventivo();
 
-        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
-          ◢ Dal 1995
-        </div>
-        <h1 className="font-display text-white text-[14vw] sm:text-[9vw] lg:text-[6.5vw] leading-[0.92] tracking-tight mb-12">
-          Chi siamo
+  return (
+    <div className="px-6 pb-24 sm:px-10 lg:px-16">
+      <section className="border-b border-white/15 pb-14 pt-10 lg:pb-20 lg:pt-14">
+        <nav className="occhiello mb-10 text-white/55">
+          <Link to="/" className="transition-colors hover:text-white">
+            Home
+          </Link>
+          <span className="mx-2" aria-hidden="true">/</span>
+          <span className="text-white/60">Chi siamo</span>
+        </nav>
+
+        <h1 className="max-w-4xl font-display text-[10vw] leading-[0.95] tracking-[-0.03em] text-white sm:text-[7vw] lg:text-[4.6vw]">
+          Una tipografia con dentro
+          <br className="hidden sm:block" /> una persona sola che risponde.
         </h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-7 space-y-6 text-white/70 leading-relaxed">
-            <p>
-              La tipografia nasce nel <strong className="text-white">1995</strong>. Dal{" "}
-              <strong className="text-white">2024</strong> è stata presa in gestione da Stefano
-              Giunipero, che ne ha rivoluzionato approccio, servizi e tecnologie, portando
-              una visione più moderna e completa della stampa professionale.
-            </p>
-            <p>
-              Da anni trasformiamo idee in stampa, dando forma a progetti che devono
-              distinguersi davvero. Siamo una tipografia che unisce esperienza artigianale,
-              attenzione ai dettagli e tecnologie moderne per offrire un servizio completo,
-              veloce e curato in ogni fase.
-            </p>
-            <p>
-              Lavoriamo ogni giorno con aziende, locali, brand ed eventi, seguendo il cliente
-              dalla progettazione grafica fino al prodotto finito. Dalla piccola tiratura alle
-              produzioni personalizzate, il nostro obiettivo è sempre lo stesso: creare
-              materiali che abbiano impatto visivo, qualità concreta e una forte identità.
-            </p>
-            <p>
-              Negli anni abbiamo ampliato i nostri servizi integrando stampa digitale
-              professionale, grande formato, packaging personalizzato, gadget, incisione laser
-              e soluzioni creative su misura. Crediamo che oggi non basti "stampare bene":
-              serve aiutare i clienti a comunicare meglio, distinguersi e valorizzare il
-              proprio brand.
-            </p>
-            <p>
-              Ogni progetto viene seguito con attenzione reale, senza lavorazioni
-              standardizzate o approcci superficiali. Per noi contano la precisione, le
-              tempistiche rispettate e il rapporto diretto con chi si affida al nostro lavoro.
-            </p>
-            <p>
-              Siamo il partner ideale per chi cerca una tipografia affidabile, moderna e
-              capace di trasformare un'idea in qualcosa di concreto, professionale e
-              memorabile.
-            </p>
-            <img
-              src="/Logo-cambio.svg"
-              alt="Tipografia Nuova Stampa"
-              className="h-20 lg:h-28 w-auto mt-4 dark:invert-0 invert"
-            />
-          </div>
-
-          <div className="lg:col-span-5 space-y-8">
-            <div className="rounded-md border border-white/10 bg-card/40 backdrop-blur-sm p-6">
-              <div
-                className="font-mono-ui text-[10px] uppercase tracking-[0.2em] mb-4"
-                style={{ color: "var(--brand-red)" }}
-              >
-                Cosa facciamo
-              </div>
-              <ul className="space-y-3">
-                {[
-                  "Stampa digitale professionale",
-                  "Grande formato e banner",
-                  "Packaging ed etichette personalizzate",
-                  "Brochure, flyer e materiale promozionale",
-                  "Gadget e merchandising",
-                  "Incisione e personalizzazione laser",
-                  "Supporto grafico e creativo",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="text-sm text-white/80 border-b border-white/5 pb-3 last:border-0 flex items-start gap-2"
-                  >
-                    <span style={{ color: "var(--brand-red)" }}>◆</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+        {/* I fatti in alto, in colonne, come i dati di una scheda. Chi vuole
+            sapere "da quanto ci sono e chi ci lavora" non deve leggere sei
+            paragrafi per scoprirlo. */}
+        <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-white/15 pt-8 lg:grid-cols-4">
+          {[
+            { t: "Fondata nel", v: "1995" },
+            { t: "Nuova gestione dal", v: "2024" },
+            { t: "Dove", v: "Livorno Ferraris" },
+            { t: "Chi ti risponde", v: "Stefano" },
+          ].map((f) => (
+            <div key={f.t}>
+              <dt className="occhiello mb-3 text-white/55">{f.t}</dt>
+              <dd className="font-display text-2xl text-white lg:text-3xl">{f.v}</dd>
             </div>
+          ))}
+        </dl>
+      </section>
 
-            <div className="rounded-md border border-white/10 bg-card/40 backdrop-blur-sm p-6">
-              <div
-                className="font-mono-ui text-[10px] uppercase tracking-[0.2em] mb-4"
-                style={{ color: "var(--brand-red)" }}
-              >
-                Il nostro approccio
-              </div>
-              <p className="text-sm text-white/70 leading-relaxed mb-4">
-                Qualità, velocità e attenzione ai dettagli. Perché ogni stampa rappresenta
-                il tuo nome, e deve farlo nel modo giusto.
-              </p>
-              <ul className="space-y-2">
-                <li className="text-sm text-white/70 flex items-start gap-2">
-                  <span style={{ color: "var(--brand-red)" }}>→</span>
-                  Un solo interlocutore: il titolare segue ogni progetto personalmente
-                </li>
-                <li className="text-sm text-white/70 flex items-start gap-2">
-                  <span style={{ color: "var(--brand-red)" }}>→</span>
-                  Supporto a 360°, dalla grafica al prodotto finito
-                </li>
-                <li className="text-sm text-white/70 flex items-start gap-2">
-                  <span style={{ color: "var(--brand-red)" }}>→</span>
-                  Nessun approccio standardizzato: ogni cliente è unico
-                </li>
-              </ul>
-            </div>
-          </div>
+      <section className="grid grid-cols-1 gap-12 border-b border-white/15 py-14 lg:grid-cols-12 lg:gap-16 lg:py-20">
+        <div className="space-y-6 text-[17px] leading-relaxed text-white/75 lg:col-span-7">
+          <p>
+            La tipografia nasce nel <strong className="font-medium text-white">1995</strong>.
+            Dal <strong className="font-medium text-white">2024</strong> è in gestione a
+            Stefano Giunipero, che ne ha rivisto approccio, servizi e macchinari.
+          </p>
+          <p>
+            Lavoriamo con aziende, locali, brand ed eventi, seguendo il cliente dalla
+            grafica al prodotto finito. Dalla tiratura da dieci pezzi alla produzione
+            personalizzata.
+          </p>
+          <p>
+            Negli anni si sono aggiunti stampa digitale professionale, grande formato,
+            packaging, gadget, incisione laser e stampa su abbigliamento. Non perché
+            fosse di moda: perché stampare bene, oggi, spesso non basta — serve aiutare
+            chi ci porta un file a farsi riconoscere.
+          </p>
+          <p>
+            Nessuna lavorazione automatica e nessun call center: il titolare segue ogni
+            progetto di persona, e quando chiami risponde lui.
+          </p>
         </div>
 
-        <Recensioni />
+        <div className="lg:col-span-5">
+          <div className="occhiello mb-6 text-white/55">Cosa facciamo</div>
+          <ul className="space-y-0">
+            {[
+              "Stampa digitale professionale",
+              "Grande formato e banner",
+              "Packaging ed etichette personalizzate",
+              "Brochure, volantini e materiale promozionale",
+              "Gadget e merchandising",
+              "Incisione e personalizzazione laser",
+              "Stampa su abbigliamento (DTF)",
+              "Supporto grafico e creativo",
+            ].map((v) => (
+              <li
+                key={v}
+                className="border-t border-white/10 py-3.5 text-[15px] text-white/80 last:border-b"
+              >
+                {v}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-        <ComeRaggiungerci />
+      <div className="border-b border-white/15">
+        <Recensioni titolo="Cosa dicono i clienti" />
+      </div>
+
+      <ComeRaggiungerci />
+
+      <section className="border-t border-white/15 pt-14 lg:pt-20">
+        <h2 className="font-display text-4xl leading-[0.98] text-white lg:text-5xl">
+          Hai un lavoro da farci vedere?
+        </h2>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={() => apriPreventivo()}
+            className="rounded-sm px-8 py-4 text-sm font-semibold uppercase tracking-widest text-white transition-transform hover:scale-[1.02]"
+            style={{ background: "var(--brand-red)" }}
+          >
+            Richiedi un preventivo
+          </button>
+          <a
+            href="tel:+393332876277"
+            className="rounded-sm border border-white/25 px-8 py-4 text-sm font-semibold uppercase tracking-widest text-white/80 transition-colors hover:border-white/50 hover:text-white"
+          >
+            +39 333 287 6277
+          </a>
+        </div>
       </section>
     </div>
   );

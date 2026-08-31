@@ -94,17 +94,17 @@ function EventCard({
         style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)" }}
       />
 
-      <div className="absolute top-4 left-4 font-mono-ui text-[10px] tabular-nums text-white/30">
+      <div className="absolute top-4 left-4 font-mono-ui text-[10px] tabular-nums text-white/55">
         {String(index + 1).padStart(2, "0")}
       </div>
 
       {/* Contatore album */}
-      <div className="absolute top-4 right-4 font-mono-ui text-[9px] uppercase tracking-[0.2em] text-white/30 group-hover:text-[var(--brand-red)] transition-colors">
+      <div className="absolute top-4 right-4 font-mono-ui text-[9px] uppercase tracking-[0.2em] text-white/55 group-hover:text-[var(--brand-red)] transition-colors">
         {hasAlbums ? `${albumCount} album` : "prossimamente"}
       </div>
 
       <div className="absolute inset-0 flex items-center justify-center opacity-15 group-hover:opacity-8 transition-opacity">
-        <div className="font-display text-6xl text-white/40">
+        <div className="font-display text-6xl text-white/55">
           {String(index + 1).padStart(2, "0")}
         </div>
       </div>
@@ -116,7 +116,7 @@ function EventCard({
         <p className="mt-1.5 text-[12px] text-white/50 line-clamp-2 leading-relaxed">
           {event.description}
         </p>
-        <div className="mt-3 inline-flex items-center gap-1.5 font-mono-ui text-[10px] uppercase tracking-widest text-white/30 group-hover:text-white/60 transition-colors">
+        <div className="mt-3 inline-flex items-center gap-1.5 font-mono-ui text-[10px] uppercase tracking-widest text-white/55 group-hover:text-white/60 transition-colors">
           <span>{hasAlbums ? "Sfoglia album" : "In arrivo"}</span>
           <ChevronRight className="h-3 w-3" />
         </div>
@@ -140,14 +140,14 @@ function PortfolioPage() {
       <section className="pt-12 lg:pt-16 pb-12">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white mb-8 transition-colors"
+          className="inline-flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 hover:text-white mb-8 transition-colors"
         >
           <ArrowLeft className="h-3 w-3" /> Catalogo
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
           <div className="lg:col-span-8">
-            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
+            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55 mb-3">
               portfolio ·{" "}
               <span style={{ color: "var(--brand-red)" }}>{category.label}</span>
             </div>
@@ -171,7 +171,7 @@ function PortfolioPage() {
             { label: "Consegna", value: isPhoto ? "Entro 30 giorni" : "Entro 60 giorni" },
           ].map((stat) => (
             <div key={stat.label} className="bg-card/40 backdrop-blur-sm px-6 py-5">
-              <div className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/30 mb-2">
+              <div className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2">
                 {stat.label}
               </div>
               <div className="font-display text-3xl text-white">{stat.value}</div>
@@ -183,10 +183,10 @@ function PortfolioPage() {
       {/* Events grid */}
       <section className="mb-20">
         <div className="flex items-baseline justify-between mb-6">
-          <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40">
+          <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55">
             ◆ Tipologie di eventi
           </div>
-          <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/25">
+          <div className="font-mono-ui text-[10px] uppercase tracking-widest text-white/55">
             click per gli album
           </div>
         </div>
@@ -205,7 +205,7 @@ function PortfolioPage() {
 
       {/* Come funziona */}
       <section className="mb-20">
-        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6">
+        <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55 mb-6">
           ◆ Come funziona
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -239,7 +239,7 @@ function PortfolioPage() {
       <section className="rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 lg:p-12 mb-16">
         <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-end justify-between">
           <div>
-            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
+            <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/55 mb-3">
               Prenota il tuo servizio
             </div>
             <h2 className="font-display text-4xl lg:text-5xl text-white">
