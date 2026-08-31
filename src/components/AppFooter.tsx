@@ -27,8 +27,18 @@ export function AppFooter() {
           <div className="mt-1">Sabato su appuntamento</div>
         </div>
       </div>
-      <div className="mt-8 pt-6 border-t border-white/5 font-mono-ui text-[10px] tracking-widest text-white/25 uppercase">
-        © {new Date().getFullYear()} Tipografia Nuova Stampa — Tutti i diritti riservati
+      <div className="mt-8 pt-6 border-t border-white/5 space-y-3">
+        {/* Trasparenza sulle immagini: le foto di catalogo sono generate con AI,
+            quelle del portfolio sono lavori realmente eseguiti. */}
+        <p className="max-w-3xl font-mono-ui text-[10px] leading-relaxed tracking-wide text-white/30 normal-case">
+          Le immagini che illustrano le categorie di catalogo sono generate con
+          intelligenza artificiale e hanno valore puramente indicativo: formati,
+          colori e finiture dei prodotti reali possono differire. Le fotografie
+          del portfolio sono invece lavori realmente eseguiti da noi.
+        </p>
+        <div className="font-mono-ui text-[10px] tracking-widest text-white/25 uppercase">
+          © {new Date().getFullYear()} Tipografia Nuova Stampa — Tutti i diritti riservati
+        </div>
       </div>
     </footer>
   );
