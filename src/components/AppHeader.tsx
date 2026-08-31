@@ -29,6 +29,27 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
+  /**
+   * Il marchio in alto a sinistra riporta alla home. Ma se la home e' gia'
+   * aperta il router non ha niente da fare e il clic sembra rotto: e' il
+   * momento in cui uno sta scorrendo a meta' catalogo, torna in cima con
+   * l'occhio, preme il logo e non succede niente.
+   *
+   * Quindi: da un'altra pagina lascio navigare il router; dalla home fermo il
+   * clic e riporto la pagina in cima.
+   *
+   * I clic "speciali" (rotellina, cmd/ctrl per aprire in una scheda nuova,
+   * shift per una finestra) non vanno intercettati, altrimenti si toglie a chi
+   * lo usa un comportamento del browser che si aspetta.
+   */
+  const tornaInCima = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname !== "/") return;
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    const dolce = !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: dolce ? "smooth" : "auto" });
+  };
+
   const q = query.trim().toLowerCase();
   const results = q
     ? categories.filter(
@@ -51,7 +72,12 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
         </button>
 
         {/* Logo sinistra — quadratino NS + nome */}
-        <Link to="/" className="group/logo flex items-center gap-3 shrink-0">
+        <Link
+          to="/"
+          onClick={tornaInCima}
+          aria-label={pathname === "/" ? "Torna in cima alla pagina" : "Vai alla home"}
+          className="group/logo flex items-center gap-3 shrink-0"
+        >
           <MarchioNS className="h-9 w-9 shrink-0 text-white transition-colors duration-300 group-hover/logo:text-[var(--brand-red)]" />
           <div className="hidden sm:flex flex-col leading-tight">
             <span className="font-display text-xl tracking-wide text-white">
