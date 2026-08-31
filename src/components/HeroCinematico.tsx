@@ -22,6 +22,20 @@ import { useEffect, useState } from "react";
 /** Altezza dell'header sticky: il video parte da sotto, non gli finisce dietro. */
 const HEADER_PX = 73;
 
+/**
+ * Versione dei file dell'hero, che e' anche la cartella in cui stanno.
+ *
+ * ALZALA OGNI VOLTA che cambi il video, anche solo per rifare il montaggio.
+ * I file hanno nome fisso (hero.mp4), e senza la cartella versionata chi era
+ * gia' passato sul sito continuerebbe a vedere il video vecchio per un giorno
+ * intero: e' successo il 31/08/2026, il cliente rispondeva "non e' cambiato
+ * nulla" mentre il file nuovo era regolarmente online.
+ *
+ * In cambio, questi file sono dichiarati immutabili in public/_headers e non
+ * vengono mai richiesti due volte.
+ */
+const VER = "v3";
+
 export function HeroCinematico() {
   /** null = non ancora deciso, quindi niente video: si vede solo il poster. */
   const [grande, setGrande] = useState<boolean | null>(null);
@@ -38,7 +52,7 @@ export function HeroCinematico() {
       style={{ height: `calc(100svh - ${HEADER_PX}px)`, minHeight: 520 }}
     >
       <img
-        src="/media/_hero/hero.webp"
+        src={`/hero/${VER}/hero.webp`}
         alt=""
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"
@@ -48,8 +62,8 @@ export function HeroCinematico() {
           solo e' esattamente cio' che quell'impostazione chiede di non fare. */}
       {grande !== null && animazioni && (
         <video
-          src={grande ? "/media/_hero/hero.mp4" : "/media/_hero/hero-small.mp4"}
-          poster="/media/_hero/hero.webp"
+          src={grande ? `/hero/${VER}/hero.mp4` : `/hero/${VER}/hero-small.mp4`}
+          poster={`/hero/${VER}/hero.webp`}
           autoPlay
           muted
           loop

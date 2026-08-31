@@ -3,7 +3,7 @@
 #
 #   ./scripts/hero-encode.sh clip1.mp4 clip2.mp4 clip3.mp4
 #
-# Produce in public/media/_hero/:
+# Produce in public/hero/<versione>/:
 #   hero.mp4        1280x720, ~11,7 s — desktop e tablet.
 #   hero-small.mp4  854 px di larghezza — telefoni: l'hero parte da solo, e far
 #                   pagare 1,3 MB di traffico a chi e' in giro sarebbe scortese.
@@ -27,7 +27,12 @@ set -euo pipefail
 A="${1:?servono tre clip: clip1 clip2 clip3}"
 B="${2:?servono tre clip: clip1 clip2 clip3}"
 C="${3:?servono tre clip: clip1 clip2 clip3}"
-DEST="public/media/_hero"
+# La cartella porta la versione nel nome. ALZALA a ogni video nuovo e allinea
+# VER in src/components/HeroCinematico.tsx: i file si chiamano sempre hero.mp4,
+# quindi senza cartella nuova chi era gia' passato sul sito vedrebbe il vecchio
+# per un giorno intero (successo il 31/08/2026).
+VER="${VER:-v3}"
+DEST="public/hero/$VER"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 mkdir -p "$DEST"

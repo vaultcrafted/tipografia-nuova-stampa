@@ -6,6 +6,17 @@
 /media/*
   Cache-Control: public, max-age=86400
 
+# I file dell'hero stanno in /hero/<versione>/. Un contenuto nuovo va in una
+# cartella nuova, quindi questi non cambiano mai e si possono tenere per sempre.
+#
+# Sta fuori da /media/ per un motivo pratico: quando due regole di questo file
+# combaciano con lo stesso percorso, Cloudflare NON sostituisce l'una con
+# l'altra, le concatena. Con l'hero dentro /media/ usciva
+# "max-age=86400, public, max-age=31536000, immutable", cioe' un'intestazione
+# malformata in cui vince il primo valore. Provato il 31/08/2026.
+/hero/*
+  Cache-Control: public, max-age=31536000, immutable
+
 # Le icone hanno nome fisso: TTL corto, altrimenti una modifica resta
 # invisibile per giorni dietro la cache di bordo (successo il 31/08/2026).
 /favicon.svg
