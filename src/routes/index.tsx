@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { categories, portfolioCategories } from "@/data/categories";
+import { HeroCinematico } from "@/components/HeroCinematico";
 import { Recensioni } from "@/components/Recensioni";
 import { QuoteFormModal } from "@/components/QuoteFormModal";
 
@@ -34,40 +35,10 @@ function HomePage() {
 
   return (
     <div className="px-6 sm:px-10 lg:px-16">
-      {/* HERO */}
-      <section className="min-h-[78vh] flex flex-col justify-center py-16 lg:py-24">
-        <div className="font-mono-ui text-[11px] uppercase tracking-[0.3em] text-white/40 mb-8">
-          ◢ Stampa tipografica · Livorno Ferraris (VC)
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-          <h1 className="lg:col-span-9 font-display text-white text-[18vw] sm:text-[12vw] lg:text-[9.5vw] leading-[0.88] tracking-tight">
-            Diamo forma
-            <br />
-            <span className="inline-block">
-              alle tue{" "}
-              <span style={{ color: "var(--brand-red)" }} className="text-glow-red">
-                idee
-              </span>
-            </span>
-          </h1>
-
-          <div className="lg:col-span-3 lg:pb-6">
-            <div
-              className="hidden lg:block h-px w-12 mb-4"
-              style={{ background: "var(--brand-red)" }}
-            />
-            <p className="text-white/70 text-base leading-relaxed max-w-sm">
-              Stampa professionale per chi non scende a compromessi.
-              Offset, digitale, DTF, grande formato e finiture artigianali —
-              tutto sotto lo stesso tetto.
-            </p>
-          </div>
-        </div>
-      </section>
+      <HeroCinematico />
 
       {/* NOVITÀ · DTF */}
-      <section className="mb-20 lg:mb-28">
+      <section className="mt-20 lg:mt-28 mb-20 lg:mb-28">
         <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.07] via-white/[0.02] to-transparent p-8 lg:p-12">
           <div
             className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-30 blur-3xl"
