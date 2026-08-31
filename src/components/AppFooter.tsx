@@ -101,13 +101,16 @@ export function AppFooter() {
       </div>
 
       <div className="mt-12 space-y-4 border-t border-white/10 pt-8">
-        {/* Trasparenza sulle immagini: le foto di catalogo sono generate con AI,
-            quelle del portfolio sono lavori realmente eseguiti. */}
+        {/* Trasparenza sulle immagini. Questa riga va tenuta vera: quando
+            arriveranno le fotografie dei lavori veri, la frase sulle copertine
+            del portfolio va tolta insieme ai file segnaposto. */}
         <p className="max-w-3xl text-[12px] leading-relaxed text-white/55">
-          Le immagini che illustrano le categorie di catalogo sono generate con
-          intelligenza artificiale e hanno valore puramente indicativo: formati,
-          colori e finiture dei prodotti reali possono differire. Le fotografie
-          del portfolio sono invece lavori realmente eseguiti da noi.
+          Le immagini che illustrano le categorie di catalogo, e le due
+          copertine delle sezioni Fotografia e Video, sono generate con
+          intelligenza artificiale e hanno valore puramente indicativo:
+          formati, colori e finiture dei prodotti reali possono differire. Le
+          fotografie dentro gli album del portfolio sono invece lavori
+          realmente eseguiti da noi.
         </p>
         <div className="occhiello text-white/55">
           © {new Date().getFullYear()} Tipografia Nuova Stampa

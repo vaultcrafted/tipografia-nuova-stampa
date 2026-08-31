@@ -66,6 +66,23 @@ export function srcSetScatto(src: string): string {
 export const misureScatto = ORIZZONTALE;
 
 /**
+ * Copertine del portfolio (`/media/fotografia/v.webp`, `/media/video/v.webp`).
+ * Sono orizzontali come gli scatti, quindi hanno le stesse derivate e possono
+ * usare `srcSetScatto`; cambia solo la forma del file, 16:10 invece di 4:3,
+ * perche' il riquadro in home e' 16:10.
+ */
+export const misurePortfolio = { larghezza: 1600, altezza: 1000 };
+
+/**
+ * `sizes` per i due riquadri del portfolio in home: una colonna sul telefono,
+ * due da 640px in su. Da 1024px c'e' anche il menu laterale largo 310px, che
+ * toglie spazio: a 1440 il riquadro e' 493px, cioe' circa il 34% della
+ * finestra.
+ */
+export const SIZES_PORTFOLIO =
+  "(min-width: 1024px) 34vw, (min-width: 640px) 47vw, 92vw";
+
+/**
  * `sizes` per la scheda del catalogo in home e nelle voci "anche in…".
  *
  * Ricavato dalla griglia vera, non a occhio: due colonne sotto i 640px, tre

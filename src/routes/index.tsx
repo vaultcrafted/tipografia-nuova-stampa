@@ -7,6 +7,7 @@ import { Recensioni } from "@/components/Recensioni";
 import { famiglie } from "@/data/famiglie";
 import { usePreventivo } from "@/lib/preventivo";
 import { useRivela } from "@/lib/rivela";
+import { SIZES_PORTFOLIO, misurePortfolio, srcSetScatto } from "@/lib/immagini";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -69,6 +70,10 @@ function HomePage() {
             >
               <img
                 src={`/media/${c.slug}/v.webp`}
+                srcSet={srcSetScatto(`/media/${c.slug}/v.webp`)}
+                sizes={SIZES_PORTFOLIO}
+                width={misurePortfolio.larghezza}
+                height={misurePortfolio.altezza}
                 alt={c.name}
                 loading="lazy"
                 decoding="async"
