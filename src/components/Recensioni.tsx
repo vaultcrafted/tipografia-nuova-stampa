@@ -1,5 +1,10 @@
-import { Star, ExternalLink } from "lucide-react";
-import { recensioni, mediaStelle, URL_RECENSIONI } from "@/data/recensioni";
+import { Star, ExternalLink, PenLine } from "lucide-react";
+import {
+  recensioni,
+  VALUTAZIONE,
+  URL_RECENSIONI,
+  URL_SCRIVI_RECENSIONE,
+} from "@/data/recensioni";
 
 /**
  * Recensioni Google citate a mano (vedi src/data/recensioni.ts).
@@ -8,18 +13,26 @@ import { recensioni, mediaStelle, URL_RECENSIONI } from "@/data/recensioni";
  * strutturati di recensione "auto-referenziali", cioe' quelli in cui l'attivita'
  * pubblica sul proprio sito le valutazioni su se stessa. Metterli rischia
  * un'azione manuale invece delle stelline nei risultati.
+ *
+ * Le stelle compaiono una volta sola, sul totale verificato dal profilo.
+ * Le singole recensioni non le hanno: il voto di ognuna non si legge
+ * dall'elenco pubblico, e darlo per scontato sarebbe inventare un dato.
  */
-function Stelle({ quante, classe = "h-3.5 w-3.5" }: { quante: number; classe?: string }) {
+function Stelle({ media }: { media: number }) {
+  const piene = Math.round(media);
   return (
-    <span className="inline-flex gap-0.5" aria-label={`${quante} stelle su 5`}>
+    <span
+      className="inline-flex gap-0.5"
+      aria-label={`${media.toFixed(1).replace(".", ",")} stelle su 5`}
+    >
       {[1, 2, 3, 4, 5].map((i) => (
         <Star
           key={i}
-          className={classe}
+          className="h-4 w-4"
           aria-hidden="true"
           style={{
-            fill: i <= quante ? "var(--brand-red)" : "transparent",
-            color: i <= quante ? "var(--brand-red)" : "rgba(255,255,255,0.25)",
+            fill: i <= piene ? "var(--brand-red)" : "transparent",
+            color: i <= piene ? "var(--brand-red)" : "rgba(255,255,255,0.25)",
           }}
         />
       ))}
@@ -32,8 +45,6 @@ export function Recensioni({ titolo = "Cosa dicono i clienti" }: { titolo?: stri
   // sezione assente che una sezione finta.
   if (recensioni.length === 0) return null;
 
-  const media = mediaStelle();
-
   return (
     <section className="mt-16 lg:mt-24">
       <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
@@ -42,15 +53,13 @@ export function Recensioni({ titolo = "Cosa dicono i clienti" }: { titolo?: stri
             ◆ Recensioni Google
           </div>
           <h2 className="font-display text-3xl lg:text-4xl text-white leading-tight">{titolo}</h2>
-          {media !== null && (
-            <div className="mt-3 flex items-center gap-3">
-              <Stelle quante={Math.round(media)} classe="h-4 w-4" />
-              <span className="font-mono-ui text-[11px] tabular-nums text-white/50">
-                {media.toFixed(1).replace(".", ",")} · {recensioni.length}{" "}
-                {recensioni.length === 1 ? "recensione" : "recensioni"}
-              </span>
-            </div>
-          )}
+          <div className="mt-3 flex items-center gap-3">
+            <Stelle media={VALUTAZIONE.media} />
+            <span className="font-mono-ui text-[11px] tabular-nums text-white/50">
+              {VALUTAZIONE.media.toFixed(1).replace(".", ",")} · {VALUTAZIONE.quante} recensioni su
+              Google
+            </span>
+          </div>
         </div>
 
         <a
@@ -70,7 +79,6 @@ export function Recensioni({ titolo = "Cosa dicono i clienti" }: { titolo?: stri
             key={`${r.autore}-${r.quando}`}
             className="flex flex-col gap-4 rounded-lg border border-white/10 bg-card/40 backdrop-blur-sm p-5 transition-colors hover:border-white/20"
           >
-            <Stelle quante={r.stelle} />
             <blockquote className="text-sm leading-relaxed text-white/75 flex-1">
               {r.testo}
             </blockquote>
@@ -82,6 +90,22 @@ export function Recensioni({ titolo = "Cosa dicono i clienti" }: { titolo?: stri
             </figcaption>
           </figure>
         ))}
+      </div>
+
+      <div className="mt-8 flex flex-wrap items-center gap-4">
+        <a
+          href={URL_SCRIVI_RECENSIONE}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-md border border-white/20 px-5 py-3 text-sm font-bold uppercase tracking-widest text-white/70 transition-colors hover:text-white hover:border-white/40"
+        >
+          <PenLine className="h-4 w-4" aria-hidden="true" />
+          Lascia una recensione
+        </a>
+        <p className="font-mono-ui text-[10px] leading-relaxed tracking-wide text-white/30 normal-case">
+          Il pulsante apre la scheda Google: la recensione resta pubblica sul
+          nostro profilo, come tutte le altre.
+        </p>
       </div>
     </section>
   );
