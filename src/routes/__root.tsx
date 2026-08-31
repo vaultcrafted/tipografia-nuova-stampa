@@ -83,7 +83,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient; env?
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      // L'SVG e' quello buono (si adatta al tema della barra). Gli altri sono le
+      // scialuppe: Google e diversi client non leggono l'SVG e cercano il .ico.
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "icon", href: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { rel: "icon", href: "/icon-512.png", type: "image/png", sizes: "512x512" },
       { rel: "stylesheet", href: appCss },
       {
         rel: "stylesheet",
