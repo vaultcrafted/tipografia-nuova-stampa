@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ComeRaggiungerci } from "@/components/ComeRaggiungerci";
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/chi-siamo")({
@@ -135,6 +136,8 @@ function ChiSiamoPage() {
             </div>
           </div>
         </div>
+
+        <ComeRaggiungerci />
       </section>
     </div>
   );
