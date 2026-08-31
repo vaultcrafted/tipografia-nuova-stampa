@@ -1,6 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#0f1a2e"/>
-  <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="'Bebas Neue', sans-serif" font-size="16" font-weight="bold" letter-spacing="1">
-    <tspan fill="#E8002D">N</tspan><tspan fill="white">S</tspan>
-  </text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Tipografia Nuova Stampa">
+  <title>Tipografia Nuova Stampa</title>
+  <!-- Il marchio segue il tema della barra del browser: scuro su chiara, bianco su scura. -->
+  <style>
+    .marchio { fill: #12161F; }
+    @media (prefers-color-scheme: dark) { .marchio { fill: #FFFFFF; } }
+  </style>
+  <defs>
+    <mask id="n">
+      <rect width="100" height="100" fill="#fff"/>
+      <g fill="#000">
+        <rect x="32" y="26" width="13" height="48"/>
+        <rect x="59" y="26" width="13" height="48"/>
+        <polygon points="32,26 45,26 72,74 59,74"/>
+      </g>
+    </mask>
+  </defs>
+  <path class="marchio" mask="url(#n)"
+        d="M10 4h82a6 6 0 0 1 6 6v80a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6V65a15 15 0 0 0 0-30V10a6 6 0 0 1 6-6z"/>
 </svg>

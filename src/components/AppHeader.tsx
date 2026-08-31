@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { MarchioNS } from "@/components/MarchioNS";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Search, X, Menu } from "lucide-react";
 import { categories } from "@/data/categories";
@@ -48,12 +49,8 @@ export function AppHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
         </button>
 
         {/* Logo sinistra — quadratino NS + nome */}
-        <Link to="/" className="flex items-center gap-3 shrink-0">
-          <div className="h-9 w-9 rounded-md hairline-strong grid place-items-center bg-background/60 transition-all hover:border-[var(--brand-red)] hover:shadow-[0_0_12px_var(--brand-red)] active:shadow-[0_0_20px_var(--brand-red)]">
-            <span className="font-display text-lg leading-none text-white">
-              <span style={{ color: "var(--brand-red)" }}>N</span>S
-            </span>
-          </div>
+        <Link to="/" className="group/logo flex items-center gap-3 shrink-0">
+          <MarchioNS className="h-9 w-9 shrink-0 text-white transition-colors duration-300 group-hover/logo:text-[var(--brand-red)]" />
           <div className="hidden sm:flex flex-col leading-tight">
             <span className="font-display text-xl tracking-wide text-white">
               Tipografia Nuova Stampa
