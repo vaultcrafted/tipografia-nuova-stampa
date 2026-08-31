@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import type { Category } from "@/data/categories";
+import {
+  SIZES_GALLERIA,
+  misureCopertina,
+  misureScatto,
+  srcSetCopertina,
+  srcSetScatto,
+} from "@/lib/immagini";
 
 /**
  * Griglia lavori: 4 scatti orizzontali (quadrati nella griglia) attorno
@@ -17,6 +24,13 @@ export function CategoryGallery({ category }: { category: Category }) {
     { src: category.images[2], vertical: false },
     { src: category.images[3], vertical: false },
   ];
+
+  // Il riquadro centrale e' la copertina verticale, gli altri quattro sono gli
+  // scatti orizzontali: hanno derivate di misure diverse.
+  const insieme = (vertical: boolean) => ({
+    srcSet: vertical ? srcSetCopertina : srcSetScatto,
+    misure: vertical ? misureCopertina : misureScatto,
+  });
   const total = shots.length;
 
   useEffect(() => {
@@ -43,6 +57,10 @@ export function CategoryGallery({ category }: { category: Category }) {
       <div className="absolute inset-0" style={tileStyle} />
       <img
         src={shots[idx].src}
+        srcSet={insieme(shots[idx].vertical).srcSet(shots[idx].src)}
+        sizes={SIZES_GALLERIA}
+        width={insieme(shots[idx].vertical).misure.larghezza}
+        height={insieme(shots[idx].vertical).misure.altezza}
         alt={`${category.name} — scatto ${badge}`}
         loading="lazy"
         decoding="async"

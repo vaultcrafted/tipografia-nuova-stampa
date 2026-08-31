@@ -3,6 +3,12 @@ import { getCategoryBySlug, categories } from "@/data/categories";
 import { famigliaDi } from "@/data/famiglie";
 import { CategoryGallery } from "@/components/CategoryGallery";
 import { usePreventivo } from "@/lib/preventivo";
+import {
+  SIZES_SCHEDA,
+  misureCopertina,
+  posterRidotto,
+  srcSetCopertina,
+} from "@/lib/immagini";
 
 export const Route = createFileRoute("/categoria/$slug")({
   loader: ({ params }) => {
@@ -171,7 +177,7 @@ function CategoryPage() {
           <div className="aspect-video w-full overflow-hidden rounded-sm border border-white/10">
             <video
               src={category.videoUrl}
-              poster={category.cover}
+              poster={posterRidotto(category.cover)}
               controls
               preload="none"
               className="h-full w-full object-cover"
@@ -198,6 +204,10 @@ function CategoryPage() {
                 <div className="relative aspect-[4/5] overflow-hidden rounded-sm border border-white/10">
                   <img
                     src={c.cover}
+                    srcSet={srcSetCopertina(c.cover)}
+                    sizes={SIZES_SCHEDA}
+                    width={misureCopertina.larghezza}
+                    height={misureCopertina.altezza}
                     alt={c.name}
                     loading="lazy"
                     decoding="async"

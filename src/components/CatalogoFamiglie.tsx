@@ -1,6 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { categories, type Category } from "@/data/categories";
 import { famiglie } from "@/data/famiglie";
+import {
+  SIZES_SCHEDA,
+  misureCopertina,
+  srcSetCopertina,
+} from "@/lib/immagini";
 
 /**
  * La riga di specifiche che compare all'hover: il primo formato, e quanti
@@ -113,6 +118,10 @@ export function CatalogoFamiglie() {
                     <div className="relative aspect-[4/5] overflow-hidden rounded-sm border border-white/10 bg-card transition-[translate,border-color,box-shadow] duration-500 ease-out group-hover:-translate-y-1 group-hover:border-white/25 group-hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]">
                       <img
                         src={c.cover}
+                        srcSet={srcSetCopertina(c.cover)}
+                        sizes={SIZES_SCHEDA}
+                        width={misureCopertina.larghezza}
+                        height={misureCopertina.altezza}
                         alt={c.name}
                         loading="lazy"
                         decoding="async"
