@@ -1,0 +1,19 @@
+{
+  // Config di deploy indipendente da Lovable.
+  // Punta al build gia' prodotto da `vite build` (dist/), non ai sorgenti.
+  "name": "tipografia-nuova-stampa",
+  "compatibility_date": "2025-09-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "dist/server/server.js",
+  "assets": {
+    "directory": "dist/client",
+    "binding": "ASSETS",
+    // Gli asset statici (/media, /assets, favicon) vengono serviti direttamente;
+    // tutto il resto cade sul Worker che fa SSR.
+    "not_found_handling": "none",
+    "run_worker_first": false
+  },
+  "kv_namespaces": [
+    { "binding": "KV_PORTFOLIO", "id": "f5b5cf08cdea46cdaa32451f400760aa" }
+  ]
+}
