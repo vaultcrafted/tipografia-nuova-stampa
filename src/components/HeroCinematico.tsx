@@ -9,11 +9,12 @@ import { useEffect, useState } from "react";
  * conto suo, sempre, dal primo istante.
  *
  * Il file e' un montaggio di tre inquadrature con dissolvenze incrociate (vedi
- * scripts/hero-encode.sh), che apre e chiude sul nero: cosi' il punto in cui il
- * loop riparte non si vede.
+ * scripts/hero-encode.sh): il laboratorio, i biglietti da visita, l'abbigliamento
+ * stampato. La coda si dissolve sulla testa, quindi il punto in cui il loop
+ * riparte non esiste.
  *
  * Due file, uno per formato: su telefono si scarica una versione piu' piccola,
- * perche' l'hero parte da solo e sarebbe scortese far pagare 1,7 MB di traffico
+ * perche' l'hero parte da solo e sarebbe scortese far pagare 1,3 MB di traffico
  * a chi e' in giro. Il video non viene montato finche' non si sa quale serve,
  * cosi' nessuno scarica quello sbagliato.
  */
@@ -36,15 +37,11 @@ export function HeroCinematico() {
       className="relative -mx-6 sm:-mx-10 lg:-mx-16 overflow-hidden"
       style={{ height: `calc(100svh - ${HEADER_PX}px)`, minHeight: 520 }}
     >
-      {/* Il soffitto quasi nero delle sorgenti e' gia' tagliato nel file.
-          `object-position` sotto il centro tiene la macchina in campo anche sugli
-          schermi stretti, dove il ritaglio e' molto piu' aggressivo. */}
       <img
         src="/media/_hero/hero.webp"
         alt=""
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"
-        style={{ objectPosition: "50% 55%" }}
       />
 
       {/* Con prefers-reduced-motion resta solo il poster: un video che parte da
@@ -60,30 +57,41 @@ export function HeroCinematico() {
           preload="auto"
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: "50% 55%" }}
         />
       )}
 
-      {/* Velatura leggera e uniforme, piu' una sfumatura che scurisce il terzo
-          basso, dove atterra il titolo. Tenute leggere apposta: l'immagine e'
-          gia' scura di suo, e caricarle spegne i rossi della macchina. */}
-      <div className="absolute inset-0 bg-black/30" />
+      {/* Il video e' chiaro e il titolo e' bianco: senza qualcosa sotto non si
+          leggerebbe. Ma una velatura uniforme spegnerebbe proprio la luce per
+          cui il video e' stato scelto, quindi si scurisce SOLO il basso, dove
+          sta il testo, e si lascia intatta la parte alta.
+          La sfumatura arriva al nero pieno in fondo anche per un secondo
+          motivo: sotto l'hero la pagina e' scura, e cosi' l'una sfuma nell'altra
+          invece di tagliare di netto. */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 26%, rgba(0,0,0,0.1) 60%, transparent 100%)",
+            "linear-gradient(to top, rgb(10,12,16) 0%, rgba(10,12,16,0.88) 16%, rgba(10,12,16,0.55) 34%, rgba(10,12,16,0.18) 54%, transparent 74%)",
         }}
       />
 
       {/* pb-40 sul telefono: sotto c'e' il pulsante WhatsApp fisso, e senza
           questo spazio finisce sopra l'ultima riga di testo. */}
       <div className="absolute inset-0 flex flex-col justify-end px-6 pb-40 sm:px-10 sm:pb-16 lg:px-16 lg:pb-20">
-        <div className="font-mono-ui text-[11px] uppercase tracking-[0.3em] text-white/50 mb-6">
+        <div
+          className="font-mono-ui text-[11px] uppercase tracking-[0.3em] text-white/60 mb-6"
+          style={{ textShadow: "0 1px 12px rgba(0,0,0,0.7)" }}
+        >
           ◢ Stampa tipografica · Livorno Ferraris (VC)
         </div>
 
-        <h1 className="font-display text-white text-[17vw] sm:text-[13vw] lg:text-[9vw] leading-[0.86] tracking-tight">
+        {/* Ombra morbida sul testo: la sfumatura basta quasi sempre, ma il video
+            cambia inquadratura tre volte e in una di queste sotto al titolo puo'
+            capitare una zona chiara. Questa e' l'assicurazione. */}
+        <h1
+          className="font-display text-white text-[17vw] sm:text-[13vw] lg:text-[9vw] leading-[0.86] tracking-tight"
+          style={{ textShadow: "0 2px 30px rgba(0,0,0,0.5)" }}
+        >
           Diamo forma
           <br />
           alle tue{" "}
@@ -92,7 +100,10 @@ export function HeroCinematico() {
           </span>
         </h1>
 
-        <p className="mt-7 max-w-md text-white/70 text-base leading-relaxed">
+        <p
+          className="mt-7 max-w-md text-white/80 text-base leading-relaxed"
+          style={{ textShadow: "0 1px 16px rgba(0,0,0,0.6)" }}
+        >
           Stampa professionale per chi non scende a compromessi. Offset,
           digitale, DTF, grande formato e finiture artigianali — tutto sotto lo
           stesso tetto.
