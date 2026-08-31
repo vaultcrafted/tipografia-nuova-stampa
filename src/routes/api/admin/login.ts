@@ -4,6 +4,7 @@
 // presente da nessuna parte nel codice che arriva al browser.
 import { createFileRoute } from "@tanstack/react-router";
 import { createSession, loginCookie, logoutCookie } from "@/lib/admin-auth";
+import { consentito, tooManyRequests } from "@/lib/rate-limit";
 
 const json = (body: unknown, status: number, extra: Record<string, string> = {}) =>
   new Response(JSON.stringify(body), {
@@ -15,6 +16,11 @@ export const Route = createFileRoute("/api/admin/login")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        // Senza questo, la password è forzabile a tentativi.
+        if (!(await consentito("LOGIN_LIMITER", request))) {
+          return tooManyRequests("Troppi tentativi. Riprova tra un minuto.");
+        }
+
         let password = "";
         try {
           const body = (await request.json()) as { password?: unknown };
@@ -34,6 +40,7 @@ export const Route = createFileRoute("/api/admin/login")({
         }
 
         if (!session) return json({ error: "Password errata" }, 401);
+
         return json({ ok: true }, 200, { "Set-Cookie": loginCookie(session) });
       },
 

@@ -13,6 +13,7 @@ import {
   r2Configured,
 } from "@/lib/r2-upload";
 import { isAdmin } from "@/lib/admin-auth";
+import { consentito, tooManyRequests } from "@/lib/rate-limit";
 
 const MEDIA_BASE = "https://media.tipografianuovastampa.com";
 
@@ -60,6 +61,11 @@ export const Route = createFileRoute("/api/admin/upload-url")({
 
         // ── Percorso pubblico: allegati del form preventivo ──────────────────
         if (!admin) {
+          // Senza questo, chi trova la rotta può riempire il bucket.
+          if (!(await consentito("UPLOAD_LIMITER", request))) {
+            return tooManyRequests("Troppi allegati caricati. Riprova tra un minuto o scrivici via email.");
+          }
+
           const ext = ALLEGATI_CONSENTITI[contentType];
           if (!ext) {
             return json(
