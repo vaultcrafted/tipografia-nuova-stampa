@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { categories, portfolioCategories } from "@/data/categories";
 import { HeroCinematico } from "@/components/HeroCinematico";
+import { BloccoNovita } from "@/components/BloccoNovita";
 import { Recensioni } from "@/components/Recensioni";
 import { QuoteFormModal } from "@/components/QuoteFormModal";
 
@@ -37,60 +38,10 @@ function HomePage() {
     <div className="px-6 sm:px-10 lg:px-16">
       <HeroCinematico />
 
-      {/* NOVITÀ · DTF */}
-      <section className="mt-20 lg:mt-28 mb-20 lg:mb-28">
-        <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.07] via-white/[0.02] to-transparent p-8 lg:p-12">
-          <div
-            className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-30 blur-3xl"
-            style={{ background: "var(--brand-red)" }}
-          />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <div
-                className="font-mono-ui text-[11px] uppercase tracking-[0.3em] mb-5"
-                style={{ color: "var(--brand-red)" }}
-              >
-                ◢ Novità · DTF
-              </div>
-              <h2 className="font-display text-white text-5xl lg:text-6xl leading-[0.95] tracking-tight">
-                Stampa su
-                <br />
-                abbigliamento
-              </h2>
-              <p className="mt-5 text-white/70 text-base lg:text-lg leading-relaxed max-w-lg">
-                La tecnologia Direct-to-Film per capi personalizzati con colori
-                brillanti, dettagli fotografici e resistenza ai lavaggi.
-              </p>
-              <Link
-                to="/categoria/$slug"
-                params={{ slug: "abbigliamento-dtf" }}
-                className="mt-8 inline-flex items-center justify-center rounded-md px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-transform hover:scale-[1.03]"
-                style={{ background: "var(--brand-red)", boxShadow: "var(--shadow-glow-red)" }}
-              >
-                Scopri di più
-              </Link>
-            </div>
-
-            <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-black/40">
-              <video
-                src="/media/abbigliamento-dtf/video.mp4"
-                poster="/media/abbigliamento-dtf/a.webp"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <div
-                className="absolute bottom-0 left-0 right-0 h-px"
-                style={{ background: "var(--brand-red)" }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* NOVITÀ — il blocco vive in un componente suo: ha uno stato
+          (video che parte solo quando entra in vista) e non c'entra con la
+          griglia del catalogo. */}
+      <BloccoNovita onPreventivo={() => setOpen(true)} />
 
       {/* CATEGORY GRID — stampa */}
       <section className="pb-16">

@@ -17,6 +17,11 @@
 /hero/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Stessa regola per il video del blocco novita': cartella con la versione nel
+# nome, quindi il contenuto a un dato indirizzo non cambia mai.
+/novita/*
+  Cache-Control: public, max-age=31536000, immutable
+
 # Le icone hanno nome fisso: TTL corto, altrimenti una modifica resta
 # invisibile per giorni dietro la cache di bordo (successo il 31/08/2026).
 /favicon.svg
