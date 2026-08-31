@@ -19,6 +19,76 @@ import { famiglie } from "@/data/famiglie";
  * seguire, e non erano ne' l'una ne' l'altra.
  */
 
+/**
+ * Una voce del menu.
+ *
+ * COSA SUCCEDE AL PASSAGGIO DEL MOUSE
+ * Tre cose piccole insieme, non una sola grossa:
+ *
+ * 1. il filetto verticale del colore di famiglia si tira dall'alto verso il
+ *    basso a sinistra della voce. E' lo stesso segno che marca la pagina
+ *    aperta: passandoci sopra si vede in anticipo dove si finirebbe;
+ * 2. il testo si sposta di 4px verso destra, come se il filetto lo spingesse.
+ *    E' il movimento che fa capire che le due cose sono una sola;
+ * 3. una freccia entra da sinistra sul bordo destro.
+ *
+ * Il filetto e' sempre nel DOM, scalato a zero: cosi' l'animazione parte
+ * davvero (un elemento che appare dal nulla non ha niente da animare) e la
+ * voce attiva e' semplicemente lo stesso filetto gia' tirato.
+ *
+ * TRAPPOLA DI TAILWIND 4: `scale-y-0` e `translate-x-1` non scrivono
+ * `transform` ma le proprieta' `scale` e `translate`. La classe
+ * `transition`/`transition-transform` di Tailwind le elenca gia' tutte; un
+ * `transition-[transform]` scritto a mano non animerebbe niente.
+ */
+function VoceMenu({
+  to,
+  params,
+  attiva,
+  colore,
+  onClose,
+  children,
+}: {
+  to: "/categoria/$slug" | "/portfolio/$slug";
+  params: { slug: string };
+  attiva: boolean;
+  colore: string;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      to={to}
+      params={params}
+      onClick={onClose}
+      className={`voce-elenco group relative flex items-center gap-2 overflow-hidden rounded-sm py-[7px] pl-3 pr-2 text-[13px] transition duration-200 ${
+        attiva ? "voce-elenco-attiva text-white" : "text-white/55 hover:text-white"
+      }`}
+    >
+      <span
+        className={`absolute left-0 top-1.5 bottom-1.5 w-[2px] origin-top transition-transform duration-300 ease-out ${
+          attiva ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"
+        }`}
+        style={{ background: colore }}
+        aria-hidden="true"
+      />
+      <span
+        className={`transition-transform duration-300 ease-out ${
+          attiva ? "" : "group-hover:translate-x-1"
+        }`}
+      >
+        {children}
+      </span>
+      <span
+        className="ml-auto -translate-x-1 opacity-0 transition duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100"
+        aria-hidden="true"
+      >
+        →
+      </span>
+    </Link>
+  );
+}
+
 export function AppSidebar({
   open,
   onClose,
@@ -28,11 +98,6 @@ export function AppSidebar({
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const perSlug = new Map(categories.map((c) => [c.slug, c]));
-
-  const voce = (attiva: boolean) =>
-    `voce-elenco group relative flex items-center gap-3 rounded-sm py-[7px] pl-3 pr-2 text-[13px] transition-colors ${
-      attiva ? "voce-elenco-attiva text-white" : "text-white/55 hover:text-white"
-    }`;
 
   return (
     <>
@@ -83,24 +148,17 @@ export function AppSidebar({
                   {f.categorie.map((slug) => {
                     const c = perSlug.get(slug);
                     if (!c) return null;
-                    const attiva = pathname === `/categoria/${slug}`;
                     return (
-                      <Link
+                      <VoceMenu
                         key={slug}
                         to="/categoria/$slug"
                         params={{ slug }}
-                        onClick={onClose}
-                        className={voce(attiva)}
+                        attiva={pathname === `/categoria/${slug}`}
+                        colore={f.colore}
+                        onClose={onClose}
                       >
-                        {attiva && (
-                          <span
-                            className="absolute left-0 top-1.5 bottom-1.5 w-[2px]"
-                            style={{ background: f.colore }}
-                            aria-hidden="true"
-                          />
-                        )}
                         {c.name}
-                      </Link>
+                      </VoceMenu>
                     );
                   })}
                 </div>
@@ -117,27 +175,18 @@ export function AppSidebar({
                 <span className="occhiello text-white/50">Portfolio</span>
               </div>
               <div className="flex flex-col">
-                {portfolioCategories.map((c) => {
-                  const attiva = pathname === `/portfolio/${c.slug}`;
-                  return (
-                    <Link
-                      key={c.slug}
-                      to="/portfolio/$slug"
-                      params={{ slug: c.slug }}
-                      onClick={onClose}
-                      className={voce(attiva)}
-                    >
-                      {attiva && (
-                        <span
-                          className="absolute left-0 top-1.5 bottom-1.5 w-[2px]"
-                          style={{ background: "var(--brand-red)" }}
-                          aria-hidden="true"
-                        />
-                      )}
-                      {c.name}
-                    </Link>
-                  );
-                })}
+                {portfolioCategories.map((c) => (
+                  <VoceMenu
+                    key={c.slug}
+                    to="/portfolio/$slug"
+                    params={{ slug: c.slug }}
+                    attiva={pathname === `/portfolio/${c.slug}`}
+                    colore="var(--brand-red)"
+                    onClose={onClose}
+                  >
+                    {c.name}
+                  </VoceMenu>
+                ))}
               </div>
             </div>
           </nav>
