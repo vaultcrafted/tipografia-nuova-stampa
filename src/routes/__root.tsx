@@ -82,8 +82,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient; env?
       { name: "author", content: "Tipografia Nuova Stampa" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Tipografia Nuova Stampa" },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b40e5053-909c-4e4a-8b4b-6bd8adedbba0/id-preview-696fcdaa--51e5ca87-fc1e-44e4-8975-033a965f0fb7.lovable.app-1779038440180.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b40e5053-909c-4e4a-8b4b-6bd8adedbba0/id-preview-696fcdaa--51e5ca87-fc1e-44e4-8975-033a965f0fb7.lovable.app-1779038440180.png" },
+      // L'immagine che si vede quando si manda il link su WhatsApp o Facebook.
+      // Era uno screenshot di anteprima di Lovable dentro un bucket R2: un
+      // fotogramma del sito vecchio, senza nessun rapporto con la tipografia.
+      // Ora e' il fotogramma della testata, 1280x720, che e' una foto di
+      // stampa vera.
+      { property: "og:image", content: "https://tipografianuovastampa.com/hero/v3/hero.webp" },
+      { property: "og:image:width", content: "1280" },
+      { property: "og:image:height", content: "720" },
+      { property: "og:locale", content: "it_IT" },
+      { name: "twitter:image", content: "https://tipografianuovastampa.com/hero/v3/hero.webp" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [

@@ -23,10 +23,14 @@ export const Route = createFileRoute("/")({
         content:
           "Stampa professionale per chi non scende a compromessi. Offset, digitale, DTF, grande formato e finiture artigianali.",
       },
-      { property: "og:url", content: "https://tipografianuovastampa.it/" },
+      { property: "og:url", content: "https://tipografianuovastampa.com/" },
     ],
     links: [
-      { rel: "canonical", href: "https://tipografianuovastampa.it/" },
+      // .it NON ESISTE: il dominio non risolve. La home dichiarava a Google
+      // che il suo indirizzo buono era un dominio morto, mentre tutte le altre
+      // pagine, la sitemap e i dati strutturati dicono .com. Se un giorno si
+      // passa a .it va cambiato dappertutto, non solo qui.
+      { rel: "canonical", href: "https://tipografianuovastampa.com/" },
     ],
   }),
   component: HomePage,
