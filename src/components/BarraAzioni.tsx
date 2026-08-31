@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 
 /**
  * La barra fissa in basso sul telefono, e il bottone WhatsApp sul desktop.
@@ -31,13 +32,29 @@ function IconaWhatsApp({ className }: { className?: string }) {
 
 export function BarraAzioni({ onPreventivo }: { onPreventivo: () => void }) {
   const [visibile, setVisibile] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const inHome = pathname === "/";
 
+  /**
+   * IN HOME la barra aspetta la prima schermata: sopra c'e' il video della
+   * testata, ed e' l'unica cosa che deve occupare quello spazio.
+   *
+   * ALTROVE c'e' subito. Su una scheda prodotto il pulsante in alto e' solo da
+   * lg in su (per non raddoppiare la barra), quindi finche' la barra restava
+   * nascosta chi apriva un prodotto da Google si trovava a leggere descrizione,
+   * formati e grammature **senza niente da toccare per chiedere il prezzo**.
+   * Su un telefono e' il momento in cui l'intenzione e' piu' alta.
+   */
   useEffect(() => {
+    if (!inHome) {
+      setVisibile(true);
+      return;
+    }
     const controlla = () => setVisibile(window.scrollY > window.innerHeight * 0.6);
     controlla();
     window.addEventListener("scroll", controlla, { passive: true });
     return () => window.removeEventListener("scroll", controlla);
-  }, []);
+  }, [inHome]);
 
   return (
     <>

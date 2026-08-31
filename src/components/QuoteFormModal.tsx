@@ -28,6 +28,11 @@ export function QuoteFormModal({
   const [fileUploading, setFileUploading] = useState(false);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [dettagli, setDettagli] = useState(false);
+
+  /** La categoria davvero scelta. Se lo slug non esiste piu' (dati cambiati),
+      si torna alla prima invece di mandare un'email senza prodotto. */
+  const categoriaScelta =
+    categories.find((c) => c.slug === selected) ?? categories[0];
   const formRef = useRef<HTMLFormElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fileUrlInputRef = useRef<HTMLInputElement>(null);
@@ -139,7 +144,10 @@ export function QuoteFormModal({
   };
 
   const inputCls =
-    "w-full rounded-sm border border-white/20 bg-black/40 px-3.5 py-3 text-[15px] text-white placeholder:text-white/55 outline-none transition-colors focus:border-[var(--brand-red)]";
+    // 16px non e' un capriccio: sotto quella misura Safari su iPhone ingrandisce
+    // la pagina appena si tocca un campo, e il modulo esce dallo schermo. Sul
+    // desktop torna a 15.
+    "w-full rounded-sm border border-white/20 bg-black/40 px-3.5 py-3 text-[16px] text-white placeholder:text-white/55 outline-none transition-colors focus:border-[var(--brand-red)] sm:text-[15px]";
   const labelCls = "occhiello mb-2 block text-white/55";
 
   if (!open) return null;
@@ -147,8 +155,8 @@ export function QuoteFormModal({
   return (
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative max-h-[92vh] w-full overflow-y-auto rounded-t-lg border border-white/15 bg-[var(--nero-800)] p-6 shadow-2xl sm:max-w-2xl sm:rounded-lg sm:p-9">
-        <button onClick={onClose} aria-label="Chiudi" className="absolute top-4 right-4 p-2 text-white/60 hover:text-white">
+      <div className="relative max-h-[92dvh] w-full overflow-y-auto overscroll-contain rounded-t-lg border border-white/15 bg-[var(--nero-800)] px-5 pb-8 pt-6 shadow-2xl sm:max-w-2xl sm:rounded-lg sm:p-9">
+        <button onClick={onClose} aria-label="Chiudi" className="absolute top-2 right-2 grid h-11 w-11 place-items-center rounded-md text-white/60 hover:text-white">
           <X className="h-5 w-5" />
         </button>
 
@@ -199,11 +207,23 @@ export function QuoteFormModal({
 
               <div className="sm:col-span-2">
                 <label htmlFor={fid("cat")} className={labelCls}>Categoria prodotto</label>
-                <select id={fid("cat")} name="category" value={selected} onChange={(e) => setSelected(e.target.value)} className={inputCls}>
+                {/* BUG TROVATO IL 31/08/2026, e non era estetico.
+                    Le opzioni avevano `value={c.name}` mentre lo stato teneva
+                    lo slug: nessuna opzione corrispondeva mai, quindi aprendo
+                    il modulo dalla scheda "Volantini" compariva — e partiva
+                    per email — "Biglietti da visita", cioe' la prima voce
+                    dell'elenco. Ogni preventivo chiesto da una scheda prodotto
+                    arrivava con il prodotto sbagliato.
+                    Ora le opzioni valgono lo slug (che e' quello che il resto
+                    del sito usa per identificare un prodotto) e il nome
+                    leggibile parte in un campo nascosto, cosi' l'email resta
+                    identica a prima. */}
+                <select id={fid("cat")} value={selected} onChange={(e) => setSelected(e.target.value)} className={inputCls}>
                   {categories.map((c) => (
-                    <option key={c.slug} value={c.name} className="bg-black">{c.name}</option>
+                    <option key={c.slug} value={c.slug} className="bg-black">{c.name}</option>
                   ))}
                 </select>
+                <input type="hidden" name="category" value={categoriaScelta.name} readOnly />
               </div>
 
               <div className="sm:col-span-2">
@@ -293,7 +313,7 @@ export function QuoteFormModal({
                     </button>
                   )}
                 </div>
-                <p className="mt-1 font-mono-ui text-[9px] text-white/55 uppercase tracking-widest">
+                <p className="mt-1.5 font-mono-ui text-[11px] uppercase tracking-widest text-white/55">
                   Il file viene caricato in modo sicuro e riceveremo il link via email
                 </p>
 

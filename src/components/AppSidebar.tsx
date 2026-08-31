@@ -61,7 +61,7 @@ function VoceMenu({
       to={to}
       params={params}
       onClick={onClose}
-      className={`voce-elenco group relative flex items-center gap-2 overflow-hidden rounded-sm py-[7px] pl-3 pr-2 text-[13px] transition duration-200 ${
+      className={`voce-elenco group relative flex items-center gap-2 overflow-hidden rounded-sm py-3 pl-3 pr-2 text-[14px] transition duration-200 lg:py-[7px] lg:text-[13px] ${
         attiva ? "voce-elenco-attiva text-white" : "text-white/55 hover:text-white"
       }`}
     >
@@ -105,7 +105,7 @@ export function AppSidebar({
         <div className="fixed inset-0 z-40 bg-black/70 lg:hidden" onClick={onClose} />
       )}
       <aside
-        className={`fixed lg:sticky top-0 lg:top-[73px] z-50 lg:z-auto h-screen lg:h-[calc(100vh-73px)] w-[86vw] max-w-[310px] shrink-0 border-r border-white/10 bg-background/95 backdrop-blur-xl transition-transform duration-300 ${
+        className={`fixed top-0 z-50 h-[100dvh] w-[88vw] max-w-[330px] shrink-0 border-r border-white/10 bg-background/95 backdrop-blur-xl transition-transform duration-300 lg:sticky lg:top-[var(--altezza-header)] lg:z-auto lg:h-[calc(100vh-var(--altezza-header))] ${
           open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
@@ -114,7 +114,7 @@ export function AppSidebar({
             <span className="occhiello text-white/55">Catalogo</span>
             <button
               onClick={onClose}
-              className="occhiello rounded-sm border border-white/15 px-3 py-1.5 text-white/55 hover:text-white lg:hidden"
+              className="occhiello inline-flex min-h-11 items-center rounded-sm border border-white/15 px-4 text-white/55 hover:text-white lg:hidden"
             >
               Chiudi
             </button>
@@ -193,14 +193,24 @@ export function AppSidebar({
 
           {/* In fondo al menu, non un elenco di parole chiave ma il modo di
               raggiungerci: chi scorre fin qui sta cercando come contattarci. */}
-          <div className="mt-auto space-y-3 border-t border-white/10 pt-5">
+          <div className="mt-auto border-t border-white/10 pt-4">
+            {/* "Chi siamo" nell'intestazione sparisce sotto i 640px: se non
+                fosse anche qui, sul telefono la pagina sarebbe raggiungibile
+                solo dal piede. */}
+            <Link
+              to="/chi-siamo"
+              onClick={onClose}
+              className="voce-elenco -ml-3 mb-2 flex min-h-11 items-center rounded-sm px-3 text-[14px] text-white/55 transition-colors hover:text-white lg:hidden"
+            >
+              Chi siamo
+            </Link>
             <a
               href="tel:+393332876277"
-              className="block font-display text-lg text-white transition-colors hover:text-white"
+              className="-ml-3 flex min-h-11 items-center rounded-sm px-3 font-display text-lg text-white"
             >
               +39 333 287 6277
             </a>
-            <p className="occhiello leading-[1.7] text-white/55">
+            <p className="occhiello mt-1 pb-2 leading-[1.7] text-white/55">
               Lun – Ven 8:30 – 18:00
               <br />
               Livorno Ferraris (VC)

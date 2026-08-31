@@ -30,7 +30,11 @@ export function AppFooter() {
               aria-hidden="true"
             />
             <div className="occhiello mb-4 text-white/55">{f.nome}</div>
-            <ul className="space-y-2">
+            {/* Sul telefono ogni voce e' una riga da toccare, non una riga da
+                leggere: `min-h-11` e niente `space-y`, che lasciava fra i
+                collegamenti otto pixel morti in cui il dito non prendeva
+                niente. Da lg in su torna l'elenco compatto. */}
+            <ul className="lg:space-y-2">
               {f.categorie.map((slug) => {
                 const c = perSlug.get(slug);
                 if (!c) return null;
@@ -39,7 +43,7 @@ export function AppFooter() {
                     <Link
                       to="/categoria/$slug"
                       params={{ slug }}
-                      className="text-[13px] text-white/55 transition-colors hover:text-white"
+                      className="flex min-h-11 items-center text-[14px] leading-snug text-white/55 transition-colors hover:text-white lg:min-h-0 lg:text-[13px]"
                     >
                       {c.name}
                     </Link>
@@ -65,13 +69,13 @@ export function AppFooter() {
           <div className="occhiello mb-4 text-white/55">Contatti</div>
           <a
             href="tel:+393332876277"
-            className="block font-display text-xl text-white transition-opacity hover:opacity-70"
+            className="flex min-h-11 items-center font-display text-xl text-white transition-opacity hover:opacity-70 lg:min-h-0"
           >
             +39 333 287 6277
           </a>
           <a
             href="mailto:t.nuovastampa@gmail.com"
-            className="mt-1.5 block text-sm text-white/60 transition-colors hover:text-white"
+            className="flex min-h-11 items-center break-all text-sm text-white/60 transition-colors hover:text-white lg:mt-1.5 lg:min-h-0"
           >
             t.nuovastampa@gmail.com
           </a>

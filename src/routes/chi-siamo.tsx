@@ -34,7 +34,10 @@ function ChiSiamoPage() {
     <div className="px-6 pb-24 sm:px-10 lg:px-16">
       <section className="border-b border-white/15 pb-14 pt-10 lg:pb-20 lg:pt-14">
         <nav className="occhiello mb-10 text-white/55">
-          <Link to="/" className="transition-colors hover:text-white">
+          <Link
+            to="/"
+            className="-mx-2 inline-flex min-h-11 items-center px-2 transition-colors hover:text-white lg:mx-0 lg:min-h-0 lg:px-0"
+          >
             Home
           </Link>
           <span className="mx-2" aria-hidden="true">/</span>

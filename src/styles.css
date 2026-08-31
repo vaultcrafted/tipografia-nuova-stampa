@@ -122,6 +122,13 @@
   --font-sans: "Jost", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
 
+  /* Quanto e' alta l'intestazione. Il valore vero lo scrive AppHeader
+     misurandosi (cambia fra telefono e desktop); questo e' il ripiego per il
+     primo fotogramma, prima che JavaScript giri. Lo leggono il video della
+     testata, la colonna del menu e la colonna di famiglia del catalogo, che
+     devono stare appena sotto la barra. */
+  --altezza-header: 60px;
+
   --shadow-glow-red: 0 0 24px -4px color-mix(in oklab, var(--brand-red) 50%, transparent);
   --shadow-glow-blue: 0 0 24px -4px color-mix(in oklab, var(--brand-blue) 50%, transparent);
 }
@@ -369,6 +376,19 @@
   to {
     transform: none;
   }
+}
+
+/* Ripiego per il desktop, dove l'intestazione ha piu' aria. Vale solo finche'
+   AppHeader non si e' misurato. */
+@media (min-width: 1024px) {
+  :root { --altezza-header: 73px; }
+}
+
+/* Sul telefono le etichette tecniche salgono da 11 a 12px. Undici pixel di
+   monospaziato maiuscolo spaziato sono leggibili su un monitor a 60cm, non su
+   uno schermo tenuto in mano in strada. */
+@media (max-width: 640px) {
+  .occhiello { font-size: 12px; letter-spacing: 0.18em; }
 }
 
 /* Barra di scorrimento del menu laterale nascosta. */

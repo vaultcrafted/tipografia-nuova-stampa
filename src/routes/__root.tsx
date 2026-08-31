@@ -6,6 +6,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -17,7 +18,7 @@ import { AppFooter } from "@/components/AppFooter";
 import { BarraAzioni } from "@/components/BarraAzioni";
 import { QuoteFormModal } from "@/components/QuoteFormModal";
 import { PreventivoProvider } from "@/lib/preventivo";
-import type { Category } from "@/data/categories";
+import { categories, type Category } from "@/data/categories";
 
 function NotFoundComponent() {
   return (
@@ -154,15 +155,32 @@ function RootComponent() {
   // qualunque pagina, compresa una scheda prodotto aperta da Google.
   const [preventivoAperto, setPreventivoAperto] = useState(false);
   const [preventivoCategoria, setPreventivoCategoria] = useState<Category | undefined>();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  /**
+   * Se il modulo viene aperto senza dire da dove, e siamo su una scheda
+   * prodotto, la categoria si ricava dall'indirizzo.
+   *
+   * Serviva perche' i due pulsanti piu' usati — quello rosso
+   * nell'intestazione e quello della barra fissa del telefono — non sanno
+   * nulla della pagina sotto: aprivano il modulo con la categoria vuota, e
+   * chi stava guardando i volantini si trovava scritto "Biglietti da visita",
+   * cioe' la prima voce dell'elenco. Sul telefono quella barra e' *il* modo di
+   * chiedere un preventivo, quindi era il caso piu' frequente di tutti.
+   */
+  const categoriaDaIndirizzo = () => {
+    const trovato = /^\/categoria\/([^/]+)\/?$/.exec(pathname);
+    return trovato ? categories.find((c) => c.slug === trovato[1]) : undefined;
+  };
+
+  const apri = (categoria?: Category) => {
+    setPreventivoCategoria(categoria ?? categoriaDaIndirizzo());
+    setPreventivoAperto(true);
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
-      <PreventivoProvider
-        value={(categoria) => {
-          setPreventivoCategoria(categoria);
-          setPreventivoAperto(true);
-        }}
-      >
+      <PreventivoProvider value={apri}>
         <AppHeader onMenuToggle={() => setMenuOpen((v) => !v)} />
         <div className="flex">
           <AppSidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
@@ -173,7 +191,7 @@ function RootComponent() {
             <AppFooter />
           </main>
         </div>
-        <BarraAzioni onPreventivo={() => setPreventivoAperto(true)} />
+        <BarraAzioni onPreventivo={() => apri()} />
         <QuoteFormModal
           open={preventivoAperto}
           onClose={() => setPreventivoAperto(false)}

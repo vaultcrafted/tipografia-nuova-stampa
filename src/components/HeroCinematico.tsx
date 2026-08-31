@@ -38,8 +38,13 @@ import { useEffect, useRef, useState } from "react";
  * cosi' nessuno scarica quello sbagliato.
  */
 
-/** Altezza dell'header sticky: il video parte da sotto, non gli finisce dietro. */
-const HEADER_PX = 73;
+/**
+ * L'altezza dell'intestazione non e' piu' un numero scritto qui.
+ * Era 73px fisso, giusto sul desktop e sbagliato sul telefono, dove
+ * l'intestazione e' piu' bassa: restava una striscia di fondo pagina fra la
+ * barra e il video. Ora l'intestazione misura se stessa e scrive
+ * `--altezza-header` (vedi AppHeader), e qui si legge quella.
+ */
 
 /**
  * Versione dei file dell'hero, che e' anche la cartella in cui stanno.
@@ -159,7 +164,15 @@ export function HeroCinematico() {
     >
       <div
         className="sticky overflow-hidden"
-        style={{ top: HEADER_PX, height: `calc(100svh - ${HEADER_PX}px)`, minHeight: 520 }}
+        style={{
+          top: "var(--altezza-header)",
+          height: "calc(100svh - var(--altezza-header))",
+          // Un minimo serve per le finestre schiacciate, ma non troppo alto:
+          // a 480 il telefono in orizzontale (schermo alto 390) si ritrovava
+          // una testata piu' alta dello schermo, che quindi non stava ferma
+          // come dovrebbe. 360 e' sotto ogni schermo reale.
+          minHeight: 360,
+        }}
       >
         <img
           src={`/hero/${VER}/hero.webp`}

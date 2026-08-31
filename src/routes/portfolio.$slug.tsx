@@ -140,7 +140,7 @@ function PortfolioPage() {
       <section className="pt-12 lg:pt-16 pb-12">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/55 hover:text-white mb-8 transition-colors"
+          className="occhiello -mx-2 mb-6 inline-flex min-h-11 items-center gap-2 px-2 text-white/55 transition-colors hover:text-white lg:mx-0 lg:mb-8 lg:min-h-0 lg:px-0"
         >
           <ArrowLeft className="h-3 w-3" /> Catalogo
         </Link>

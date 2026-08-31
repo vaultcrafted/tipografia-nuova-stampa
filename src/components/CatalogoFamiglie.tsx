@@ -64,7 +64,7 @@ export function CatalogoFamiglie() {
             key={f.slug}
             className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)] lg:gap-12"
           >
-            <div className="lg:sticky lg:top-[105px] lg:self-start">
+            <div className="lg:sticky lg:top-[calc(var(--altezza-header)+32px)] lg:self-start">
               <div
                 className="filetto-famiglia mb-4 max-w-[56px]"
                 style={{ background: f.colore }}

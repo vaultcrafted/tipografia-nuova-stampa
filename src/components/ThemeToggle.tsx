@@ -37,12 +37,12 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label={theme === "dark" ? "Attiva tema chiaro" : "Attiva tema scuro"}
       title={theme === "dark" ? "Tema chiaro" : "Tema scuro"}
-      className="shrink-0 grid place-items-center h-9 w-9 rounded-md border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors"
+      className="grid h-11 w-11 shrink-0 place-items-center rounded-md border border-white/20 text-white/70 transition-colors hover:border-white/40 hover:text-white lg:h-9 lg:w-9"
     >
       {mounted && theme === "dark" ? (
-        <Sun className="h-4 w-4" />
+        <Sun className="h-5 w-5 lg:h-4 lg:w-4" />
       ) : (
-        <Moon className="h-4 w-4" />
+        <Moon className="h-5 w-5 lg:h-4 lg:w-4" />
       )}
     </button>
   );

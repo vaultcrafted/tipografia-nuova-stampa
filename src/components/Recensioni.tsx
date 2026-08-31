@@ -66,7 +66,7 @@ export function Recensioni({ titolo = "Cosa dicono i clienti" }: { titolo?: stri
           href={URL_RECENSIONI}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 font-mono-ui text-[11px] uppercase tracking-widest text-white/50 hover:text-white transition-colors"
+          className="occhiello -mx-2 inline-flex min-h-11 items-center gap-2 px-2 text-white/50 transition-colors hover:text-white"
         >
           Leggi tutte su Google
           <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
@@ -102,7 +102,7 @@ export function Recensioni({ titolo = "Cosa dicono i clienti" }: { titolo?: stri
           <PenLine className="h-4 w-4" aria-hidden="true" />
           Lascia una recensione
         </a>
-        <p className="font-mono-ui text-[10px] leading-relaxed tracking-wide text-white/55 normal-case">
+        <p className="font-mono-ui text-[12px] leading-relaxed tracking-wide text-white/55 normal-case sm:text-[11px]">
           Il pulsante apre la scheda Google: la recensione resta pubblica sul
           nostro profilo, come tutte le altre.
         </p>

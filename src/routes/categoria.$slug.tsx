@@ -88,7 +88,10 @@ function CategoryPage() {
           sembrava una posizione in classifica e non serviva a nulla. */}
       <section className="border-b border-white/15 pb-12 pt-10 lg:pb-16 lg:pt-14">
         <nav className="occhiello mb-10 flex flex-wrap items-center gap-2 text-white/55">
-          <Link to="/" className="transition-colors hover:text-white">
+          <Link
+            to="/"
+            className="-mx-2 inline-flex min-h-11 items-center px-2 transition-colors hover:text-white lg:mx-0 lg:min-h-0 lg:px-0"
+          >
             Catalogo
           </Link>
           {famiglia && (

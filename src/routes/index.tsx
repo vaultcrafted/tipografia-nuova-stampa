@@ -215,7 +215,7 @@ function HomePage() {
             <div className="occhiello mb-5 text-white/55">Oppure passa in negozio</div>
             <a
               href="tel:+393332876277"
-              className="font-display text-3xl text-white transition-opacity hover:opacity-70"
+              className="flex min-h-11 items-center font-display text-3xl text-white transition-opacity hover:opacity-70"
             >
               +39 333 287 6277
             </a>
