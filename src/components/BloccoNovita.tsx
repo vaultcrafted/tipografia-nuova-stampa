@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { BordoVivo } from "@/components/BordoVivo";
 
 /**
  * Il blocco "novità" della home, oggi la stampa DTF su abbigliamento.
@@ -103,6 +104,12 @@ export function BloccoNovita({ onPreventivo }: { onPreventivo: () => void }) {
               "linear-gradient(to top, rgb(10,12,16) 0%, rgba(10,12,16,0.94) 34%, rgba(10,12,16,0.5) 58%, transparent 88%)",
           }}
         />
+
+        {/* La luce che segue il mouse sta QUI e non piu' in alto: i livelli
+            sono tutti posizionati e senza z-index, quindi l'ordine di disegno
+            e' l'ordine del documento. Messa prima dell'immagine sarebbe finita
+            sotto al video; messa dopo il testo gli sarebbe passata sopra. */}
+        <BordoVivo />
 
         <div className="relative flex h-full flex-col justify-end lg:justify-center p-7 sm:p-10 lg:p-14 lg:max-w-[60%]">
           {/* L'etichetta e' la cosa che deve arrivare per prima: pastiglia

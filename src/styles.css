@@ -343,6 +343,80 @@
     animation: none;
   }
 
+  /* ── Bordo vivo ────────────────────────────────────────────────────────
+     Una luce che segue il puntatore lungo il bordo del riquadro.
+
+     COME STA SOLO SUL BORDO. Il livello e' grande quanto tutto il riquadro e
+     dipinge un alone rotondo dove sta il mouse; poi una maschera in due strati
+     ritaglia via il centro e lascia soltanto l'anello di 1,5px. E' il trucco
+     classico del bordo sfumato: `padding` definisce lo spessore, e i due
+     `mask` — uno sulla content-box, uno su tutto — si sottraggono a vicenda.
+     Senza questo servirebbe un `border-image`, che non accetta gradienti
+     posizionabili.
+
+     PERCHE' DUE LIVELLI. Il solo anello e' netto e sembra un contorno acceso.
+     Il secondo, largo e debolissimo, e' l'alone che si posa sull'immagine: e'
+     quello che fa leggere il movimento come luce e non come una linea che si
+     illumina.
+
+     Le posizioni arrivano da JavaScript in `--px` e `--py`. I valori di
+     partenza mettono la luce al centro, cosi' se lo script non parte non si
+     vede niente di storto — l'opacita' e' comunque 0 finche' non entra il
+     mouse. */
+  .bordo-vivo,
+  .alone-vivo {
+    --px: 50%;
+    --py: 50%;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.45s ease-out;
+  }
+
+  .bordo-vivo {
+    /* 2px e non 1,5: a un pixel e mezzo la luce si legge come un contorno
+       acceso, a due come una linea di luce. Sopra i 3 diventa una cornice. */
+    padding: 2px;
+    background: radial-gradient(
+      300px circle at var(--px) var(--py),
+      var(--brand-red) 0%,
+      color-mix(in oklab, var(--brand-red) 55%, transparent) 26%,
+      transparent 70%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  .alone-vivo {
+    background: radial-gradient(
+      460px circle at var(--px) var(--py),
+      color-mix(in oklab, var(--brand-red) 18%, transparent) 0%,
+      transparent 64%
+    );
+    mix-blend-mode: screen;
+  }
+
+  .bordo-vivo-acceso {
+    opacity: 1;
+  }
+
+  /* Su un telefono non esiste un puntatore da seguire, e su uno schermo
+     tenuto in mano un alone rosso addosso alla foto e' solo sporco. */
+  @media (hover: none), (pointer: coarse) {
+    .bordo-vivo,
+    .alone-vivo {
+      display: none;
+    }
+  }
+
   /* Il rosso non cambia colore all'hover: ci passa sopra una mano d'inchiostro
      piu' scuro, da sinistra a destra, nel verso in cui si legge. */
   .pulsante-inchiostro {
