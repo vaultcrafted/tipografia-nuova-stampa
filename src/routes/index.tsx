@@ -100,16 +100,17 @@ function HomePage() {
             </div>
 
             <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-black/40">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="font-mono-ui text-[10px] uppercase tracking-[0.3em] text-white/40 mb-2">
-                    Placeholder
-                  </div>
-                  <div className="font-display text-3xl text-white/30">
-                    Foto / Video DTF
-                  </div>
-                </div>
-              </div>
+              <video
+                src="/media/abbigliamento-dtf/video.mp4"
+                poster="/media/abbigliamento-dtf/a.webp"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
               <div
                 className="absolute bottom-0 left-0 right-0 h-px"
                 style={{ background: "var(--brand-red)" }}
@@ -143,6 +144,16 @@ function HomePage() {
               params={{ slug: c.slug }}
               className="group relative aspect-[5/6] overflow-hidden rounded-md border border-white/10 bg-card/40 backdrop-blur-sm transition-all hover:border-[var(--brand-red)] hover:-translate-y-1"
             >
+              {/* Scatto verticale di categoria */}
+              <img
+                src={c.cover}
+                alt={c.name}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
+
               {/* Numero indice */}
               <span className="absolute top-4 left-4 font-mono-ui text-[10px] tabular-nums text-white/30 z-10 transition-opacity duration-300 group-hover:opacity-0">
                 {String(i + 1).padStart(2, "0")}

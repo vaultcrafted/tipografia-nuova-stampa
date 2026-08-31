@@ -8,8 +8,22 @@ export type Category = {
   grammature: string[];
   finiture: string[];
   tempi: string[];
+  /** 4 scatti orizzontali per la griglia lavori */
+  images: string[];
+  /** scatto verticale: colonna centrale della griglia + card in home */
+  cover: string;
   videoUrl?: string;
 };
+
+/** I media vivono in public/media/<slug>/ e seguono sempre lo stesso schema. */
+type CategoryInput = Omit<Category, "images" | "cover" | "videoUrl">;
+
+const withMedia = (c: CategoryInput): Category => ({
+  ...c,
+  images: ["a", "b", "c", "d"].map((k) => `/media/${c.slug}/${k}.webp`),
+  cover: `/media/${c.slug}/v.webp`,
+  videoUrl: `/media/${c.slug}/video.mp4`,
+});
 
 export type EventType = {
   slug: string;
@@ -115,7 +129,7 @@ export const portfolioCategories: PortfolioCategory[] = [
   },
 ];
 
-export const categories: Category[] = [
+const categoriesBase: CategoryInput[] = [
   {
     slug: "biglietti-da-visita",
     name: "Biglietti da visita",
@@ -333,6 +347,8 @@ export const categories: Category[] = [
     tempi: ["10–12 giorni lavorativi", "5–7 giorni lavorativi", "2–3 giorni lavorativi"],
   },
 ];
+
+export const categories: Category[] = categoriesBase.map(withMedia);
 
 export const getCategoryBySlug = (slug: string) =>
   categories.find((c) => c.slug === slug);
