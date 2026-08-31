@@ -270,6 +270,105 @@
   .voce-elenco-attiva {
     background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
   }
+
+  /* ── Comparsa allo scorrimento ─────────────────────────────────────────
+     Il blocco entra invece di essere gia' li'. La curva e' quella di una cosa
+     che si posa (parte veloce, arriva piano): un movimento lineare sembra
+     meccanico. Vent'anni di pixel e nessuna scala: un elemento che cambia
+     dimensione mentre compare fa "pop", e qui serve un foglio che scende.
+
+     SENZA JAVASCRIPT il testo comparirebbe mai. Il salvagente e' l'animazione
+     ritardata: se dopo 2,5 secondi nessuno ha aggiunto `.rivela-attiva`
+     (JavaScript spento o rotto), il CSS rimette tutto a vista da solo. */
+  .rivela {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: rivela-salvagente 0.01s linear 2.5s forwards;
+  }
+  /* La seconda forma serve ai blocchi che si comportano da regia: il
+     contenitore riceve `.rivela-attiva` una volta sola, e i figli entrano a
+     scaglioni con il loro `transition-delay`. Cosi' c'e' un osservatore per
+     sezione invece di uno per riga. */
+  .rivela-attiva,
+  .rivela-attiva .rivela {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  /* Riga di titolo che sale da dietro una maschera, come un foglio che esce
+     dalla macchina. `overflow: hidden` taglierebbe le discendenti della Jost
+     (la "g" di "pensiamo"), quindi la maschera e' piu' bassa di 0.14em e il
+     margine negativo la rimette al suo posto. */
+  .riga-maschera {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+  }
+  .riga-maschera > span {
+    display: block;
+    transform: translateY(108%);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: riga-salvagente 0.01s linear 2.5s forwards;
+  }
+  .rivela-attiva .riga-maschera > span {
+    transform: none;
+    animation: none;
+  }
+
+  /* Barra di registro: i quattro inchiostri che si stendono uno dopo l'altro.
+     Sta qui e non in uno stile in linea per lo stesso motivo delle righe di
+     titolo — cosi' ha anche lei il salvagente, e se l'osservatore non scatta
+     (un salto secco a fondo pagina, JavaScript spento) i filetti si stendono
+     lo stesso invece di restare quattro righe invisibili. */
+  .filetto-processo {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: riga-salvagente 0.01s linear 2.5s forwards;
+  }
+  .rivela-attiva .filetto-processo {
+    transform: none;
+    animation: none;
+  }
+
+  /* Il rosso non cambia colore all'hover: ci passa sopra una mano d'inchiostro
+     piu' scuro, da sinistra a destra, nel verso in cui si legge. */
+  .pulsante-inchiostro {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .pulsante-inchiostro::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.26);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .pulsante-inchiostro:hover::after,
+  .pulsante-inchiostro:focus-visible::after {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes rivela-salvagente {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes riga-salvagente {
+  to {
+    transform: none;
+  }
 }
 
 /* Barra di scorrimento del menu laterale nascosta. */
@@ -282,5 +381,11 @@ aside { scrollbar-width: none; -ms-overflow-style: none; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    /* Anche i ritardi vanno azzerati, non solo le durate: le comparse in fondo
+       alla home entrano a scaglioni (fino a 800 ms di ritardo) e il salvagente
+       di `.rivela` parte a 2,5 s. Senza questa riga, chi chiede meno movimento
+       otterrebbe un'attesa invece di un'animazione piu' breve. */
+    animation-delay: 0s !important;
+    transition-delay: 0s !important;
   }
 }

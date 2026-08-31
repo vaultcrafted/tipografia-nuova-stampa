@@ -1,6 +1,27 @@
 import { Link } from "@tanstack/react-router";
-import { categories } from "@/data/categories";
+import { categories, type Category } from "@/data/categories";
 import { famiglie } from "@/data/famiglie";
+
+/**
+ * La riga di specifiche che compare all'hover: il primo formato, e quanti
+ * altri ce ne sono. Non e' un dato messo li' per riempire il pannello — e'
+ * l'informazione che la gente cerca davvero prima di aprire una scheda
+ * ("ce l'avete nella misura che mi serve?"), e vederla senza cliccare
+ * risparmia un viaggio avanti e indietro.
+ *
+ * Le parentesi vanno via ("A5 (148 × 210 mm)" → "A5") perche' nello spazio di
+ * una riga sola conta il nome, non la misura in millimetri.
+ * Alcune categorie hanno l'elenco vuoto o un trattino: in quel caso il
+ * pannello mostra solo l'invito ad aprire, senza una riga bugiarda.
+ */
+function specifica(c: Category): string | null {
+  const voci = (c.formats ?? [])
+    .map((v) => v.trim())
+    .filter((v) => v.replace(/[-–—]/g, "").length > 0);
+  if (voci.length === 0) return null;
+  const primo = voci[0].replace(/\s*\(.*?\)\s*/g, "").trim();
+  return voci.length > 1 ? `${primo} · +${voci.length - 1} formati` : primo;
+}
 
 /**
  * Il catalogo in home, diviso per famiglie.
@@ -72,6 +93,7 @@ export function CatalogoFamiglie() {
               {f.categorie.map((slug) => {
                 const c = perSlug.get(slug);
                 if (!c) return null;
+                const spec = specifica(c);
                 return (
                   <Link
                     key={slug}
@@ -79,31 +101,94 @@ export function CatalogoFamiglie() {
                     params={{ slug }}
                     className="group flex flex-col"
                   >
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-sm border border-white/10 bg-card">
+                    {/* La scheda si solleva di 4px e il bordo si schiarisce:
+                        e' il segnale che dice "questo si clicca" prima ancora
+                        che si legga cosa c'e' dentro.
+
+                        ATTENZIONE, TRAPPOLA DI TAILWIND 4: `-translate-y-1`
+                        non scrive piu' `transform`, scrive la proprieta'
+                        `translate`. Un `transition-[transform,...]` qui non
+                        animerebbe niente — lo scatto sarebbe istantaneo. Da
+                        qui `transition-[translate,...]`. */}
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-sm border border-white/10 bg-card transition-[translate,border-color,box-shadow] duration-500 ease-out group-hover:-translate-y-1 group-hover:border-white/25 group-hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]">
                       <img
                         src={c.cover}
                         alt={c.name}
                         loading="lazy"
                         decoding="async"
-                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
                       />
-                      {/* Il filetto di famiglia compare all'hover in fondo
+
+                      {/* Il velo scuro esiste solo mentre il mouse e' li'.
+                          Serve a far leggere le due righe di sotto: senza,
+                          finirebbero sopra una foto chiara e sparirebbero.
+                          I colori sono scritti a mano e non con `text-white`
+                          perche' questo testo sta su una campitura scura in
+                          entrambi i temi, e le regole del tema chiaro lo
+                          renderebbero nero su nero. */}
+                      <div
+                        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                        style={{
+                          background:
+                            "linear-gradient(to top, rgba(9,9,10,0.94) 0%, rgba(9,9,10,0.62) 34%, rgba(9,9,10,0.12) 66%, transparent 88%)",
+                        }}
+                        aria-hidden="true"
+                      />
+
+                      {/* NIENTE SIGLA DI FAMIGLIA QUI SOPRA. C'era, ed e'
+                          stata tolta: il suo colore per la famiglia "K" e'
+                          l'inchiostro smorzato, che cambia col tema, e in
+                          cima all'immagine il velo scuro non arriva. Nel tema
+                          chiaro sarebbe finita grigio scuro su una fotografia.
+                          La famiglia si legge gia' nella colonna di sinistra e
+                          nel filetto in fondo alla scheda: ripeterla qui
+                          costava un bug e non aggiungeva niente. */}
+
+                      {/* Il pannello sale da sotto il bordo, non compare in
+                          dissolvenza: il movimento verso l'alto e' lo stesso
+                          della scheda che si solleva, cosi' i due gesti si
+                          leggono come uno solo. */}
+                      <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-full p-3 transition-transform duration-500 ease-out group-hover:translate-y-0">
+                        {spec && (
+                          <div
+                            className="font-mono-ui text-[10px] leading-snug"
+                            style={{ color: "rgba(255,255,255,0.78)" }}
+                          >
+                            {spec}
+                          </div>
+                        )}
+                        <div
+                          className="occhiello mt-2 flex items-center gap-1.5"
+                          style={{ color: "#fff" }}
+                        >
+                          Apri la scheda
+                          <span
+                            className="inline-block transition-transform duration-500 ease-out group-hover:translate-x-1"
+                            aria-hidden="true"
+                          >
+                            →
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Il filetto di famiglia si tira in fondo
                           all'immagine: conferma dove sei senza colorare la
                           scheda. */}
                       <span
-                        className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
+                        className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"
                         style={{ background: f.colore }}
                         aria-hidden="true"
                       />
                     </div>
+
                     {/* Didascalia sotto l'immagine, non sopra: e' cosi' che si
                         impagina un catalogo, e il testo si legge sempre invece
                         di dipendere da quanto e' scura la foto. */}
                     <div className="mt-3">
-                      <div className="font-display text-[17px] leading-tight text-white">
+                      <div className="font-display text-[17px] leading-tight text-white transition-transform duration-500 ease-out group-hover:translate-x-1">
                         {c.name}
                       </div>
-                      <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-white/55">
+                      <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-white/55 transition-colors duration-500 group-hover:text-white/75">
                         {c.tagline}
                       </p>
                     </div>
